@@ -2,10 +2,30 @@
 
 Bài tập lớn môn Công nghệ phần mềm
 
-- Chạy lệnh git clone urlrepo để clone project về (urlrepo là url của repository này)
+<b>Git tutorial :v</b> 
+
+- Chạy lệnh git clone urlrepo để clone repository về (urlrepo là url của repository này)
+  <br/>
+  ---> Enter
 - Để Push code lên github, chạy các lệnh: 
+  <br/>
   git add .
-  git commit -m"trong này nhớ nêu lý do push code lên nhé"
+  <br/>
+  ---> Enter
+  <br/>
+  git commit -m"trong này nhớ nhập lý do push code lên nhé (VD: upload code/fix bug gì gì dó/add new featuer, ....)"
+  <br/>
+  ---> Enter
+  <br/>
   git push
+  <br/>
+  ---> Enter
+  <br/>
  Cuối cùng, để kiểm tra code đã lên repo thành công hay chưa, hãy gõ lệnh: git status nhé
-- Quan trọng, nhớ chạy lệnh git pull để cập nhật code mới nha !!
+- Quan trọng, nhớ chạy lệnh:
+   <br/>
+  git pull 
+  <br/>
+  ---> Enter
+  <br/>
+  để cập nhật code mới trước mỗi lần code nha !!
