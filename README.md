@@ -32,5 +32,5 @@ Bài tập lớn môn Công nghệ phần mềm
   <br/>
   để cập nhật code mới trước mỗi lần code nha !!
   
-<b>2. Cách tạo nhánh (brach) để code cho tính năng của mình</b> 
+<b>2. Cách tạo nhánh (branch) để code cho tính năng của mình</b> 
 
