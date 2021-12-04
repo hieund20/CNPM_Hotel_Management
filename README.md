@@ -2,7 +2,6 @@
 
 Bài tập lớn môn Công nghệ phần mềm
 
-
 <b>1. Cách download code về, up code lên github</b> 
 
 - Chạy lệnh git clone urlrepo để clone repository về (urlrepo là url của repository này)
