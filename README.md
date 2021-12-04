@@ -45,9 +45,9 @@ Bài tập lớn môn Công nghệ phần mềm
   <br/>
 - git push origin <your branch>
   <br/>
-- Sau khi push lên, tạo Megrequest (MR)
+- Sau khi push lên, tạo Megre Request (MR) để merge vào develop.
 
   <b>Lưu ý: Không được push code trực tiếp lên nhánh develop </b>
   <br/>
-  <b>Mọi thao tác làm việc đều phải ở trên nhánh của mình </b>
+  <b>Mọi thao tác làm việc đều phải ở trên nhánh của mình ! Thanks team </b>
 
