@@ -2,7 +2,6 @@
 
 Bài tập lớn môn Công nghệ phần mềm
 
-<b>Git tutorial :v</b> 
 
 <b>1. Cách download code về, up code lên github</b> 
 
