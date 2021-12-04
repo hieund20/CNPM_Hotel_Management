@@ -31,6 +31,7 @@ Bài tập lớn môn Công nghệ phần mềm
   để cập nhật code mới trước mỗi lần code nha !!
   
 <b>2. Cách tạo nhánh (branch) để code cho tính năng của mình</b> 
+- Clone từ nhánh develop: git clone -b <develop> <remote_repo> => Enter
 - Đứng từ nhánh develop => Chạy lệnh git checkout -b <your branch> develop => Enter => Tạo hoàn tất
   <br/>
 - Switch từ develop sang your branch: git checkout <your branch> => Enter
