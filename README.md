@@ -49,5 +49,8 @@ Bài tập lớn môn Công nghệ phần mềm
 
   <b>Lưu ý: Không được push code trực tiếp lên nhánh develop </b>
   <br/>
-  <b>Mọi thao tác làm việc đều phải ở trên nhánh của mình ! Thanks team </b>
+  <b>Mọi thao tác làm việc đều phải ở trên nhánh của mình</b>
+  <br/>
+  <b><i>Thanks team !</i></b>
+
 
