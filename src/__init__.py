@@ -1,6 +1,3 @@
-#tesst git develop
-#dasdasdsadsadsadsa admin
+from flask import Flask
 
-#test login
-
-#test login 2
+app = Flask(__name__)
