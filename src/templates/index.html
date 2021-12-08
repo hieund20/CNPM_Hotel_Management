@@ -1,0 +1,178 @@
+{% extends 'layout/base.html' %}
+
+{% block title %} The Lotus Hotel {% endblock %}
+
+{% block content %}
+    <!-- Carousel -->
+    <div id="demo" class="carousel slide" data-ride="carousel">
+      <!-- Indicators -->
+      <ul class="carousel-indicators">
+        <li data-target="#demo" data-slide-to="0" class="active"></li>
+        <li data-target="#demo" data-slide-to="1"></li>
+      </ul>
+      <!-- The slideshow -->
+      <div class="carousel-inner">
+        <div class="carousel-item active">
+          <img src="{{ url_for('static', filename='images/carousel-item-2.jpg') }}" alt="carousel-1">
+        </div>
+        <div class="carousel-item">
+          <img src="{{ url_for('static', filename='images/carousel-item-1.jpg') }}" alt="carousel-2">
+        </div>
+      </div>
+      <!-- Left and right controls -->
+      <a class="carousel-control-prev" href="#demo" data-slide="prev">
+        <span class="carousel-control-prev-icon"></span>
+      </a>
+      <a class="carousel-control-next" href="#demo" data-slide="next">
+        <span class="carousel-control-next-icon"></span>
+      </a>
+    </div>
+
+    <div class="add-room">
+        <div class="row" id="row-override">
+          <div class="col">
+            <div class="flex-box news-group">
+                  <div class="icon-rounded">
+                    <span class="material-icons">email</span>
+                  </div>
+                   PHÒNG & GIÁ
+              </div>
+          </div>
+          <div class="col">
+            <input type="date" placeholder="Ngày đến" class="daterange"/>
+            <input type="date" placeholder="Ngày đi" class="daterange"/>
+            <div class="dropdown">
+                  <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                    Adult
+                  </button>
+                  <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                    <li><a class="dropdown-item" href="#">1</a></li>
+                    <li><a class="dropdown-item" href="#">2</a></li>
+                    <li><a class="dropdown-item" href="#">3</a></li>
+                  </ul>
+            </div>
+            <div class="dropdown">
+                  <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton2" data-bs-toggle="dropdown" aria-expanded="false">
+                    Children
+                  </button>
+                  <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                    <li><a class="dropdown-item" href="#">1</a></li>
+                    <li><a class="dropdown-item" href="#">2</a></li>
+                    <li><a class="dropdown-item" href="#">3</a></li>
+                  </ul>
+            </div>
+            <button type="button" class="btn btn-secondary" id="find-button">Tìm kiếm</button>
+          </div>
+        </div>
+        </div>
+
+    <div class="content">
+        <div class="container">
+            <span class="content-title">TIỆN NGHI</span>
+        </div>
+        <div class="container">
+          <div class="row">
+            <div class="col">
+              <div class="card" style="width: 18rem;">
+                  <img src="{{ url_for('static', filename='images/img-7.jpg') }}" class="card-img-top" alt="...">
+                  <div class="card-body">
+                    <h5 class="card-title">PHÒNG DELUXE</h5>
+                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                    <a href="#" class="btn btn-primary">50$/days</a>
+                    <a href="#" class="btn btn-primary">CHI TIẾT</a>
+                  </div>
+              </div>
+            </div>
+            <div class="col">
+              <div class="card" style="width: 18rem;">
+                  <img src="{{ url_for('static', filename='images/img-7.jpg') }}" class="card-img-top" alt="...">
+                  <div class="card-body">
+                    <h5 class="card-title">PHÒNG DELUXE</h5>
+                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                    <a href="#" class="btn btn-primary">50$/days</a>
+                    <a href="#" class="btn btn-primary">CHI TIẾT</a>
+                  </div>
+              </div>
+            </div>
+            <div class="col">
+              <div class="card" style="width: 18rem;">
+                  <img src="{{ url_for('static', filename='images/img-7.jpg') }}" class="card-img-top" alt="...">
+                  <div class="card-body">
+                    <h5 class="card-title">PHÒNG DELUXE</h5>
+                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                    <a href="#" class="btn btn-primary">50$/days</a>
+                    <a href="#" class="btn btn-primary">CHI TIẾT</a>
+                  </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="container" id="home-grid-1">
+              <div class="row">
+                <div class="col">
+                    <img src="{{ url_for('static', filename='images/img-1.jpg') }}" class="card-img-top" alt="...">
+                </div>
+                <div class="col">
+                  <span class="title">VỀ CHÚNG TÔI</span>
+                  <div class="paragraph">
+                      <p>
+                          Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked up one of the more obscure Latin words, consectetur, from a Lorem Ipsum passage, and going through the cites of the word in classical literature, discovered the undoubtable source
+                      </p>
+                  </div>
+                  <button type="button" class="btn btn-light">XEM THÊM</button>
+                </div>
+              </div>
+        </div>
+         <div class="container" id="home-grid-2">
+              <div class="row">
+                <div class="col">
+                  <span class="title">NỔI BẬT</span>
+                  <div class="paragraph">
+                      <p>One of Catalina Island's best-loved hotels, Hotel Vista Del Mar is recognized as one of Avalon's leading hotels with gracious island hospitality, thoughtful amenities and distinctive .</p>
+                  </div>
+                    <div class="container">
+                      <div class="row align-items-start">
+                        <div class="col">
+                            <div class="img-box">
+                               <img src="{{ url_for('static', filename='images/icon-3.png') }}" class="card-img-top" alt="...">
+                            </div>
+                            <span>
+                                250 Best Rooms 5 Star
+                            </span>
+                        </div>
+                        <div class="col">
+                            <div class="img-box">
+                               <img src="{{ url_for('static', filename='images/icon-2.png') }}" class="card-img-top" alt="...">
+                            </div>
+                            <span>
+                                Wet Bar with Refrigerator
+                            </span>
+                        </div>
+                      </div>
+                       <div class="row align-items-start">
+                        <div class="col">
+                            <div class="img-box">
+                               <img src="{{ url_for('static', filename='images/icon-5.png') }}" class="card-img-top" alt="...">
+                            </div>
+                            <span>
+                              Luxurious High Thread Coun
+                            </span>
+                        </div>
+                        <div class="col">
+                            <div class="img-box">
+                                <img src="{{ url_for('static', filename='images/icon-1.png') }}" class="card-img-top" alt="...">
+                            </div>
+                            <span>
+                               Breakfast each morning
+                            </span>
+                        </div>
+                      </div>
+                    </div>
+              </div>
+              <div class="col">
+                  <img src="{{ url_for('static', filename='images/img-2.jpg') }}" class="card-img-top" alt="...">
+              </div>
+         </div>
+    </div>
+        </div>
+{% endblock %}
