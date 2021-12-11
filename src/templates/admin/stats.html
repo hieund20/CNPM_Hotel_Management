@@ -1,0 +1,39 @@
+{% extends 'admin/master.html' %}
+
+{% block body %}
+    <form>
+        <select class="form-select" aria-label="Default select example">
+          <option selected>Tất cả các tháng</option>
+          <option value="1">Tháng 1</option>
+          <option value="2">Tháng 2</option>
+          <option value="3">Tháng 3</option>
+          <option value="4">Tháng 4</option>
+          <option value="5">Tháng 5</option>
+          <option value="6">Tháng 6</option>
+          <option value="7">Tháng 7</option>
+          <option value="8">Tháng 8</option>
+          <option value="9">Tháng 9</option>
+          <option value="10">Tháng 10</option>
+          <option value="11">Tháng 11</option>
+          <option value="12">Tháng 12</option>
+        </select>
+        <input type="submit" value="Xem thống kê" style="background-color: white; border: 1px solid black; border-radius: 8px; margin-bottom: 32px; margin-top: 32px;"/>
+    </form>
+    <span>Thống kê tần suất sử dụng phòng trong một tháng</span>
+    <table class="table">
+            <tr>
+                <th>Ma SP</th>
+                <th>Ten SP</th>
+                <th>Doanh thu</th>
+            </tr>
+    <!--        {% for s in stats %}-->
+            <tr>
+                <th>20</th>
+                <th>20</th>
+                <th>40</th>
+            </tr>
+    <!--        {% endfor %}-->
+    </table>
+
+
+{% endblock %}
