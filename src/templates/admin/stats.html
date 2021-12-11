@@ -1,10 +1,27 @@
 {% extends 'admin/master.html' %}
 
 {% block body %}
-    <form>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.3.3/html2canvas.min.js" integrity="sha512-adgfzougYIGhG3Tpb47fZLuMwaULLJQdujqOeWFoGc7vwFvBrFkhaPkJPId5swgdr122mghL/ysQk4oiabmRCQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script>
+         function screenshot() {
+                html2canvas(document.body).then(canvas => {
+                document.body.appendChild(canvas)
+            });
+         }
+    </script>
+    <div class="header-content" style="width: 100%; display: flex; justify-content: space-between;">
+        <div style="width: 50%;">
+            <span style="font-size: 30px;">Thống kê</span>
+        </div>
+        <input  type="button"
+                id="capture"
+                style="margin-right: 0; margin-left: auto;"
+                value="Xuất báo cáo"
+                onclick='screenshot();'/>
+    </div>
+    <span style="display: block; margin-top: 32px;">Thống kê tần suất sử dụng phòng trong một tháng</span>
         <select class="form-select" aria-label="Default select example">
-          <option selected>Tất cả các tháng</option>
-          <option value="1">Tháng 1</option>
+          <option selected value="1">Tháng 1</option>
           <option value="2">Tháng 2</option>
           <option value="3">Tháng 3</option>
           <option value="4">Tháng 4</option>
@@ -15,25 +32,215 @@
           <option value="9">Tháng 9</option>
           <option value="10">Tháng 10</option>
           <option value="11">Tháng 11</option>
-          <option value="12">Tháng 12</option>
+          <option selected value="12">Tháng 12</option>
         </select>
-        <input type="submit" value="Xem thống kê" style="background-color: white; border: 1px solid black; border-radius: 8px; margin-bottom: 32px; margin-top: 32px;"/>
-    </form>
-    <span>Thống kê tần suất sử dụng phòng trong một tháng</span>
-    <table class="table">
-            <tr>
-                <th>Ma SP</th>
-                <th>Ten SP</th>
-                <th>Doanh thu</th>
-            </tr>
-    <!--        {% for s in stats %}-->
-            <tr>
-                <th>20</th>
-                <th>20</th>
-                <th>40</th>
-            </tr>
-    <!--        {% endfor %}-->
-    </table>
+        <input type="submit" value="Xem thống kê" style="background-color: white; border: 1px solid black; border-radius: 8px; margin-top: 16px;"/>
 
+    <div class="flex-box" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 32px;">
+        <table class="table" style="width: 40%; margin-bottom: 16px; margin-top: 16px;">
+          <thead>
+            <tr>
+              <th scope="col">Mã loại phòng</th>
+              <th scope="col">Loại phòng</th>
+              <th scope="col">Số lần sử dụng</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <th>20</th>
+              <td>Phòng Deluxe</td>
+              <td>30</td>
+            </tr>
+            <tr>
+              <th>10</th>
+              <td>Phòng Suite</td>
+              <td>10</td>
+            </tr>
+            <tr>
+              <th>10</th>
+              <td>Phòng Superior</td>
+              <td>10</td>
+            </tr>
+            <tr>
+              <th>10</th>
+              <td>Phòng Standard</td>
+              <td>10</td>
+            </tr>
+          </tbody>
+        </table>
 
+        <div class="chart" style="width: 55%; height:250px;">
+            <canvas id="myChart"></canvas>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        window.onload = () => {
+            const ctx = document.getElementById('myChart').getContext('2d');
+            const myChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ['Phòng Deluxe', 'Phòng Suite', 'Phòng Superior', 'Phòng Standard'],
+                    datasets: [{
+                        label: 'Thống kê tần suất sử dụng phòng trong một tháng',
+                        data: [65, 59, 80, 81],
+                        backgroundColor: [
+                            '#809fff',
+                            '#ffb3d9',
+                            '#ffff66',
+                            '#b3ff99',
+                        ],
+                        borderWidth: 1,
+                        barThickness: 20
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio:false,
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            grid:{
+                               display:false
+                            },
+                            title: {
+                                display: true,
+                                text: 'Số lần',
+                                color: '#868585',
+                                align: 'end',
+                            },
+                            ticks: {
+                                color: '#000000',
+                                font: {
+                                    size: 11,
+                                    lineHeight: 1.14,
+                                    style: 'normal',
+                                    weight: 'normal',
+                                }
+                            },
+                        },
+                        x: {
+                            grid:{
+                               display:false
+                            },
+                            title: {
+                                display: true,
+                                text: 'Loại phòng',
+                                color: '#868585',
+                                align: 'end',
+                            },
+                            ticks: {
+                                color: '#000000',
+                                font: {
+                                    size: 11,
+                                    lineHeight: 1.14,
+                                    style: 'normal',
+                                    weight: 'normal',
+                                }
+                            },
+                        }
+                    },
+                    plugins: {
+                      legend: false,
+                    }
+                }
+            });
+        }
+    </script>
+
+    <span style="display: block;">Thống kê doanh thu trong một tháng</span>
+    <select class="form-select" aria-label="Default select example">
+        <option value="1">Tháng 1</option>
+        <option value="2">Tháng 2</option>
+        <option value="3">Tháng 3</option>
+        <option value="4">Tháng 4</option>
+        <option value="5">Tháng 5</option>
+        <option value="6">Tháng 6</option>
+        <option value="7">Tháng 7</option>
+        <option value="8">Tháng 8</option>
+        <option value="9">Tháng 9</option>
+        <option value="10">Tháng 10</option>
+        <option value="11">Tháng 11</option>
+        <option selected value="12">Tháng 12</option>
+    </select>
+    <input type="submit" value="Xem thống kê" style="background-color: white; border: 1px solid black; border-radius: 8px; margin-bottom:16px; margin-top: 16px;"/>
+
+    <div class="chart-2" style="width: 100%; height:200px; margin-bottom: 32px;">
+        <canvas id="myChart2"></canvas>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
+    <script>
+            const getAllDayByMonth = (month) => {
+                const allDayInMonth = moment(month).daysInMonth()
+                return Array.from({length: allDayInMonth}, (v, k) => `Ngày ${k + 1}`)
+            }
+            let timeParams = `${moment().get('year')}-${moment().get('month') + 1}`
+            console.log('time params', timeParams)
+            let dayInMonthList = getAllDayByMonth(timeParams)
+
+            const ctx = document.getElementById('myChart2').getContext('2d');
+            const myChart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: dayInMonthList,
+                    datasets: [{
+                        label: 'Thống kê tần suất sử dụng phòng trong một tháng',
+                        data: [65, 59, 80, 81, 50, 30, 12, 15, 20, 80, 23],
+                        borderColor: 'rgb(75, 192, 192)',
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio:false,
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            grid:{
+                               display:false
+                            },
+                            title: {
+                                display: true,
+                                text: 'Số lượng',
+                                color: '#868585',
+                                align: 'end',
+                            },
+                            ticks: {
+                                color: '#000000',
+                                font: {
+                                    size: 11,
+                                    lineHeight: 1.14,
+                                    style: 'normal',
+                                    weight: 'normal',
+                                }
+                            },
+                        },
+                        x: {
+                            grid:{
+                               display:false
+                            },
+                            title: {
+                                display: true,
+                                text: 'Ngày',
+                                color: '#868585',
+                                align: 'end',
+                            },
+                            ticks: {
+                                color: '#000000',
+                                font: {
+                                    size: 11,
+                                    lineHeight: 1.14,
+                                    style: 'normal',
+                                    weight: 'normal',
+                                }
+                            },
+                        }
+                    },
+                    plugins: {
+                      legend: false,
+                    }
+                }
+            });
+    </script>
 {% endblock %}
