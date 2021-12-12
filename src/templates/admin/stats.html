@@ -64,26 +64,16 @@
             </tr>
           </thead>
           <tbody>
+            {% for type_room in type_rooms_list %}
             <tr>
-              <th>20</th>
-              <td>Phòng Deluxe</td>
-              <td>30</td>
+              <th>{{ type_room.id }}</th>
+              <td>{{ type_room.type_room_name }}</td>
+                <td>20</td>
             </tr>
-            <tr>
-              <th>10</th>
-              <td>Phòng Suite</td>
-              <td>10</td>
-            </tr>
-            <tr>
-              <th>10</th>
-              <td>Phòng Superior</td>
-              <td>10</td>
-            </tr>
-            <tr>
-              <th>10</th>
-              <td>Phòng Standard</td>
-              <td>10</td>
-            </tr>
+            {% endfor %}
+<!--            {% for u in used_type_room_counter %}-->
+<!--            <span>{{ u[0] }}</span>-->
+<!--            {% endfor %}-->
           </tbody>
         </table>
 
@@ -94,6 +84,17 @@
 
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script>
+        const used_type_room_counter_data = []
+        const type_rooms_labels = []
+        {% for u in used_type_room_counter %}
+            used_type_room_counter_data.push({{ u[0] }})
+        {% endfor %}
+
+<!--        {% for type_room in type_rooms_list %}-->
+<!--            type_rooms_labels.push({{ type_room.type_room_name }})-->
+<!--        {% endfor %}-->
+<!--        console.log(type_rooms_labels)-->
+
         window.onload = () => {
             const ctx = document.getElementById('myChart').getContext('2d');
             const myChart = new Chart(ctx, {
@@ -102,7 +103,7 @@
                     labels: ['Phòng Deluxe', 'Phòng Suite', 'Phòng Superior', 'Phòng Standard'],
                     datasets: [{
                         label: 'Thống kê tần suất sử dụng phòng trong một tháng',
-                        data: [65, 59, 80, 81],
+                        data: used_type_room_counter_data,
                         backgroundColor: [
                             '#809fff',
                             '#ffb3d9',
