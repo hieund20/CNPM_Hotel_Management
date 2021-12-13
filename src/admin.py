@@ -1,20 +1,10 @@
 
 from flask import request
-from flask_admin import Admin,expose,BaseView
+from flask_admin import Admin, expose, BaseView
 from src import app, db, utils
 from flask_admin.contrib.sqla import ModelView
 from flask_admin import AdminIndexView
 from src.models import Room, TypeRoom, RentalVoucher
-
-
-class StatsView(BaseView):
-    @expose('/')
-    def index(self):
-        # kw = request.args.get('kw')
-        # from_date = request.args.get('from_date')
-        # to_date = request.args.get('to_date')
-        # stats = utils.product_stats(kw=kw, from_date=from_date, to_date=to_date)
-        return self.render('admin/stats.html')
 
 
 class MyAdminIndexView(AdminIndexView):
@@ -41,6 +31,7 @@ class RoomView(ModelView):
     }
     form_excluded_columns = ['receiptDetails', 'rentalVoucher']
 
+<<<<<<< HEAD
 class TypeRoomView(ModelView):
     column_display_pk = True
     can_view_details = True
@@ -60,3 +51,18 @@ admin.add_view(TypeRoomView(TypeRoom, db.session, name='Loại phòng'))
 admin.add_view(StatsView(name='Thống kê'))
 
 
+=======
+class StatsView(BaseView):
+    @expose('/')
+    def index(self):
+        type_rooms_list = utils.get_all_type_rooms()
+        used_type_room_counter = utils.get_used_quantity_type_room_in_month()
+        return self.render('admin/stats.html',
+                           type_rooms_list=type_rooms_list,
+                           used_type_room_counter=used_type_room_counter)
+
+
+admin = Admin(app=app, name='Admin page', template_mode='bootstrap4', index_view=MyAdminIndexView())
+admin.add_view(StatsView(name='Thống kê'))
+
+>>>>>>> develop
