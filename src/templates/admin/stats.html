@@ -37,23 +37,7 @@
 <!--                value="Xuất báo cáo"-->
 <!--                onclick="makePDF()"/>-->
     </div>
-    <span style="display: block; margin-top: 32px;">Thống kê tần suất sử dụng phòng trong một tháng</span>
-        <select class="form-select" aria-label="Default select example">
-          <option selected value="1">Tháng 1</option>
-          <option value="2">Tháng 2</option>
-          <option value="3">Tháng 3</option>
-          <option value="4">Tháng 4</option>
-          <option value="5">Tháng 5</option>
-          <option value="6">Tháng 6</option>
-          <option value="7">Tháng 7</option>
-          <option value="8">Tháng 8</option>
-          <option value="9">Tháng 9</option>
-          <option value="10">Tháng 10</option>
-          <option value="11">Tháng 11</option>
-          <option selected value="12">Tháng 12</option>
-        </select>
-        <input type="submit" value="Xem thống kê" style="background-color: white; border: 1px solid black; border-radius: 8px; margin-top: 16px;"/>
-
+    <span style="display: block; margin-top: 32px; font-weight: 500">Thống kê tần suất sử dụng phòng trong tháng</span>
     <div class="flex-box" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 32px;">
         <table class="table" style="width: 40%; margin-bottom: 16px; margin-top: 16px;">
           <thead>
@@ -64,11 +48,11 @@
             </tr>
           </thead>
           <tbody>
-            {% for type_room in type_rooms_list %}
+            {% for el in used_type_room_counter %}
             <tr>
-              <th>{{ type_room.id }}</th>
-              <td>{{ type_room.type_room_name }}</td>
-                <td>20</td>
+              <th>{{ el.id }}</th>
+              <td>{{ el.type_room_name }}</td>
+              <td>{{ el[2] }}</td>
             </tr>
             {% endfor %}
 <!--            {% for u in used_type_room_counter %}-->
@@ -85,22 +69,23 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script>
         const used_type_room_counter_data = []
-        const type_rooms_labels = []
         {% for u in used_type_room_counter %}
-            used_type_room_counter_data.push({{ u[0] }})
+            used_type_room_counter_data.push({{ u[2] }})
         {% endfor %}
 
-<!--        {% for type_room in type_rooms_list %}-->
-<!--            type_rooms_labels.push({{ type_room.type_room_name }})-->
-<!--        {% endfor %}-->
-<!--        console.log(type_rooms_labels)-->
+        const type_rooms_labels = [
+        '{{ type_rooms_list[0].type_room_name }}',
+        '{{ type_rooms_list[1].type_room_name }}',
+        '{{ type_rooms_list[2].type_room_name }}',
+        '{{ type_rooms_list[3].type_room_name }}']
+        console.log(type_rooms_labels)
 
         window.onload = () => {
             const ctx = document.getElementById('myChart').getContext('2d');
             const myChart = new Chart(ctx, {
                 type: 'bar',
                 data: {
-                    labels: ['Phòng Deluxe', 'Phòng Suite', 'Phòng Superior', 'Phòng Standard'],
+                    labels: type_rooms_labels,
                     datasets: [{
                         label: 'Thống kê tần suất sử dụng phòng trong một tháng',
                         data: used_type_room_counter_data,
@@ -168,23 +153,7 @@
         }
     </script>
 
-    <span style="display: block;">Thống kê doanh thu trong một tháng</span>
-    <select class="form-select" aria-label="Default select example">
-        <option value="1">Tháng 1</option>
-        <option value="2">Tháng 2</option>
-        <option value="3">Tháng 3</option>
-        <option value="4">Tháng 4</option>
-        <option value="5">Tháng 5</option>
-        <option value="6">Tháng 6</option>
-        <option value="7">Tháng 7</option>
-        <option value="8">Tháng 8</option>
-        <option value="9">Tháng 9</option>
-        <option value="10">Tháng 10</option>
-        <option value="11">Tháng 11</option>
-        <option selected value="12">Tháng 12</option>
-    </select>
-    <input type="submit" value="Xem thống kê" style="background-color: white; border: 1px solid black; border-radius: 8px; margin-bottom:16px; margin-top: 16px;"/>
-
+    <span style="display: block; font-weight: 500; margin-bottom: 16px">Thống kê doanh thu trong tháng</span>
     <div class="chart-2" style="width: 100%; height:200px; margin-bottom: 32px;">
         <canvas id="myChart2"></canvas>
     </div>
