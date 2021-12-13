@@ -1,5 +1,5 @@
 from flask import request
-from flask_admin import Admin,expose,BaseView
+from flask_admin import Admin, expose, BaseView
 from src import app, db, utils
 from flask_admin.contrib.sqla import ModelView
 from flask_admin import AdminIndexView
@@ -23,3 +23,4 @@ class StatsView(BaseView):
 
 admin = Admin(app=app, name='Admin page', template_mode='bootstrap4', index_view=MyAdminIndexView())
 admin.add_view(StatsView(name='Thống kê'))
+
