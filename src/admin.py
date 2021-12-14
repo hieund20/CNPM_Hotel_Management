@@ -18,6 +18,7 @@ class Home_page(BaseView):
     def index(self):
         return self.render('index.html')
 
+
 class RoomView(ModelView):
     column_display_pk = True
     can_view_details = True
@@ -50,9 +51,6 @@ class TypeRoomView(ModelView):
         'id': 'Mã thuê phòng',
         'type_room_name': 'Tên loại phòng'
     }
-
-
-
 
 
 class StatsView(BaseView):
