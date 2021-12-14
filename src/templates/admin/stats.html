@@ -9,18 +9,19 @@
          window.jsPDF = window.jspdf.jsPDF;
 
          function makePDF() {
-            html2canvas(document.body, {
+            html2canvas(document.getElementById("stats-page"), {
                 allowTaint:true,
                 useCORS: true,
                 scale: 1
             }).then(canvas => {
                 var img = canvas.toDataURL("image/png");
                 var doc = new jsPDF();
-                doc.addImage(img, 'PNG', -20, 10, 250, 150)
+                doc.addImage(img, 'PNG', 5, 20, 200, 120)
                 doc.save("Thong-ke");
             });
          }
     </script>
+    <div id="stats-page">
     <div class="header-content" style="width: 100%; display: flex; justify-content: space-between;">
         <div style="width: 50%;">
             <span style="font-size: 30px;">Thống kê</span>
@@ -231,4 +232,5 @@
                 }
             });
     </script>
+    </div>
 {% endblock %}
