@@ -1,6 +1,8 @@
 from flask import Flask, render_template, request
 from src import app
 
+from  src.admin import *
+
 
 @app.route('/')
 def home_page():
