@@ -1,4 +1,3 @@
-
 from flask import request
 from flask_admin import Admin, expose, BaseView
 from src import app, db, utils
