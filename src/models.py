@@ -38,6 +38,10 @@ class TypeVisit(BaseModel):
 class RentalVoucher(BaseModel):
     start_date = Column(DateTime, default=datetime.now())
 
+    rooms = relationship('Room', backref='rentalVoucher', lazy=False)
+    # def __str__(self):
+    #     return self.id
+
 class RentalVoucherDetail(BaseModel):
     visit_name = Column(String(50), nullable=True)
     type_visit_id = Column(Integer, ForeignKey(TypeVisit.id), primary_key=True, nullable=False)
@@ -52,20 +56,24 @@ class TypeRoom(BaseModel):
 
     rooms = relationship('Room', backref='typeRoom', lazy=False)
 
+    def __str__(self):
+        return self.type_room_name
 
 class Room(BaseModel):
     quantity_bed = Column(Integer, nullable=False)
     price = Column(Float, nullable=False)
     status = Column(String(50), default="GOOD")
     type_room_id = Column(Integer, ForeignKey(TypeRoom.id), nullable=False)
-    rental_voucher = Column(Integer, ForeignKey(RentalVoucher.id), nullable=False)
+    rental_voucher = Column(Integer, ForeignKey(RentalVoucher.id), default=0)
+
+    receiptDetails = relationship('ReceiptDetail', backref='room', lazy=True)
 
 class Receipt(BaseModel):
     visitor_name = Column(String(50), nullable=False)
     address = Column(String(100))
     price = Column(Float, default=0)
 
-    detail = relationship('ReceiptDetail', backref='receipt', lazy=False)
+    receiptDetails = relationship('ReceiptDetail', backref='receipt', lazy=False)
 
 class ReceiptDetail(BaseModel):
     receipt_id = Column(Integer, ForeignKey(Receipt.id), primary_key=True, nullable=False)
