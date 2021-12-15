@@ -9,6 +9,11 @@ def home_page():
     return render_template('index.html')
 
 
+@app.route('/about')
+def about_us_page():
+    return render_template('about-us.html')
+
+
 def admin_stats_page():
     pass
 
