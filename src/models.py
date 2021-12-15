@@ -1,3 +1,4 @@
+from jinja2 import meta
 from sqlalchemy import Column, Integer, String, Float, Boolean, Enum, DateTime, ForeignKey
 from sqlalchemy.orm import relationship
 from src import db
@@ -65,6 +66,7 @@ class Room(BaseModel):
     status = Column(String(50), default="GOOD")
     type_room_id = Column(Integer, ForeignKey(TypeRoom.id), nullable=False)
     rental_voucher = Column(Integer, ForeignKey(RentalVoucher.id), default=0)
+    image = Column(String(150), nullable=False)
 
     receiptDetails = relationship('ReceiptDetail', backref='room', lazy=True)
 
@@ -84,7 +86,7 @@ class ReceiptDetail(BaseModel):
 
 
 if __name__ == '__main__':
-    # db.create_all()
+    db.create_all()
     # rooms = [
     #     {
     #         "quantity_bed": 2,
@@ -136,65 +138,65 @@ if __name__ == '__main__':
     #         "rental_voucher": 2
     #     }
     # ]
-    receipt_detail = [
-        {
-            "receipt_id": 1,
-            "room_id": 4,
-            "rental_date": datetime.now(),
-            "price": 70,
-            "total": 70
-        },
-        {
-            "receipt_id": 2,
-            "room_id": 5,
-            "rental_date": datetime.now(),
-            "price": 50,
-            "total": 50
-        },
-        {
-            "receipt_id": 3,
-            "room_id": 6,
-            "rental_date": datetime.now(),
-            "price": 70,
-            "total": 70
-        },
-        {
-            "receipt_id": 4,
-            "room_id": 7,
-            "rental_date": datetime.now(),
-            "price": 80,
-            "total": 80
-        },
-        {
-            "receipt_id": 5,
-            "room_id": 8,
-            "rental_date": datetime.now(),
-            "price": 80,
-            "total": 80
-        },
-        {
-            "receipt_id": 6,
-            "room_id": 9,
-            "rental_date": datetime.now(),
-            "price": 70,
-            "total": 70
-        },
-        {
-            "receipt_id": 7,
-            "room_id": 10,
-            "rental_date": datetime.now(),
-            "price": 90,
-            "total": 90
-        },
-    ]
-
-    for p in receipt_detail:
-        room = ReceiptDetail(
-                    receipt_id=p['receipt_id'],
-                    room_id=p['room_id'],
-                    rental_date=p['rental_date'],
-                    price=p['price'],
-                    total=p['total']
-                    )
-        db.session.add(room)
-        db.session.commit()
+    # receipt_detail = [
+    #     {
+    #         "receipt_id": 1,
+    #         "room_id": 4,
+    #         "rental_date": datetime.now(),
+    #         "price": 70,
+    #         "total": 70
+    #     },
+    #     {
+    #         "receipt_id": 2,
+    #         "room_id": 5,
+    #         "rental_date": datetime.now(),
+    #         "price": 50,
+    #         "total": 50
+    #     },
+    #     {
+    #         "receipt_id": 3,
+    #         "room_id": 6,
+    #         "rental_date": datetime.now(),
+    #         "price": 70,
+    #         "total": 70
+    #     },
+    #     {
+    #         "receipt_id": 4,
+    #         "room_id": 7,
+    #         "rental_date": datetime.now(),
+    #         "price": 80,
+    #         "total": 80
+    #     },
+    #     {
+    #         "receipt_id": 5,
+    #         "room_id": 8,
+    #         "rental_date": datetime.now(),
+    #         "price": 80,
+    #         "total": 80
+    #     },
+    #     {
+    #         "receipt_id": 6,
+    #         "room_id": 9,
+    #         "rental_date": datetime.now(),
+    #         "price": 70,
+    #         "total": 70
+    #     },
+    #     {
+    #         "receipt_id": 7,
+    #         "room_id": 10,
+    #         "rental_date": datetime.now(),
+    #         "price": 90,
+    #         "total": 90
+    #     },
+    # ]
+    #
+    # for p in receipt_detail:
+    #     room = ReceiptDetail(
+    #                 receipt_id=p['receipt_id'],
+    #                 room_id=p['room_id'],
+    #                 rental_date=p['rental_date'],
+    #                 price=p['price'],
+    #                 total=p['total']
+    #                 )
+    #     db.session.add(room)
+    #     db.session.commit()

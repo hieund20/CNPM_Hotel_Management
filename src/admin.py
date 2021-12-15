@@ -1,6 +1,10 @@
+import imghdr
 
 from flask import request
 from flask_admin import Admin, expose, BaseView
+from flask_admin.form import FileUploadField
+from wtforms import ValidationError
+
 from src import app, db, utils
 from flask_admin.contrib.sqla import ModelView
 from flask_admin import AdminIndexView
@@ -13,10 +17,11 @@ class MyAdminIndexView(AdminIndexView):
         return self.render('admin/index.html')
 
 
-class Home_page(BaseView):
-    @expose('/')
-    def index(self):
-        return self.render('index.html')
+# class Home_page(BaseView):
+#     @expose('/')
+#     def index(self):
+#         return self.render('index.html')
+
 
 class RoomView(ModelView):
     column_display_pk = True
@@ -33,7 +38,8 @@ class RoomView(ModelView):
         'price': 'Giá',
         'status': 'Trạng thái',
         'typeRoom': 'Loại phòng',
-        'rentalVoucher': 'Phiếu thuê phòng'
+        'rentalVoucher': 'Phiếu thuê phòng',
+        'image': 'Hình ảnh'
     }
     form_excluded_columns = ['receiptDetails', 'rentalVoucher']
 
@@ -52,9 +58,6 @@ class TypeRoomView(ModelView):
     }
 
 
-
-
-
 class StatsView(BaseView):
     @expose('/')
     def index(self):
@@ -65,8 +68,8 @@ class StatsView(BaseView):
                            used_type_room_counter=used_type_room_counter)
 
 
-admin = Admin(app=app, name='Admin page', template_mode='bootstrap4', index_view=MyAdminIndexView())
-admin.add_view(Home_page(name='Website'))
+admin = Admin(app=app, name='Lotus hotel', template_mode='bootstrap4', index_view=MyAdminIndexView())
+# admin.add_view(Home_page(name='Trang chủ'))
 admin.add_view(RoomView(Room, db.session, name='Phòng'))
 admin.add_view(TypeRoomView(TypeRoom, db.session, name='Loại phòng'))
 admin.add_view(StatsView(name='Thống kê'))
