@@ -1,7 +1,11 @@
 from flask import Flask, render_template, request
 from src import app
 
-from  src.admin import *
+from src.admin import *
+# app = Flask(__name__)
+
+
+# app = Flask(__name__)
 
 
 @app.route('/')
