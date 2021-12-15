@@ -210,6 +210,9 @@
     font-size: 14px;
     margin-top: 48px;
 }
+
+
+
 .content #home-grid-2 .container .row.align-items-start{
     margin-bottom: 16px;
 }
@@ -231,6 +234,16 @@
 
 .content #home-grid-2 .container .row.align-items-start img{
     width: 100%;
+}
+
+.content #home-grid-3 .paragraph{
+    font-family: 'Poppins', sans-serif;
+    font-size: 14px;
+}
+
+.content #home-grid-4 .paragraph{
+    font-family: 'Poppins', sans-serif;
+    font-size: 14px;
 }
 
 
@@ -299,6 +312,7 @@
 .row.align-items{
     align-items: center;
 }
+
 
 .footer #jumbotron-top{
     height: 16px;
