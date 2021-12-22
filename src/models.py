@@ -4,6 +4,8 @@ from sqlalchemy.orm import relationship
 from src import db
 from datetime import datetime
 from enum import Enum as UserEnum
+from flask_login import UserMixin
+
 
 
 class BaseModel(db.Model):
@@ -16,9 +18,11 @@ class UserRole(UserEnum):
     ADMIN = 1
     USER = 2
 
-class User(BaseModel):
+class User(BaseModel, UserMixin):
     username = Column(String(50), nullable=False, unique=True)
     password = Column(String(50), nullable=False)
+    email = Column(String(50), nullable=False)
+    avatar = Column(String(200), default='')
     joined_date = Column(DateTime, default=datetime.now())
     user_role = Column(Enum(UserRole), default=UserRole.USER)
 
