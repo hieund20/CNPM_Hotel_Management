@@ -1,3 +1,25 @@
+.block {
+    width: 60%;
+    padding: auto;
+    margin: auto;
+    padding-top: 50px;
+    padding-bottom: 50px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    font-family: 'Poppins', sans-serif;
+}
+
+
+.button {
+    background-color: black;
+    color: whitesmoke;
+}
+
+.button:hover {
+    background-color: gold;
+    color: black;
+}
+
 .header > .navbar.navbar-expand-sm {
      background-color: #000;
      opacity: 0.9;
