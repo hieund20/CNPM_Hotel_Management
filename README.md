@@ -31,4 +31,27 @@ Bài tập lớn môn Công nghệ phần mềm
   để cập nhật code mới trước mỗi lần code nha !!
   
 <b>2. Cách tạo nhánh (branch) để code cho tính năng của mình</b> 
+- Clone từ nhánh develop: git clone -b <branch> <remote_repo> => Enter
+- Đứng từ nhánh develop => Chạy lệnh git checkout -b <your branch> develop => Enter => Tạo hoàn tất
+  <br/>
+- Switch từ develop sang your branch: git checkout <your branch> => Enter
+  <br/>
+- Sau khi hoàn thành xong nhánh của mình, thực hiện merge your branch với develop, fix conflict và push lên YOUR BRANCH (Không được push lên develop). Các lệnh:
+  <br/>
+- git merge develop
+  <br/>
+- git add .
+  <br/>
+- git commit -m"write commit content"
+  <br/>
+- git push origin <your branch>
+  <br/>
+- Sau khi push lên, tạo Megre Request (MR) để merge vào develop.
+
+  <b>Lưu ý: Không được push code trực tiếp lên nhánh develop </b>
+  <br/>
+  <b>Mọi thao tác làm việc đều phải ở trên nhánh của mình</b>
+  <br/>
+  <b><i>Thanks team !</i></b>
+
 
