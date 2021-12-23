@@ -39,3 +39,14 @@ def check_login(username, password):
 
 def get_user_by_id(user_id):
     return User.query.get(user_id)
+
+def count_cart(cart):
+    quantity, amount = 0, 0
+    if cart:
+        for i in cart.values():
+            quantity += i['quantity']
+            amount += i['quantity'] * i['price']
+    return {
+        'totalQuantity': quantity,
+        'totalAmount': amount
+    }

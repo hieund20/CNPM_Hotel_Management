@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, url_for, redirect
+from flask import Flask, render_template, request, url_for, redirect, session, jsonify
 from src import app, login
 from src.admin import *
 import utils
@@ -69,6 +69,29 @@ def user_signout():
 def user_load(user_id):
     return utils.get_user_by_id(user_id=user_id)
 
+@app.route('/api/add-cart', methods=['post'])
+def add_cart():
+    dt = request.json
+    id = str(dt.get('id'))
+    name =dt.get('name')
+    price = dt.get('price')
+
+    cart =  session.get('cart')
+
+    if not cart:
+        cart ={}
+    if id in cart:
+        cart[id]['quantity'] = cart[id]['quantity'] + 1
+    else:
+        cart[id]= {
+            'id' : id,
+            'name' : name,
+            'price' : price,
+            'quantity': 1
+
+        }
+    session['cart'] = cart
+    return  jsonify(utils.count_cart(cart = cart))
 if __name__ == "__main__":
     from src.admin import *
     # debug to view debugging in the future
