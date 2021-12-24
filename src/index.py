@@ -5,8 +5,6 @@ import utils
 from flask_login import login_user, logout_user
 
 
-
-
 @app.route('/')
 def home_page():
     return render_template('index.html')

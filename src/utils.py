@@ -1,6 +1,5 @@
 from flask import request
 from sqlalchemy import text, func, extract
-
 from src import app, db
 from src.models import Room, TypeRoom, ReceiptDetail, User, Receipt, ChangePolicyNumber, RentalVoucher, RentalVoucherDetail, TypeVisit
 from sqlalchemy.orm import Session
