@@ -72,44 +72,35 @@
         </div>
         <div class="container">
           <div class="row">
-            <div class="col">
-              <div class="card" style="width: 18rem;">
-                  <img src="{{ url_for('static', filename='images/img-7.jpg') }}" class="card-img-top" alt="...">
-                  <div class="card-body">
-                    <h5 class="card-title">PHÒNG DELUXE</h5>
-                    <p class="card-text">
-                        Góc nhìn đường phố xung quanh khách sạn. Tủ đựng đồ có sẵn đủ cho 2 người lớn, tivi để xem, tủ lạnh cho phép bảo quản đồ ăn, đồ uống miễn phí
-                    </p>
-                    <a href="#" class="btn btn-primary">50$/days</a>
-                    <a href="#" class="btn btn-primary">CHI TIẾT</a>
+              {% for room in room_list %}
+                <div class="col">
+                  <div class="card" style="width: 20rem; margin-bottom: 32px; height: 400px;">
+                      <div style="height: 180px; overflow: hidden;">
+                           <img src="{{ room.image }}"
+                               class="card-img-top"
+                               alt="{{ room.type_room_name }}"
+                               style="width: 100%;">
+                      </div>
+                      <div class="card-body">
+                        <h5 class="card-title">{{ room.type_room_name }}</h5>
+                        <span class="card-text" style="display: block;">
+                            {{ room.descriptions }}
+                        </span>
+
+                          <div class="btn-box"
+                               style="display: flex; justify-content: space-between; ">
+                            <div style="margin-top: 8px; margin-bottom: 8px;">
+                              <span class="card-text-price">{{ room.price }}$</span>
+                              <span>/days</span>
+                            </div>
+                            <a href="{{ url_for('room_detail_page', room_id=room.id) }}"
+                               class="btn btn-primary"
+                               style="width: 52%">CHI TIẾT</a>
+                          </div>
+                      </div>
                   </div>
-              </div>
-            </div>
-            <div class="col">
-              <div class="card" style="width: 18rem;">
-                  <img src="{{ url_for('static', filename='images/img-7.jpg') }}" class="card-img-top" alt="...">
-                  <div class="card-body">
-                    <h5 class="card-title">PHÒNG SUITE</h5>
-                    <p class="card-text">
-                        Gần khu vực ăn buffet của khách sạn. Tủ đựng đồ có sẵn đủ cho 8 người lớn, tivi để xem, tủ lạnh to cho phép bảo quản đồ ăn, đồ uống miễn phí
-                    </p>
-                    <a href="#" class="btn btn-primary">50$/days</a>
-                    <a href="#" class="btn btn-primary">CHI TIẾT</a>
-                  </div>
-              </div>
-            </div>
-            <div class="col">
-              <div class="card" style="width: 18rem;">
-                  <img src="{{ url_for('static', filename='images/img-7.jpg') }}" class="card-img-top" alt="...">
-                  <div class="card-body">
-                    <h5 class="card-title">PHÒNG SUPERIOR</h5>
-                    <p class="card-text">
-                        Thích hợp cho những người độc thân (tiết kiệm chi phí, thời gian ở ngắn, bạn bè thân thiết cùng đi du lịch), cặp đôi mới cưới đang trong tuần trăng mật,                     </p>
-                    <a href="#" class="btn btn-primary">50$/days</a>
-                    <a href="#" class="btn btn-primary">CHI TIẾT</a>
-                  </div>
-              </div>
-            </div>
+                </div>
+              {% endfor %}
           </div>
         </div>
         <div class="container" id="home-grid-1">
@@ -186,5 +177,5 @@
               </div>
          </div>
     </div>
-        </div>
+    </div>
 {% endblock %}

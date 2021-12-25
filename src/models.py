@@ -71,6 +71,7 @@ class Room(BaseModel):
     type_room_id = Column(Integer, ForeignKey(TypeRoom.id), nullable=False)
     rental_voucher = Column(Integer, ForeignKey(RentalVoucher.id), default=0)
     image = Column(String(150), nullable=False)
+    descriptions = Column(String(200), nullable=False)
 
     receiptDetails = relationship('ReceiptDetail', backref='room', lazy=True)
 
@@ -81,13 +82,17 @@ class Receipt(BaseModel):
 
     receiptDetails = relationship('ReceiptDetail', backref='receipt', lazy=False)
 
-class ReceiptDetail(BaseModel):
-    receipt_id = Column(Integer, ForeignKey(Receipt.id), primary_key=True, nullable=False)
-    room_id = Column(Integer, ForeignKey(Room.id), primary_key=True, nullable=False)
-    rental_date = Column(DateTime, default=datetime.now())
-    price = Column(Float, default=0)
-    total = Column(Float, default=0)
 
+
+class ReceiptDetail(db.Model):
+    id = Column(Integer, ForeignKey(Receipt.id), primary_key=True, nullable=False, autoincrement=True)
+    room_id = Column(Integer, ForeignKey(Room.id), primary_key=True, nullable=False)
+    room_name = Column(String(100), nullable=False)
+    price = Column(Float, default=0)
+    quantity = Column(Integer, default=0)
+    receive_day = Column(String(50), default=datetime.now())
+    pay_day = Column(String(50), default=datetime.now())
+    person_amount = Column(Integer)
 
 if __name__ == '__main__':
     db.create_all()
