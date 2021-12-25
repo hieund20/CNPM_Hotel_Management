@@ -18,10 +18,6 @@ def get_locale():
         return 'vi'
 
 
-cloudinary.config(
-        cloud_name= 'dwgjmgf6o',
-        api_key= '963493837729524',
-        api_secret= 'ra068pqFPrbpRrMDgE-Lua2hDZ8',
-)
+cloudinary.config(cloud_name='dwgjmgf6o', api_key='963493837729524', api_secret='ra068pqFPrbpRrMDgE-Lua2hDZ8')
 
 login = LoginManager(app=app)

@@ -39,7 +39,8 @@ class RoomView(ModelView):
         'status': 'Trạng thái',
         'typeRoom': 'Loại phòng',
         'rentalVoucher': 'Phiếu thuê phòng',
-        'image': 'Hình ảnh'
+        'image': 'Hình ảnh',
+        'descriptions': 'Mô tả'
     }
     form_excluded_columns = ['receiptDetails', 'rentalVoucher']
 
