@@ -88,6 +88,7 @@ class ReceiptDetail(BaseModel):
     price = Column(Float, default=0)
     total = Column(Float, default=0)
 
+    user_id = Column(Integer, nullable = False)
 
 if __name__ == '__main__':
     db.create_all()

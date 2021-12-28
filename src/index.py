@@ -4,7 +4,11 @@ from src.admin import *
 import utils
 from flask_login import login_user, logout_user
 
-
+@app.context_processor
+def repos():
+    return{
+        "cart": utils.count_cart(session.get('cart'))
+    }
 
 @app.route('/')
 def home_page():
@@ -72,26 +76,58 @@ def user_load(user_id):
 @app.route('/api/add-cart', methods=['post'])
 def add_cart():
     dt = request.json
-    id = str(dt.get('id'))
-    name =dt.get('name')
+    room_id = str(dt.get('id'))
+    name_room =dt.get('name')
     price = dt.get('price')
+    name_user = dt.get('name_user')
 
-    cart =  session.get('cart')
+    if name_user:
+        receipt  = utils.is_name_in_receipt(name=name_user)
+        user = utils.get_user_by_name(name=name_user)
+        if receipt:
+            pass
+        else:
+            utils.add_receipt(name=name_user, address="Quảng Nam", price=price)
 
-    if not cart:
-        cart ={}
-    if id in cart:
-        cart[id]['quantity'] = cart[id]['quantity'] + 1
-    else:
-        cart[id]= {
-            'id' : id,
-            'name' : name,
-            'price' : price,
-            'quantity': 1
+        # utils.add_receipt_detail(receipt_id=33, room_id=room_id, price=price, user_id=2)
 
-        }
-    session['cart'] = cart
-    return  jsonify(utils.count_cart(cart = cart))
+
+    #
+    # cart =  session.get('cart')
+    #
+    # if not cart:
+    #     cart ={}
+    # if id in cart:
+    #     cart[id]['quantity'] = cart[id]['quantity'] + 1
+    # else:
+    #     cart[id]= {
+    #         'id' : id,
+    #         'name' : name,
+    #         'price' : price,
+    #         'quantity': 1
+    #
+    #     }
+    # session['cart'] = cart
+    return name_user
+
+
+@app.route('/cart')
+def cart():
+    return render_template('cart.html', stats = utils.count_cart(session['cart']))
+
+@app.route('/update-cart')
+def update_cart():
+    data = request.json()
+    id = str(data.get('id'))
+    quantity = data.get('quantity')
+
+    cart = session.get('cart')
+    if cart and id in cart:
+        cart[id]['quantity'] = quantity
+        session['cart'] = cart
+
+    return jsonify(utils.count_cart(cart = cart))
+
 if __name__ == "__main__":
     from src.admin import *
     # debug to view debugging in the future

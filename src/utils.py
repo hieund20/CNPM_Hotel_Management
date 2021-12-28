@@ -41,7 +41,7 @@ def get_user_by_id(user_id):
     return User.query.get(user_id)
 
 def count_cart(cart):
-    quantity, amount = 0, 0
+    quantity, amount= 0, 0
     if cart:
         for i in cart.values():
             quantity += i['quantity']
@@ -50,3 +50,21 @@ def count_cart(cart):
         'totalQuantity': quantity,
         'totalAmount': amount
     }
+
+def is_name_in_receipt(name):
+    return Receipt.query.filter(Receipt.visitor_name.__eq__(name)).first()
+
+
+
+def add_receipt(name, address, price):
+    new = Receipt(visitor_name = name, address= address, price = price)
+    db.session.add(new)
+    db.session.commit()
+
+def add_receipt_detail(receipt_id, room_id, price, user_id):
+    new = ReceiptDetail(receipt_id= receipt_id, room_id= room_id, price = price, user_id = user_id)
+    db.session.add(new)
+    db.session.commit()
+
+def get_user_by_name(name):
+    return User.query.filter(User.username.__eq__(name)).first()
