@@ -6,7 +6,11 @@ import cloudinary
 
 app = Flask(__name__)
 app.secret_key = 'sfsjfffehr4$#$@$@$%^^^$^%@$GG'
+<<<<<<< HEAD
 app.config["SQLALCHEMY_DATABASE_URI"] = "mysql+pymysql://root:12345678@localhost/hotel?charset=utf8mb4"
+=======
+app.config["SQLALCHEMY_DATABASE_URI"] = "mysql+pymysql://root:Duchieu200301@localhost/hotel_management_db?charset=utf8mb4"
+>>>>>>> ed593e2f04413d02b79778cf3a5e4d1f7c207fda
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = True
 
 db = SQLAlchemy(app=app)
@@ -18,10 +22,6 @@ def get_locale():
         return 'vi'
 
 
-cloudinary.config(
-        cloud_name= 'dwgjmgf6o',
-        api_key= '963493837729524',
-        api_secret= 'ra068pqFPrbpRrMDgE-Lua2hDZ8',
-)
+cloudinary.config(cloud_name='dwgjmgf6o', api_key='963493837729524', api_secret='ra068pqFPrbpRrMDgE-Lua2hDZ8')
 
 login = LoginManager(app=app)

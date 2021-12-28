@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 from flask import Flask, render_template, request, url_for, redirect, session, jsonify
 from src import app, login
 from src.admin import *
@@ -9,10 +10,21 @@ def repos():
     return{
         "cart": utils.count_cart(session.get('cart'))
     }
+=======
+import json
+
+import utils
+from flask import Flask, render_template, request, url_for, redirect, session, jsonify, make_response
+from flask_login import login_user, logout_user
+from src import app, login
+from src.admin import *
+
+>>>>>>> ed593e2f04413d02b79778cf3a5e4d1f7c207fda
 
 @app.route('/')
 def home_page():
-    return render_template('index.html')
+    room_list = utils.get_all_rooms()
+    return render_template('index.html', room_list=room_list)
 
 
 @app.route('/about')
@@ -69,10 +81,12 @@ def user_signout():
     logout_user()
     return redirect(url_for('home_page'))
 
+
 @login.user_loader
 def user_load(user_id):
     return utils.get_user_by_id(user_id=user_id)
 
+<<<<<<< HEAD
 @app.route('/api/add-cart', methods=['post'])
 def add_cart():
     dt = request.json
@@ -127,8 +141,66 @@ def update_cart():
         session['cart'] = cart
 
     return jsonify(utils.count_cart(cart = cart))
+=======
+
+@app.route("/rooms/<int:room_id>")
+def room_detail_page(room_id):
+    room = utils.get_room_by_id(room_id)
+    type_room = utils.get_type_room_by_room_id(room_id)
+    return render_template('room-detail.html', room=room, type_room=type_room)
+
+
+@app.route('/api/cart', methods=['post'])
+def add_to_cart():
+    if 'cart' not in session:
+        session['cart'] = {}
+
+    cart = session['cart']
+
+    data = json.loads(request.data)
+    id = str(data.get("id"))
+    name = data.get("name")
+    price = data.get("price", 0)
+
+    receive_day = data.get("receive-day")
+    pay_day = data.get("pay-day")
+    person_amount = str(data.get("person-amount"))
+
+    cart = session.get('cart')
+
+    if id in cart:
+        cart[id]['quantity'] = cart[id]['quantity'] + 1
+    else:
+        cart[id] = {
+            "id": id,
+            "name": name,
+            "price": price,
+            "quantity": 1,
+        }
+
+    session['cart'] = cart
+
+    booking_infor = {
+        "receive_day": receive_day,
+        "pay_day": pay_day,
+        "person_amount": person_amount
+    }
+
+    quantity, price = utils.cart_stats(cart)
+    utils.add_receipt_detail(room_id=int(id),
+                             room_name=name,
+                             price=float(price),
+                             quantity=float(quantity),
+                             receive_day=receive_day,
+                             pay_day=pay_day,
+                             person_amount=int(person_amount))
+    print('person_amount', person_amount)
+
+    return jsonify(utils.cart_stats(cart), cart, booking_infor)
+
+>>>>>>> ed593e2f04413d02b79778cf3a5e4d1f7c207fda
 
 if __name__ == "__main__":
     from src.admin import *
-    # debug to view debugging in the future
+
     app.run(debug=True)

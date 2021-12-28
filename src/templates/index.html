@@ -72,6 +72,7 @@
         </div>
         <div class="container">
           <div class="row">
+<<<<<<< HEAD
             <div class="col">
               <div class="card" style="width: 18rem;">
                   <img src="{{ url_for('static', filename='images/img-7.jpg') }}" class="card-img-top" alt="...">
@@ -110,6 +111,37 @@
                   </div>
               </div>
             </div>
+=======
+              {% for room in room_list %}
+                <div class="col">
+                  <div class="card" style="width: 20rem; margin-bottom: 32px; height: 400px;">
+                      <div style="height: 180px; overflow: hidden;">
+                           <img src="{{ room.image }}"
+                               class="card-img-top"
+                               alt="{{ room.type_room_name }}"
+                               style="width: 100%;">
+                      </div>
+                      <div class="card-body">
+                        <h5 class="card-title">{{ room.type_room_name }}</h5>
+                        <span class="card-text" style="display: block;">
+                            {{ room.descriptions }}
+                        </span>
+
+                          <div class="btn-box"
+                               style="display: flex; justify-content: space-between; ">
+                            <div style="margin-top: 8px; margin-bottom: 8px;">
+                              <span class="card-text-price">{{ room.price }}$</span>
+                              <span>/days</span>
+                            </div>
+                            <a href="{{ url_for('room_detail_page', room_id=room.id) }}"
+                               class="btn btn-primary"
+                               style="width: 52%">CHI TIẾT</a>
+                          </div>
+                      </div>
+                  </div>
+                </div>
+              {% endfor %}
+>>>>>>> ed593e2f04413d02b79778cf3a5e4d1f7c207fda
           </div>
         </div>
         <div class="container" id="home-grid-1">
@@ -186,5 +218,5 @@
               </div>
          </div>
     </div>
-        </div>
+    </div>
 {% endblock %}
