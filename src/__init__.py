@@ -6,7 +6,7 @@ import cloudinary
 
 app = Flask(__name__)
 app.secret_key = 'sfsjfffehr4$#$@$@$%^^^$^%@$GG'
-app.config["SQLALCHEMY_DATABASE_URI"] = "mysql+pymysql://root:Duchieu200301@localhost/hotel_management_db?charset=utf8mb4"
+app.config["SQLALCHEMY_DATABASE_URI"] = "mysql+pymysql://root:phuc12345@localhost/newdata?charset=utf8mb4"
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = True
 
 db = SQLAlchemy(app=app)
