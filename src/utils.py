@@ -1,6 +1,5 @@
 from flask import request
 from sqlalchemy import text, func, extract
-
 from src import app, db
 from src.models import Room, TypeRoom, ReceiptDetail, User, Receipt, ChangePolicyNumber, RentalVoucher, RentalVoucherDetail, TypeVisit
 from sqlalchemy.orm import Session
@@ -39,3 +38,39 @@ def check_login(username, password):
 
 def get_user_by_id(user_id):
     return User.query.get(user_id)
+
+
+def get_all_rooms():
+    query = db.session.query(Room.id, Room.quantity_bed, Room.price, Room.status, Room.type_room_id, Room.rental_voucher, Room.image, Room.descriptions, TypeRoom.type_room_name).filter(Room.type_room_id == TypeRoom.id)
+    return query.all()
+
+
+def get_room_by_id(room_id):
+    return Room.query.get(room_id)
+
+
+def get_type_room_by_room_id(room_id):
+    query = db.session.query(TypeRoom.type_room_name).filter(Room.type_room_id == TypeRoom.id).filter(Room.id == room_id)
+    return query.all()
+
+
+def cart_stats(cart):
+    total_amount, total_quantity = 0, 0
+    if cart:
+        for p in cart.values():
+            total_quantity += p["quantity"]
+            total_amount += p["quantity"]*p["price"]
+
+    return total_quantity, total_amount
+
+
+def add_receipt_detail(room_id, room_name, price, quantity, receive_day, pay_day, person_amount ):
+    receipt_detail = ReceiptDetail(room_id=room_id,
+                                   room_name=room_name,
+                                   price=price,
+                                   quantity=quantity,
+                                   receive_day=receive_day,
+                                   pay_day=pay_day,
+                                   person_amount=person_amount)
+    db.session.add(receipt_detail)
+    db.session.commit()

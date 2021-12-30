@@ -25,6 +25,7 @@ class User(BaseModel, UserMixin):
     avatar = Column(String(200), default='')
     joined_date = Column(DateTime, default=datetime.now())
     user_role = Column(Enum(UserRole), default=UserRole.USER)
+    comments = relationship('Comment', backref='user', lazy=True)
 
 class ChangePolicyNumber(BaseModel):
     foreign_visitor_number = Column(Float, nullable=True)
@@ -71,6 +72,8 @@ class Room(BaseModel):
     type_room_id = Column(Integer, ForeignKey(TypeRoom.id), nullable=False)
     rental_voucher = Column(Integer, ForeignKey(RentalVoucher.id), default=0)
     image = Column(String(150), nullable=False)
+    descriptions = Column(String(200), nullable=False)
+    comments = relationship('Comment', backref='room', lazy=True)
 
     receiptDetails = relationship('ReceiptDetail', backref='room', lazy=True)
 
@@ -81,12 +84,27 @@ class Receipt(BaseModel):
 
     receiptDetails = relationship('ReceiptDetail', backref='receipt', lazy=False)
 
-class ReceiptDetail(BaseModel):
-    receipt_id = Column(Integer, ForeignKey(Receipt.id), primary_key=True, nullable=False)
+
+
+class ReceiptDetail(db.Model):
+    id = Column(Integer, ForeignKey(Receipt.id), primary_key=True, nullable=False, autoincrement=True)
     room_id = Column(Integer, ForeignKey(Room.id), primary_key=True, nullable=False)
-    rental_date = Column(DateTime, default=datetime.now())
+    room_name = Column(String(100), nullable=False)
     price = Column(Float, default=0)
-    total = Column(Float, default=0)
+    quantity = Column(Integer, default=0)
+    receive_day = Column(String(50), default=datetime.now())
+    pay_day = Column(String(50), default=datetime.now())
+    person_amount = Column(Integer)
+
+
+class Comment(BaseModel):
+    content = Column(String(255), nullable=False)
+    room_id = Column(Integer, ForeignKey(Room.id), nullable=False)
+    user_id = Column(Integer, ForeignKey(User.id), nullable=False)
+    created_date = Column(DateTime, default=datetime.now())
+
+    def __str__(self):
+        return self.content
 
 
 if __name__ == '__main__':
