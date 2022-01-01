@@ -45,16 +45,16 @@
                       enctype="multipart/form-data"
                       id="filter-room-form">
                     <div class="col-md-4" style="padding-left: 0">
-                            <select
+                        <select
                                 class="form-select"
                                 name="type-room-id"
                                 style="width: 100%; height:40px; border-radius: 8px; border: 1px solid gray;">
-                                    <option value="" selected>Tất cả phòng</option>
-                                    <option value="1">Phòng Suite</option>
-                                    <option value="2">Phòng Deluxe</option>
-                                    <option value="3">Phòng Superior</option>
-                                    <option value="4">Phòng Standard</option>
-                            </select>
+                            <option value="" selected>Tất cả phòng</option>
+                            <option value="1">Phòng Suite</option>
+                            <option value="2">Phòng Deluxe</option>
+                            <option value="3">Phòng Superior</option>
+                            <option value="4">Phòng Standard</option>
+                        </select>
                     </div>
                     <div class="col-md-4" style="padding-left: 0; width: 20px">
                         <div class="input-group">
@@ -79,73 +79,15 @@
                            id="find-button"
                            value="Tìm kiếm"/>
                 </form>
-<!--                <script>-->
-<!--                    var selectedValue = document.getElementsByName('type-room-id')[0].value-->
-<!--                    if(value === "")-->
-<!--                        console.log("sle", sle)-->
-<!--                </script>-->
+                <!--                <script>-->
+                <!--                    var selectedValue = document.getElementsByName('type-room-id')[0].value-->
+                <!--                    if(value === "")-->
+                <!--                        console.log("sle", sle)-->
+                <!--                </script>-->
             </div>
         </div>
     </div>
 </div>
-
-
-    <div class="content">
-        <div class="container">
-            <span class="content-title">TIỆN NGHI</span>
-        </div>
-        <div class="container">
-          <div class="row">
-
-            <div class="col">
-              <div class="card" style="width: 18rem;">
-                  <img src="{{ url_for('static', filename='images/img-7.jpg') }}" class="card-img-top" alt="...">
-                  <div class="card-body">
-                    <h5 class="card-title">PHÒNG DELUXE</h5>
-                    <p class="card-text">
-                        Góc nhìn đường phố xung quanh khách sạn. Tủ đựng đồ có sẵn đủ cho 2 người lớn, tivi để xem, tủ lạnh cho phép bảo quản đồ ăn, đồ uống miễn phí
-                    </p>
-                    <a href="#" class="btn btn-primary" >50$/days</a>
-                    <a href="#" class="btn btn-primary">CHI TIẾT</a>
-                  </div>
-              </div>
-            </div>
-            <div class="col">
-              <div class="card" style="width: 18rem;">
-                  <img src="{{ url_for('static', filename='images/img-7.jpg') }}" class="card-img-top" alt="...">
-                  <div class="card-body">
-                    <h5 class="card-title">PHÒNG SUITE</h5>
-                    <p class="card-text">
-                        Gần khu vực ăn buffet của khách sạn. Tủ đựng đồ có sẵn đủ cho 8 người lớn, tivi để xem, tủ lạnh to cho phép bảo quản đồ ăn, đồ uống miễn phí
-                    </p>
-                    <a href="#" class="btn btn-primary" onclick="order(2,'PHÒNG New', 50, 'truong')">50$/days</a>
-                    <a href="#" class="btn btn-primary">CHI TIẾT</a>
-                  </div>
-              </div>
-            </div>
-            <div class="col">
-              <div class="card" style="width: 18rem;">
-                  <img src="{{ url_for('static', filename='images/img-7.jpg') }}" class="card-img-top" alt="...">
-                  <div class="card-body">
-                    <h5 class="card-title">PHÒNG SUPERIOR</h5>
-                    <p class="card-text">
-                        Thích hợp cho những người độc thân (tiết kiệm chi phí, thời gian ở ngắn, bạn bè thân thiết cùng đi du lịch), cặp đôi mới cưới đang trong tuần trăng mật,                     </p>
-                    <a href="#" class="btn btn-primary">50$/days</a>
-                    <a href="#" class="btn btn-primary">CHI TIẾT</a>
-                  </div>
-              </div>
-            </div>
-
-              {% for room in room_list %}
-                <div class="col">
-                  <div class="card" style="width: 20rem; margin-bottom: 32px; height: 400px;">
-                      <div style="height: 180px; overflow: hidden;">
-                           <img src="{{ room.image }}"
-                               class="card-img-top"
-                               alt="{{ room.type_room_name }}"
-                               style="width: 100%;">
-                      </div>
-                      <div class="card-body">
 
 <div class="content">
     <div class="container">
@@ -181,10 +123,6 @@
                         </div>
                     </div>
                 </div>
-                {% endfor %}
-
-          </div>
-
             </div>
             {% endfor %}
         </div>
@@ -233,9 +171,9 @@
                     <p>
                         Tọa lạc tại vị trí trung tâm quận Gò Vấp trên đường Nguyễn Kiệm, kế bên là nhà hàng Adora, cách
                         các trung tâm thành phố 20 phút di chuyển, cách khu mua sắm giải trí 15 phút di chuyển,
-                        <tên khách sạn> là lựa chọn lý tưởng giúp du khách hòa mình vào nhịp sống sôi động nhưng yên
-                            tĩnh về đêm của thành phố với trải nghiệm sang trọng, cơ sở vật chất hiện đại và dịch vụ
-                            chuyên nghiệp...
+                        Lotus hotel là lựa chọn lý tưởng giúp du khách hòa mình vào nhịp sống sôi động nhưng yên
+                        tĩnh về đêm của thành phố với trải nghiệm sang trọng, cơ sở vật chất hiện đại và dịch vụ
+                        chuyên nghiệp...
                     </p>
                 </div>
                 <a href="/about">
