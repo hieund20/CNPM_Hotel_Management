@@ -2,7 +2,7 @@ from flask import request
 from sqlalchemy import text, func, extract
 from src import app, db
 from src.models import Room, TypeRoom, ReceiptDetail, User, Receipt, ChangePolicyNumber, RentalVoucher, RentalVoucherDetail, TypeVisit
-from sqlalchemy.orm import Session
+from sqlalchemy import desc, asc
 from datetime import datetime
 import hashlib
 
@@ -74,3 +74,28 @@ def add_receipt_detail(room_id, room_name, price, quantity, receive_day, pay_day
                                    person_amount=person_amount)
     db.session.add(receipt_detail)
     db.session.commit()
+
+
+def filters_room(type_room_id, quantity_bed, price_order_by):
+    print('check order by', price_order_by)
+    query = ""
+    if price_order_by == 'asc':
+        if quantity_bed == '' and type_room_id == '':
+            query = db.session.query(Room.id, Room.quantity_bed, Room.price, Room.status, Room.type_room_id, Room.image, Room.descriptions, TypeRoom.type_room_name).filter(Room.type_room_id == TypeRoom.id).order_by(asc(Room.price))
+        if quantity_bed == '' and type_room_id != '':
+            query = db.session.query(Room.id, Room.quantity_bed, Room.price, Room.status, Room.type_room_id, Room.image, Room.descriptions, TypeRoom.type_room_name).filter(Room.type_room_id == TypeRoom.id).filter(Room.type_room_id == type_room_id).order_by(asc(Room.price))
+        if quantity_bed != '' and type_room_id == '':
+            query = db.session.query(Room.id, Room.quantity_bed, Room.price, Room.status, Room.type_room_id, Room.image, Room.descriptions, TypeRoom.type_room_name).filter(Room.type_room_id == TypeRoom.id).filter(Room.quantity_bed == quantity_bed).order_by(asc(Room.price))
+        if type_room_id != '' and quantity_bed != '':
+            query = db.session.query(Room.id, Room.quantity_bed, Room.price, Room.status, Room.type_room_id, Room.image, Room.descriptions, TypeRoom.type_room_name).filter(Room.type_room_id == TypeRoom.id).filter(Room.type_room_id == type_room_id).filter(Room.quantity_bed == quantity_bed).order_by(asc(Room.price))
+    if price_order_by == 'desc':
+        if quantity_bed == '' and type_room_id == '':
+            query = db.session.query(Room.id, Room.quantity_bed, Room.price, Room.status, Room.type_room_id, Room.image, Room.descriptions, TypeRoom.type_room_name).filter(Room.type_room_id == TypeRoom.id).order_by(desc(Room.price))
+        if quantity_bed == '' and type_room_id != '':
+            query = db.session.query(Room.id, Room.quantity_bed, Room.price, Room.status, Room.type_room_id, Room.image, Room.descriptions, TypeRoom.type_room_name).filter(Room.type_room_id == TypeRoom.id).filter(Room.type_room_id == type_room_id).order_by(desc(Room.price))
+        if quantity_bed != '' and type_room_id == '':
+            query = db.session.query(Room.id, Room.quantity_bed, Room.price, Room.status, Room.type_room_id, Room.image, Room.descriptions, TypeRoom.type_room_name).filter(Room.type_room_id == TypeRoom.id).filter(Room.quantity_bed == quantity_bed).order_by(desc(Room.price))
+        if type_room_id != '' and quantity_bed != '':
+            query = db.session.query(Room.id, Room.quantity_bed, Room.price, Room.status, Room.type_room_id, Room.image, Room.descriptions, TypeRoom.type_room_name).filter(Room.type_room_id == TypeRoom.id).filter(Room.type_room_id == type_room_id).filter(Room.quantity_bed == quantity_bed).order_by(desc(Room.price))
+
+    return query.all()
