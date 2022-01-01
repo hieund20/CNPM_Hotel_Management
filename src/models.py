@@ -85,6 +85,7 @@ class Receipt(BaseModel):
     receiptDetails = relationship('ReceiptDetail', backref='receipt', lazy=False)
 
 
+    user_id = Column(Integer, nullable = False)
 
 class ReceiptDetail(db.Model):
     id = Column(Integer, ForeignKey(Receipt.id), primary_key=True, nullable=False, autoincrement=True)

@@ -425,5 +425,204 @@
     text-align: center;
 }
 
+/* giỏ hàng */
+.myCart{
+    margin: 30px 0 80px 0;
+}
+
+.cart-hr{
+    width:90%;
+    margin:auto;
+    color: #b2b3b2;
+    margin-bottom: 20px;
+}
+.cart-h3{
+    color: #333;
+    font-family: 'Font Awesome 5 Brands';
+    margin-left:10%;
+}
+
+.search-cart{
+    background-image: url('/static/images/searchicon.png');
+    background-position: 10px 12px;
+    background-repeat: no-repeat;
+    width: 100%;
+    font-size: 16px;
+    padding: 12px 20px 12px 40px;
+    border: 1px solid #ddd;
+    margin-bottom: 12px;
+}
+
+.list-cart > div{
+    margin-bottom:20px;
+}
+.lc{
+    display: flex;
+    align-items: center;
+    padding: 1.25rem 0 1.25rem 2.5rem;
+    border-bottom: 1px solid rgba(0,0,0,.09);
+}
+
+.lc > div:first-child{
+    margin:auto;
+}
+.lc img{
+    width: 100%;
+}
+
+.name-room{
+    margin-top: -30px;
+    margin-bottom: 5px;
+    font-style: oblique;
+    font-size: 19px;
+}
+
+.person-amount{
+    background-color: #929292
+    margin-left : auto;
+    padding: 2px;
+    font-style: oblique;
+    font-size: 12px;
+    border-style: solid;
+    border-width: 1px;
+    border-color: #b2b3b2;
+    border-radius: 5px;
+}
+
+.date-order{
+    margin-bottom: -20px;
+    font-size: 14px;
+}
+
+.color-gray{
+    color: #929292;
+    font-style: oblique;
+}
+
+.color-orange{
+    color: #ee4d2d;
+    font-size: 20px;
+}
+
+#pay{
+    background-color: #f5f5f5;
+    opacity: 1;
+    height: 250px;
+    border-radius: 3px;
+    margin-top: 80px;
+    margin-left: 85px;
+    padding-left: 24px;
+}
+
+#pay > h3{
+    font-family: 'Font Awesome 5 Brands';
+    margin-top: 15px;
+}
 
 
+#pay > div {
+    font-size: 20px;
+    font-weight: bold;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+#pay >div > span{
+    font-size: 20px;
+    color: red;
+    margin-left: 140px;
+}
+
+
+#pay .voucher input{
+    height: 40px;
+    font-size: 15px;
+}
+
+.btn-voucher{
+    background-color: #846135;
+    color: white;
+    margin-left: 45px;
+}
+
+.btn-voucher:hover{
+    background-color: #1a1a1a;
+    color: white;
+}
+
+.btn-payment{
+    width: 97%;
+    background-color: #1a1a1a;
+    color: white;
+    font-size: 17px;
+    font-weight: 600;
+    text-align: center;
+    transition: all 0.5s;
+    cursor: pointer;
+}
+
+.btn-payment:hover{
+    background-color: #d9bb8b;
+    color: black;
+}
+
+.btn-payment span {
+  cursor: pointer;
+  display: inline-block;
+  position: relative;
+  transition: 0.5s;
+}
+
+.btn-payment span:after {
+  content: '\2713';
+  position: absolute;
+  opacity: 0;
+  top: 0;
+  right: -20px;
+  transition: 0.5s;
+}
+
+.btn-payment:hover span {
+  padding-right: 15px;
+}
+
+.btn-payment:hover span:after {
+  opacity: 1;
+  right: 0;
+}
+
+/* back to top */
+#back-to-top{
+    position: fixed;
+    display: none;
+    top: 80%;
+    left: 95%;
+    font-size: 26px;
+    width: 35px;
+    background-color: rgba(223, 223, 223, 0.411);
+    color: #333;
+    cursor: pointer;
+    border: 3px solid rgba(0, 0, 0, 0.514);
+    border-radius: 5px;
+    padding-top: 0px;
+    transition: 0.5s;
+    text-align: center;
+    z-index: 10000;
+}
+#back-to-top:hover{
+    background-color: black;
+    color: white;
+}
+
+/* scroll */
+
+.progress-container {
+  width: 100%;
+  height: 5px;
+  background: #ccc;
+}
+
+.progress-bar {
+  height: 5px;
+  background: #a7783e;
+  width: 0%;
+}
