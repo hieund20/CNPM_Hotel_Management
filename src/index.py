@@ -6,11 +6,29 @@ from flask_login import login_user, logout_user
 from src import app, login
 from src.admin import *
 
+@app.context_processor
+def repos():
+    return{
+        "cart": len(utils. total_room_by_receiptId(0))
+    }
 
-@app.route('/')
+
+
+@app.route('/', methods=['post', 'get'])
 def home_page():
+    filter_room_list = None
+    if request.method.__eq__('POST'):
+        type_room_id = request.form.get('type-room-id')
+        quantity_bed = request.form.get('quantity-bed')
+        price_sort = request.form.get('price-sort')
+        filter_room_list = utils.filters_room(type_room_id=type_room_id,
+                                              quantity_bed=quantity_bed,
+                                              price_order_by=price_sort)
+
     room_list = utils.get_all_rooms()
-    return render_template('index.html', room_list=room_list)
+
+    return render_template('index.html', room_list=room_list,
+                           filter_room_list=filter_room_list)
 
 
 @app.route('/about')
@@ -20,6 +38,7 @@ def about_us_page():
 
 def admin_stats_page():
     pass
+
 
 @app.route('/register', methods=['post', 'get'])
 def user_register():
@@ -71,6 +90,35 @@ def user_signout():
 @login.user_loader
 def user_load(user_id):
     return utils.get_user_by_id(user_id=user_id)
+
+
+
+
+@app.route('/my-room')
+def cart():
+    err =""
+    try:
+        cart = utils.get_list_receipt_detail(0)
+        total_money = utils.total_money(user_id=0)
+    except:
+        err = "Trang web lỗi! Vui lòng thử lại sau"
+    return render_template('cart.html', list_cart=cart, total_money=total_money, err=err)
+
+
+@app.route('/delete-cart', methods=['post'])
+def delete_cart():
+    data = json.loads(request.data)
+    id = str(data.get("id"))
+    tb ="Đã xóa thành công"
+    try:
+       utils.delete_Receipt_detail(id = id)
+    except:
+        tb="Lỗi databasse! Vui lòng thử lại sau!"
+
+    # update cart
+
+    return jsonify(tb, len(utils. total_room_by_receiptId(0)))
+
 
 
 @app.route("/rooms/<int:room_id>")
@@ -126,7 +174,9 @@ def add_to_cart():
                              person_amount=int(person_amount))
     print('person_amount', person_amount)
 
-    return jsonify(utils.cart_stats(cart), cart, booking_infor)
+
+
+    return jsonify(utils.cart_stats(cart), cart, booking_infor, len(utils. total_room_by_receiptId(0)))
 
 
 if __name__ == "__main__":

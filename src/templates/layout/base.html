@@ -39,11 +39,14 @@
 
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css"/>
     <script src="{{ url_for('static', filename='js/cart.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/support.js') }}"></script>
     <link href="{{ url_for('static', filename='css/style.css')}}" rel="stylesheet"/>
     {% block css %}{% endblock %}
     {% block js %}{% endblock %}
 </head>
 <body>
+    <!-- back to top-->
+    <div title="Back to top" id="back-to-top" onclick="topFunction()"><i class="fa fa-angle-double-up "></i></div>
     {% block header %}
         {% include 'layout/header.html' %}
     {% endblock %}
@@ -53,5 +56,6 @@
     {% block footer %}
             {% include 'layout/footer.html' %}
     {% endblock %}
+
 </body>
 </html>

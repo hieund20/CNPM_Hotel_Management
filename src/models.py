@@ -25,6 +25,7 @@ class User(BaseModel, UserMixin):
     avatar = Column(String(200), default='')
     joined_date = Column(DateTime, default=datetime.now())
     user_role = Column(Enum(UserRole), default=UserRole.USER)
+    comments = relationship('Comment', backref='user', lazy=True)
 
 class ChangePolicyNumber(BaseModel):
     foreign_visitor_number = Column(Float, nullable=True)
@@ -72,6 +73,7 @@ class Room(BaseModel):
     rental_voucher = Column(Integer, ForeignKey(RentalVoucher.id), default=0)
     image = Column(String(150), nullable=False)
     descriptions = Column(String(200), nullable=False)
+    comments = relationship('Comment', backref='room', lazy=True)
 
     receiptDetails = relationship('ReceiptDetail', backref='room', lazy=True)
 
@@ -83,6 +85,7 @@ class Receipt(BaseModel):
     receiptDetails = relationship('ReceiptDetail', backref='receipt', lazy=False)
 
 
+    user_id = Column(Integer, nullable = False)
 
 class ReceiptDetail(db.Model):
     id = Column(Integer, ForeignKey(Receipt.id), primary_key=True, nullable=False, autoincrement=True)
@@ -93,6 +96,17 @@ class ReceiptDetail(db.Model):
     receive_day = Column(String(50), default=datetime.now())
     pay_day = Column(String(50), default=datetime.now())
     person_amount = Column(Integer)
+
+
+class Comment(BaseModel):
+    content = Column(String(255), nullable=False)
+    room_id = Column(Integer, ForeignKey(Room.id), nullable=False)
+    user_id = Column(Integer, ForeignKey(User.id), nullable=False)
+    created_date = Column(DateTime, default=datetime.now())
+
+    def __str__(self):
+        return self.content
+
 
 if __name__ == '__main__':
     db.create_all()
