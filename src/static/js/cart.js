@@ -38,6 +38,7 @@ const addToCart = (id, name, price, receiveDay, payDay, personAmount) => {
     );
 }
 
+
 function searchCart(element){
     text = element.value.toUpperCase();
     l = document.getElementById("list-room");
@@ -109,4 +110,5 @@ function hideRoomDeleted(element){
     }
 
 }
+
 

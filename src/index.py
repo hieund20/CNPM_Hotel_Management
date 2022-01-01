@@ -1,16 +1,3 @@
-
-from flask import Flask, render_template, request, url_for, redirect, session, jsonify
-from src import app, login
-from src.admin import *
-import utils
-from flask_login import login_user, logout_user
-
-@app.context_processor
-def repos():
-    return{
-        "cart": len(utils. total_room_by_receiptId(0))
-    }
-
 import json
 
 import utils
@@ -19,12 +6,29 @@ from flask_login import login_user, logout_user
 from src import app, login
 from src.admin import *
 
+@app.context_processor
+def repos():
+    return{
+        "cart": len(utils. total_room_by_receiptId(0))
+    }
 
 
-@app.route('/')
+
+@app.route('/', methods=['post', 'get'])
 def home_page():
+    filter_room_list = None
+    if request.method.__eq__('POST'):
+        type_room_id = request.form.get('type-room-id')
+        quantity_bed = request.form.get('quantity-bed')
+        price_sort = request.form.get('price-sort')
+        filter_room_list = utils.filters_room(type_room_id=type_room_id,
+                                              quantity_bed=quantity_bed,
+                                              price_order_by=price_sort)
+
     room_list = utils.get_all_rooms()
-    return render_template('index.html', room_list=room_list)
+
+    return render_template('index.html', room_list=room_list,
+                           filter_room_list=filter_room_list)
 
 
 @app.route('/about')
@@ -34,6 +38,7 @@ def about_us_page():
 
 def admin_stats_page():
     pass
+
 
 @app.route('/register', methods=['post', 'get'])
 def user_register():
@@ -114,6 +119,8 @@ def delete_cart():
 
     return jsonify(tb, len(utils. total_room_by_receiptId(0)))
 
+
+
 @app.route("/rooms/<int:room_id>")
 def room_detail_page(room_id):
     room = utils.get_room_by_id(room_id)
@@ -168,8 +175,8 @@ def add_to_cart():
     print('person_amount', person_amount)
 
 
-    return jsonify(utils.cart_stats(cart), cart, booking_infor, len(utils. total_room_by_receiptId(0)))
 
+    return jsonify(utils.cart_stats(cart), cart, booking_infor, len(utils. total_room_by_receiptId(0)))
 
 
 if __name__ == "__main__":
