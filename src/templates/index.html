@@ -89,14 +89,14 @@
     </div>
 </div>
 
-<<<<<<< HEAD
+
     <div class="content">
         <div class="container">
             <span class="content-title">TIỆN NGHI</span>
         </div>
         <div class="container">
           <div class="row">
-<<<<<<< HEAD
+
             <div class="col">
               <div class="card" style="width: 18rem;">
                   <img src="{{ url_for('static', filename='images/img-7.jpg') }}" class="card-img-top" alt="...">
@@ -135,7 +135,7 @@
                   </div>
               </div>
             </div>
-=======
+
               {% for room in room_list %}
                 <div class="col">
                   <div class="card" style="width: 20rem; margin-bottom: 32px; height: 400px;">
@@ -146,7 +146,7 @@
                                style="width: 100%;">
                       </div>
                       <div class="card-body">
-=======
+
 <div class="content">
     <div class="container">
         <span class="content-title">TIỆN NGHI</span>
@@ -164,7 +164,6 @@
                              style="width: 100%;">
                     </div>
                     <div class="card-body">
->>>>>>> c9b1fb5f1a9d61c14f7a63615dd39f4de6130c53
                         <h5 class="card-title">{{ room.type_room_name }}</h5>
                         <span class="card-text" style="display: block;">
                             {{ room.descriptions }}
@@ -182,14 +181,12 @@
                         </div>
                     </div>
                 </div>
-<<<<<<< HEAD
-              {% endfor %}
->>>>>>> ed593e2f04413d02b79778cf3a5e4d1f7c207fda
+                {% endfor %}
+
           </div>
-=======
+
             </div>
             {% endfor %}
->>>>>>> c9b1fb5f1a9d61c14f7a63615dd39f4de6130c53
         </div>
         {% else %}
         <div class="row">

@@ -140,7 +140,6 @@ def add_to_cart():
 
     return jsonify(utils.cart_stats(cart), cart, booking_infor)
 
->>>>>>> ed593e2f04413d02b79778cf3a5e4d1f7c207fda
 
 if __name__ == "__main__":
     from src.admin import *
