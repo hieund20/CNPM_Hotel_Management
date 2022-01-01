@@ -100,85 +100,58 @@
     font-family: 'Poppins', sans-serif;
     display: flex;
     align-items: center;
-
     padding-left: 3rem;
     padding-right: 3rem;
 }
 
-.add-room > .row > .col:nth-child(1)  {
+.add-room > #row-override > .col:nth-child(1)  {
     color: white;
-    width: 50%;
+    width: 30% !important;
     font-size: 20px;
 }
 
-.add-room > .row > .col:nth-child(1) > .flex-box{
+.add-room > #row-override > .col:nth-child(1) > .flex-box{
     display:flex;
     align-items:center;
 }
 
 .add-room > #row-override {
     justify-content: space-between;
-    width: 100%;
+    width: 95%;
+    align-items:center;
 }
 
-.add-room > .row > .col:nth-child(2)  {
+.add-room > #row-override > .col:nth-child(2)  {
+    padding-left: 0;
     display:flex;
     align-items: center;
-    color: white;
     font-size: 12px;
 }
 
-.add-room > .row > .col:nth-child(2) > .daterange{
-    border: 2px solid white;
-    height: 35px;
-    background-color: #000;
-    opacity: 0.9;
-    color: white;
-    width: 150px;
-    margin-right: 16px;
+.add-room > .row > .col:nth-child(2) > .container{
+    padding-left: 0;
+    align-items: center;
+    width: 100%;
 }
 
-.add-room > .row > .col:nth-child(2) > .dropdown{
-    border: 2px solid white;
-    height: 35px;
-    background-color: #000;
-    opacity: 0.9;
-    color: white;
-    width: 120px;
-    margin-right: 16px;
+.add-room > .row > .col:nth-child(2) > .container > form{
+    display: flex;
+    align-items: center;
+    width: 100%;
 }
 
-.add-room > .row > .col:nth-child(2) > .dropdown > #dropdownMenuButton1{
-    height: 30px;
-    background-color: #000;
-    opacity: 0.9;
-    color: white;
-    width: 110px;
-    margin-right: 16px;
-    border: none;
-    font-size: 14px;
+.add-room > .row > .col:nth-child(2) > .container > form #find-button{
+    background-color: #b58955;
+    border: 1px solid #b58955;
 }
 
-.add-room > .row > .col:nth-child(2) > .dropdown > #dropdownMenuButton2{
-    height: 30px;
-    background-color: #000;
-    opacity: 0.9;
-    color: white;
-    width: 110px;
-    margin-right: 16px;
-    border: none;
-    font-size: 14px;
-}
-
-.add-room > .row > .col:nth-child(2) > #find-button{
-    background-color: #e1bd85;
-    width: 150px;
-    height: 36px;
+.add-room > .row > .col:nth-child(2) > .container > form #find-button:hover{
+    background-color: #b97f3a;
+    border: 1px solid #b97f3a;
 }
 
 .content{
     margin-top: 56px;
-    /*border: 1px solid blue;*/
 }
 
 .content .content-title{

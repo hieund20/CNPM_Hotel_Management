@@ -1,16 +1,3 @@
-<<<<<<< HEAD
-from flask import Flask, render_template, request, url_for, redirect, session, jsonify
-from src import app, login
-from src.admin import *
-import utils
-from flask_login import login_user, logout_user
-
-@app.context_processor
-def repos():
-    return{
-        "cart": utils.count_cart(session.get('cart'))
-    }
-=======
 import json
 
 import utils
@@ -19,12 +6,22 @@ from flask_login import login_user, logout_user
 from src import app, login
 from src.admin import *
 
->>>>>>> ed593e2f04413d02b79778cf3a5e4d1f7c207fda
 
-@app.route('/')
+@app.route('/', methods=['post', 'get'])
 def home_page():
+    filter_room_list = None
+    if request.method.__eq__('POST'):
+        type_room_id = request.form.get('type-room-id')
+        quantity_bed = request.form.get('quantity-bed')
+        price_sort = request.form.get('price-sort')
+        filter_room_list = utils.filters_room(type_room_id=type_room_id,
+                                              quantity_bed=quantity_bed,
+                                              price_order_by=price_sort)
+
     room_list = utils.get_all_rooms()
-    return render_template('index.html', room_list=room_list)
+
+    return render_template('index.html', room_list=room_list,
+                           filter_room_list=filter_room_list)
 
 
 @app.route('/about')
@@ -34,6 +31,7 @@ def about_us_page():
 
 def admin_stats_page():
     pass
+
 
 @app.route('/register', methods=['post', 'get'])
 def user_register():
@@ -86,62 +84,6 @@ def user_signout():
 def user_load(user_id):
     return utils.get_user_by_id(user_id=user_id)
 
-<<<<<<< HEAD
-@app.route('/api/add-cart', methods=['post'])
-def add_cart():
-    dt = request.json
-    room_id = str(dt.get('id'))
-    name_room =dt.get('name')
-    price = dt.get('price')
-    name_user = dt.get('name_user')
-
-    if name_user:
-        receipt  = utils.is_name_in_receipt(name=name_user)
-        user = utils.get_user_by_name(name=name_user)
-        if receipt:
-            pass
-        else:
-            utils.add_receipt(name=name_user, address="Quảng Nam", price=price)
-
-        # utils.add_receipt_detail(receipt_id=33, room_id=room_id, price=price, user_id=2)
-
-
-    #
-    # cart =  session.get('cart')
-    #
-    # if not cart:
-    #     cart ={}
-    # if id in cart:
-    #     cart[id]['quantity'] = cart[id]['quantity'] + 1
-    # else:
-    #     cart[id]= {
-    #         'id' : id,
-    #         'name' : name,
-    #         'price' : price,
-    #         'quantity': 1
-    #
-    #     }
-    # session['cart'] = cart
-    return name_user
-
-
-@app.route('/cart')
-def cart():
-    return render_template('cart.html', stats = utils.count_cart(session['cart']))
-
-@app.route('/update-cart')
-def update_cart():
-    data = request.json()
-    id = str(data.get('id'))
-    quantity = data.get('quantity')
-
-    cart = session.get('cart')
-    if cart and id in cart:
-        cart[id]['quantity'] = quantity
-        session['cart'] = cart
-
-    return jsonify(utils.count_cart(cart = cart))
-=======
 
 @app.route("/rooms/<int:room_id>")
 def room_detail_page(room_id):
