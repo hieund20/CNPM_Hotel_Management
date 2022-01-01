@@ -73,14 +73,6 @@
         </div>
     </div>
 
-    <div class="row">
-        <div class="col">
-
-        </div>
-        <div class="col">
-
-        </div>
-    </div>
     <script>
         $(function() {
           $('input[name="receive-day"]').daterangepicker({
@@ -103,19 +95,35 @@
             var years = moment().diff(start, 'years');
           });
         });
-
-
-
-
-
-
-
-
-
-
-
-
-
     </script>
+
+
+        {% if current_user.is_authenticated %}
+        <div class="cmt">
+            <div class="form-group">
+                <textarea class="form-control" id="commentId" placeholder="Nhập nội dung bình luận ..."></textarea>
+            </div>
+            <input type="button" onclick="addComment({{ product.id }})" class="btn btn-primary" value="Gửi bình luận" />
+        </div>
+        {% else %}
+        <div class="cmt">
+        <p>Chỉ được bình luận khi đã đăng nhập.<a href="{{ url_for('user_signin') }}">Đăng nhập tại đây</a></p>
+        </div>
+        {% endif %}
+
+    <div id="commentArea">
+        <!--thử comment--->
+        <div class="cmt comment">
+            <div class="col-md-1 col-xs-4 flex">
+                <p><b>username</b></p>
+            </div>
+            <div class="col-md-11 col-xs-8">
+                <p>Sản phẩm tuyệt vời!!!</p>
+                <p><em>2021-12-23 11:11</em></p>
+            </div>
+        </div>
+        <!--thử comment --->
+    </div>
+
 </div>
 {% endblock %}

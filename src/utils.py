@@ -1,8 +1,9 @@
 from flask import request
 from sqlalchemy import text, func, extract
 from src import app, db
-from src.models import Room, TypeRoom, ReceiptDetail, User, Receipt, ChangePolicyNumber, RentalVoucher, RentalVoucherDetail, TypeVisit
+from src.models import Room, TypeRoom, ReceiptDetail, User, Receipt, ChangePolicyNumber, RentalVoucher, RentalVoucherDetail, TypeVisit, Comment
 from sqlalchemy.orm import Session
+from flask_login import current_user
 from datetime import datetime
 import hashlib
 
@@ -62,6 +63,17 @@ def cart_stats(cart):
             total_amount += p["quantity"]*p["price"]
 
     return total_quantity, total_amount
+
+
+def add_comment(content, product_id):
+    c = Comment(content=content, product_id=product_id, user=current_user)
+
+    db.session.add(c)
+    db.session.commit()
+
+    return c
+
+
 
 
 def add_receipt_detail(room_id, room_name, price, quantity, receive_day, pay_day, person_amount ):

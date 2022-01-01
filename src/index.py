@@ -2,7 +2,7 @@ import json
 
 import utils
 from flask import Flask, render_template, request, url_for, redirect, session, jsonify, make_response
-from flask_login import login_user, logout_user
+from flask_login import login_user, logout_user, current_user, login_required
 from src import app, login
 from src.admin import *
 
@@ -127,6 +127,29 @@ def add_to_cart():
     print('person_amount', person_amount)
 
     return jsonify(utils.cart_stats(cart), cart, booking_infor)
+
+
+@app.route('/api/comment', methods=['post'])
+@login_required
+def add_comments():
+    data = request.json
+    content = data.get('content')
+    product_id = data.get('product_id')
+
+    try:
+        c = utils.add_comment(content=content, product_id=product_id)
+    except:
+        return {'status': 404, 'err_msg': 'Lỗi' }
+
+    return {'status': 201, 'comment': {
+        'id': c.id,
+        'content': c.content,
+        'created_date': c.created_date,
+        'user': {
+            'username': current_user.username,
+            'avatar': current_user.avatar
+        }
+    } }
 
 
 if __name__ == "__main__":
