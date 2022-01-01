@@ -7,10 +7,21 @@ from src import app, login
 from src.admin import *
 
 
-@app.route('/')
+@app.route('/', methods=['post', 'get'])
 def home_page():
+    filter_room_list = None
+    if request.method.__eq__('POST'):
+        type_room_id = request.form.get('type-room-id')
+        quantity_bed = request.form.get('quantity-bed')
+        price_sort = request.form.get('price-sort')
+        filter_room_list = utils.filters_room(type_room_id=type_room_id,
+                                              quantity_bed=quantity_bed,
+                                              price_order_by=price_sort)
+
     room_list = utils.get_all_rooms()
-    return render_template('index.html', room_list=room_list)
+
+    return render_template('index.html', room_list=room_list,
+                           filter_room_list=filter_room_list)
 
 
 @app.route('/about')
@@ -20,6 +31,7 @@ def about_us_page():
 
 def admin_stats_page():
     pass
+
 
 @app.route('/register', methods=['post', 'get'])
 def user_register():

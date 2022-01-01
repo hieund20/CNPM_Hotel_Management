@@ -35,3 +35,10 @@ const addToCart = (id, name, price, receiveDay, payDay, personAmount) => {
         }
     );
 }
+
+//const filterRoomFormSubmit = (typeRoomId, quantityBed, priceSort) => {
+//    console.log('hellp', typeRoomId, quantityBed, priceSort)
+//    document.getElementsByName('type-room-id')[0].value.innerHTML = typeRoomId
+//    document.getElementsByName('type-room-id')[0].value.innerHTML = typeRoomId
+//    document.getElementsByName('price-sort')[0].value.innerHTML = typeRoomId
+//}
