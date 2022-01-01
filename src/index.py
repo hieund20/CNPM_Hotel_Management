@@ -1,4 +1,4 @@
-<<<<<<< HEAD
+
 from flask import Flask, render_template, request, url_for, redirect, session, jsonify
 from src import app, login
 from src.admin import *
@@ -8,9 +8,9 @@ from flask_login import login_user, logout_user
 @app.context_processor
 def repos():
     return{
-        "cart": utils.count_cart(session.get('cart'))
+        "cart": len(utils. total_room_by_receiptId(0))
     }
-=======
+
 import json
 
 import utils
@@ -19,7 +19,7 @@ from flask_login import login_user, logout_user
 from src import app, login
 from src.admin import *
 
->>>>>>> ed593e2f04413d02b79778cf3a5e4d1f7c207fda
+
 
 @app.route('/')
 def home_page():
@@ -86,62 +86,33 @@ def user_signout():
 def user_load(user_id):
     return utils.get_user_by_id(user_id=user_id)
 
-<<<<<<< HEAD
-@app.route('/api/add-cart', methods=['post'])
-def add_cart():
-    dt = request.json
-    room_id = str(dt.get('id'))
-    name_room =dt.get('name')
-    price = dt.get('price')
-    name_user = dt.get('name_user')
-
-    if name_user:
-        receipt  = utils.is_name_in_receipt(name=name_user)
-        user = utils.get_user_by_name(name=name_user)
-        if receipt:
-            pass
-        else:
-            utils.add_receipt(name=name_user, address="Quảng Nam", price=price)
-
-        # utils.add_receipt_detail(receipt_id=33, room_id=room_id, price=price, user_id=2)
 
 
-    #
-    # cart =  session.get('cart')
-    #
-    # if not cart:
-    #     cart ={}
-    # if id in cart:
-    #     cart[id]['quantity'] = cart[id]['quantity'] + 1
-    # else:
-    #     cart[id]= {
-    #         'id' : id,
-    #         'name' : name,
-    #         'price' : price,
-    #         'quantity': 1
-    #
-    #     }
-    # session['cart'] = cart
-    return name_user
 
-
-@app.route('/cart')
+@app.route('/my-room')
 def cart():
-    return render_template('cart.html', stats = utils.count_cart(session['cart']))
+    err =""
+    try:
+        cart = utils.get_list_receipt_detail(0)
+        total_money = utils.total_money(user_id=0)
+    except:
+        err = "Trang web lỗi! Vui lòng thử lại sau"
+    return render_template('cart.html', list_cart=cart, total_money=total_money, err=err)
 
-@app.route('/update-cart')
-def update_cart():
-    data = request.json()
-    id = str(data.get('id'))
-    quantity = data.get('quantity')
 
-    cart = session.get('cart')
-    if cart and id in cart:
-        cart[id]['quantity'] = quantity
-        session['cart'] = cart
+@app.route('/delete-cart', methods=['post'])
+def delete_cart():
+    data = json.loads(request.data)
+    id = str(data.get("id"))
+    tb ="Đã xóa thành công"
+    try:
+       utils.delete_Receipt_detail(id = id)
+    except:
+        tb="Lỗi databasse! Vui lòng thử lại sau!"
 
-    return jsonify(utils.count_cart(cart = cart))
-=======
+    # update cart
+
+    return jsonify(tb, len(utils. total_room_by_receiptId(0)))
 
 @app.route("/rooms/<int:room_id>")
 def room_detail_page(room_id):
@@ -196,9 +167,10 @@ def add_to_cart():
                              person_amount=int(person_amount))
     print('person_amount', person_amount)
 
-    return jsonify(utils.cart_stats(cart), cart, booking_infor)
 
->>>>>>> ed593e2f04413d02b79778cf3a5e4d1f7c207fda
+    return jsonify(utils.cart_stats(cart), cart, booking_infor, len(utils. total_room_by_receiptId(0)))
+
+
 
 if __name__ == "__main__":
     from src.admin import *

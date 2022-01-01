@@ -30,9 +30,9 @@
   </nav>
 
   <!-- Header-Nav -->
-  <nav class="navbar navbar-expand-sm">
+  <nav class="navbar navbar-expand-sm" id="header-fixed">
     <!-- Brand -->
-    <a class="navbar-brand" href="#">
+    <a class="navbar-brand" href="/">
       <img src="{{ url_for('static', filename='images/logo-header.png')}}" alt="Logo">
     </a>
 
@@ -62,7 +62,7 @@
         <a class="nav-link disabled" href="#"> | </a>
       </li>
       <li class="nav-item">
-        <a class="nav-link fa fa-cart-plus" href="{{ url_for('cart')}} "> Giỏ hàng <span class="badge badge-info" id="countCart">{{ cart.totalQuantity}}</span></a>
+        <a class="nav-link" href="{{ url_for('cart')}} "> Phòng của tôi <span class="badge badge-info" id="countCart">{{ cart}}</span></a>
       </li>
       {% endif %}
       <li class="nav-item">
@@ -72,11 +72,15 @@
         <a class="nav-link" href="#">Liên hệ</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="{{ url_for('add_to_cart') }}">Gio hang</a>
-      </li>
-      <li class="nav-item">
         <a class="nav-link" href="#">Về chúng tôi</a>
       </li>
     </ul>
+
   </nav>
+
+    <!--  Scroll -->
+  <div class="progress-container" id="scrollIndicator">
+    <div class="progress-bar" id="myBar"></div>
+  </div>
+
 </header>
