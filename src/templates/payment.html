@@ -1,0 +1,44 @@
+{% extends 'layout/base.html' %}
+
+{% block title %}Thanh toán{% endblock %}
+
+
+{% block content %}
+<div class="payment">
+    <div class="container" style="margin-top: 48px; margin-bottom: 48px;">
+        <div class="row">
+            <div class="col">
+                <p>Hình thức thanh toán</p>
+                <div class="form-check">
+                    <div class="icon-payment">
+                        <img src="https://res.cloudinary.com/dwgjmgf6o/image/upload/v1641123552/icons/momo-icon_scvrtm.png"
+                             alt="icon-payment">
+                    </div>
+                    <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1"
+                           style="cursor: pointer;">
+                    <label class="form-check-label" for="flexRadioDefault1">
+                        Ví điện tử MOMO
+                    </label>
+                </div>
+                <div class="form-check">
+                    <div class="icon-payment">
+                        <img src="https://res.cloudinary.com/dwgjmgf6o/image/upload/v1641123552/icons/zalo-pay-icon_vr8enk.png"
+                             alt="icon-payment">
+                    </div>
+                    <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault2"
+                           style="cursor: pointer;">
+                    <label class="form-check-label" for="flexRadioDefault2">
+                        Ví điện tử ZaloPay
+                    </label>
+                </div>
+                <div class="button-payment">
+                    <button>Thanh toán</button>
+                </div>
+            </div>
+            <div class="col">
+
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

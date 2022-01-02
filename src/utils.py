@@ -11,8 +11,8 @@ import mysql.connector
 mydb = mysql.connector.connect(
         host="localhost",
         user="root",
-        passwd="12345678",
-        database="hotel"
+        passwd="Duchieu200301",
+        database="hotel_management_db"
     )
 
 def get_all_type_rooms():
@@ -79,6 +79,7 @@ def get_user_by_name(name):
 
 def get_all_rooms():
     query = db.session.query(Room.id, Room.quantity_bed, Room.price, Room.status, Room.type_room_id, Room.rental_voucher, Room.image, Room.descriptions, TypeRoom.type_room_name).filter(Room.type_room_id == TypeRoom.id)
+    print('execute', query)
     return query.all()
 
 

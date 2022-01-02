@@ -1,10 +1,16 @@
+import hashlib
+import hmac
 import json
+import urllib
+import uuid
 
 import utils
+from urllib.request import urlopen, Request
 from flask import Flask, render_template, request, url_for, redirect, session, jsonify, make_response
 from flask_login import login_user, logout_user
 from src import app, login
 from src.admin import *
+import requests
 
 @app.context_processor
 def repos():
@@ -26,6 +32,7 @@ def home_page():
                                               price_order_by=price_sort)
 
     room_list = utils.get_all_rooms()
+    print('room list', room_list)
 
     return render_template('index.html', room_list=room_list,
                            filter_room_list=filter_room_list)
@@ -177,6 +184,69 @@ def add_to_cart():
 
 
     return jsonify(utils.cart_stats(cart), cart, booking_infor, len(utils. total_room_by_receiptId(0)))
+
+@app.route('/payment')
+def payment_page():
+    # parameters send to MoMo get get payUrl
+    endpoint = "https://test-payment.momo.vn/gw_payment/transactionProcessor"
+    partnerCode = "MOMOO49X20220102"
+    accessKey = "6nibheuSbyrskJHk"
+    secretKey = "opITjJHgVfL3Ylf7bQMVPJLMcfOFd7mY"
+    orderInfo = "pay with MoMo"
+    redirectUrl = "https://webhook.site/b3088a6a-2d17-4f8d-a383-71389a6c600b"
+    ipnUrl = "https://webhook.site/b3088a6a-2d17-4f8d-a383-71389a6c600b"
+    amount = "50000"
+    orderId = str(uuid.uuid4())
+    requestId = str(uuid.uuid4())
+    requestType = "captureWallet"
+    extraData = ""  # pass empty value or Encode base64 JsonString
+
+    # before sign HMAC SHA256 with format: accessKey=$accessKey&amount=$amount&extraData=$extraData&ipnUrl=$ipnUrl&orderId=$orderId&orderInfo=$orderInfo&partnerCode=$partnerCode&redirectUrl=$redirectUrl&requestId=$requestId&requestType=$requestType
+    rawSignature = "accessKey=" + accessKey + "&amount=" + amount + "&extraData=" + extraData + "&ipnUrl=" + ipnUrl + "&orderId=" + orderId + "&orderInfo=" + orderInfo + "&partnerCode=" + partnerCode + "&redirectUrl=" + redirectUrl + "&requestId=" + requestId + "&requestType=" + requestType
+
+    # puts raw signature
+    print("--------------------RAW SIGNATURE----------------")
+    print(rawSignature)
+    # signature
+    h = hmac.new(bytes(secretKey, encoding='utf8'), bytes(rawSignature, encoding='utf8'), hashlib.sha256)
+    signature = h.hexdigest()
+    print("--------------------SIGNATURE----------------")
+    print(signature)
+
+    # json object send to MoMo endpoint
+
+    data = {
+        'partnerCode': partnerCode,
+        'partnerName': "Test",
+        'storeId': "MomoTestStore",
+        'requestId': requestId,
+        'amount': amount,
+        'orderId': orderId,
+        'orderInfo': orderInfo,
+        'redirectUrl': redirectUrl,
+        'ipnUrl': ipnUrl,
+        'lang': "vi",
+        'extraData': extraData,
+        'requestType': requestType,
+        'signature': signature
+    }
+    print("--------------------JSON REQUEST----------------\n")
+    data = json.dumps(data)
+    print(data)
+
+    clen = len(data)
+    req = urllib.request.Request(endpoint, data, {'Content-Type': 'application/json', 'Content-Length': clen})
+    f = urllib.request.urlopen(req)
+
+    response = f.read()
+    f.close()
+    print("--------------------JSON response----------------\n")
+    print(response + "\n")
+
+    print("payUrl\n")
+    print(json.loads(response)['payUrl'] + "\n")
+
+    return render_template('payment.html')
 
 
 if __name__ == "__main__":
