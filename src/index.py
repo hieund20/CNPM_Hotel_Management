@@ -1,9 +1,11 @@
 import hashlib
 import hmac
 import json
+import re
 import urllib
 import uuid
 
+import paypalrestsdk as paypalrestsdk
 import utils
 from urllib.request import urlopen, Request
 from flask import Flask, render_template, request, url_for, redirect, session, jsonify, make_response
@@ -12,12 +14,12 @@ from src import app, login
 from src.admin import *
 import requests
 
+
 @app.context_processor
 def repos():
-    return{
-        "cart": len(utils. total_room_by_receiptId(0))
+    return {
+        "cart": len(utils.total_room_by_receiptId(0))
     }
-
 
 
 @app.route('/', methods=['post', 'get'])
@@ -69,7 +71,6 @@ def user_register():
     return render_template('register.html', err_msg=err_msg)
 
 
-
 @app.route('/user-login', methods=['post', 'get'])
 def user_signin():
     err_msg = ''
@@ -99,11 +100,9 @@ def user_load(user_id):
     return utils.get_user_by_id(user_id=user_id)
 
 
-
-
 @app.route('/my-room')
 def cart():
-    err =""
+    err = ""
     try:
         cart = utils.get_list_receipt_detail(0)
         total_money = utils.total_money(user_id=0)
@@ -116,16 +115,15 @@ def cart():
 def delete_cart():
     data = json.loads(request.data)
     id = str(data.get("id"))
-    tb ="Đã xóa thành công"
+    tb = "Đã xóa thành công"
     try:
-       utils.delete_Receipt_detail(id = id)
+        utils.delete_Receipt_detail(id=id)
     except:
-        tb="Lỗi databasse! Vui lòng thử lại sau!"
+        tb = "Lỗi databasse! Vui lòng thử lại sau!"
 
     # update cart
 
-    return jsonify(tb, len(utils. total_room_by_receiptId(0)))
-
+    return jsonify(tb, len(utils.total_room_by_receiptId(0)))
 
 
 @app.route("/rooms/<int:room_id>")
@@ -181,72 +179,92 @@ def add_to_cart():
                              person_amount=int(person_amount))
     print('person_amount', person_amount)
 
+    return jsonify(utils.cart_stats(cart), cart, booking_infor, len(utils.total_room_by_receiptId(0)))
 
 
-    return jsonify(utils.cart_stats(cart), cart, booking_infor, len(utils. total_room_by_receiptId(0)))
-
-@app.route('/payment')
+@app.route('/payment', methods=['post', 'get'])
 def payment_page():
-    # parameters send to MoMo get get payUrl
-    endpoint = "https://test-payment.momo.vn/gw_payment/transactionProcessor"
-    partnerCode = "MOMOO49X20220102"
-    accessKey = "6nibheuSbyrskJHk"
-    secretKey = "opITjJHgVfL3Ylf7bQMVPJLMcfOFd7mY"
-    orderInfo = "pay with MoMo"
-    redirectUrl = "https://webhook.site/b3088a6a-2d17-4f8d-a383-71389a6c600b"
-    ipnUrl = "https://webhook.site/b3088a6a-2d17-4f8d-a383-71389a6c600b"
-    amount = "50000"
-    orderId = str(uuid.uuid4())
-    requestId = str(uuid.uuid4())
-    requestType = "captureWallet"
-    extraData = ""  # pass empty value or Encode base64 JsonString
+    list_booking_room = utils.get_list_receipt_detail(0)
+    total_price = utils.total_money(user_id=0)
 
-    # before sign HMAC SHA256 with format: accessKey=$accessKey&amount=$amount&extraData=$extraData&ipnUrl=$ipnUrl&orderId=$orderId&orderInfo=$orderInfo&partnerCode=$partnerCode&redirectUrl=$redirectUrl&requestId=$requestId&requestType=$requestType
-    rawSignature = "accessKey=" + accessKey + "&amount=" + amount + "&extraData=" + extraData + "&ipnUrl=" + ipnUrl + "&orderId=" + orderId + "&orderInfo=" + orderInfo + "&partnerCode=" + partnerCode + "&redirectUrl=" + redirectUrl + "&requestId=" + requestId + "&requestType=" + requestType
+    # Default variable
+    fullname = "default"
+    email = "default"
+    nation = "default"
+    identify = "default"
+    phone_number = "default"
 
-    # puts raw signature
-    print("--------------------RAW SIGNATURE----------------")
-    print(rawSignature)
-    # signature
-    h = hmac.new(bytes(secretKey, encoding='utf8'), bytes(rawSignature, encoding='utf8'), hashlib.sha256)
-    signature = h.hexdigest()
-    print("--------------------SIGNATURE----------------")
-    print(signature)
+    # Validate variable
+    fullname_validate = ""
+    email_validate = ""
+    nation_validate = ""
+    identify_validate = ""
+    phone_number_validate = ""
 
-    # json object send to MoMo endpoint
+    # Open success modal
+    is_open_modal = False
 
-    data = {
-        'partnerCode': partnerCode,
-        'partnerName': "Test",
-        'storeId': "MomoTestStore",
-        'requestId': requestId,
-        'amount': amount,
-        'orderId': orderId,
-        'orderInfo': orderInfo,
-        'redirectUrl': redirectUrl,
-        'ipnUrl': ipnUrl,
-        'lang': "vi",
-        'extraData': extraData,
-        'requestType': requestType,
-        'signature': signature
-    }
-    print("--------------------JSON REQUEST----------------\n")
-    data = json.dumps(data)
-    print(data)
+    if request.method.__eq__('POST'):
+        fullname = request.form.get('payment-fullname')
+        email = request.form.get('payment-email')
+        nation = request.form.get('payment-nation')
+        identify = request.form.get('payment-identify')
+        phone_number = request.form.get('payment-phone-number')
 
-    clen = len(data)
-    req = urllib.request.Request(endpoint, data, {'Content-Type': 'application/json', 'Content-Length': clen})
-    f = urllib.request.urlopen(req)
+    # Validate fullname (thêm dâu cách và Tiếng việt thì chekc sai)
+    if fullname == "":
+        fullname_validate = "Hãy nhập họ và tên!"
+    else:
+        if re.match(r'[a-zA-Z\s]+$', fullname) is None:
+            fullname_validate = "Họ tên không hợp lệ!"
 
-    response = f.read()
-    f.close()
-    print("--------------------JSON response----------------\n")
-    print(response + "\n")
+    # Validate email
+    if email == "":
+        email_validate = "Hãy nhập email!"
+    else:
+        if re.match(r'\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b', email) is None and email != "default":
+            email_validate = "Email không hợp lệ!"
 
-    print("payUrl\n")
-    print(json.loads(response)['payUrl'] + "\n")
+    # Validate nation (thêm dâu cách và Tiếng việt thì chekc sai)
+    if nation == "":
+        nation_validate = "Hãy nhập tên quốc gia/khu vực!"
+    else:
+        if re.match(r'[a-zA-Z\s]+$', nation) is None:
+            nation_validate = "Tên quốc gia/khu vực không hợp lệ!"
 
-    return render_template('payment.html')
+    # Validate identify
+    if identify == "":
+        identify_validate = "Hãy nhập số CMND/Passport!"
+    else:
+        if re.match('^[0-9]+$', identify) is None and email != "default":
+            identify_validate = "Số CMND/Passport không hợp lệ!"
+
+    # Validate phone number (not work)
+    if phone_number == "":
+        phone_number_validate = "Hãy nhập số điện thoại!"
+    else:
+        if re.match(r"[\d]{3}[\d]{3}[\d]{3}", phone_number) is None and email != "default":
+            phone_number_validate = "Số điện thoại không hợp lệ!"
+
+    print('fullname', fullname)
+    print('email', email)
+    print('nation', nation)
+    print('identify', identify)
+    print('phone_number', phone_number)
+
+    # Check modal will be open
+    if fullname_validate == "" and email_validate == "" and nation_validate == "" and identify_validate == "" and phone_number_validate == "":
+        is_open_modal = True
+
+    return render_template('payment.html',
+                           list_booking_room=list_booking_room,
+                           total_price=total_price,
+                           fullname_validate=fullname_validate,
+                           email_validate=email_validate,
+                           nation_validate=nation_validate,
+                           identify_validate=identify_validate,
+                           phone_number_validate=phone_number_validate,
+                           is_open_modal=is_open_modal)
 
 
 if __name__ == "__main__":

@@ -592,7 +592,8 @@
 
 
 /* Payment page */
-.payment > .container > .row > .col:nth-child(1) > .form-check {
+
+.payment > .container > .row:nth-child(1) > .col:nth-child(1) .form-check {
     border: 1px solid #d9d9d9;
     display: flex;
     margin-bottom: 16px;
@@ -602,28 +603,73 @@
     padding-left: 55px;
 }
 
-.payment > .container > .row > .col:nth-child(1) > .form-check:hover {
+.payment > .container > .row:nth-child(1) > .col:nth-child(1)  .form-check:hover {
     border: 1px solid black;
     cursor: pointer;
 }
 
-.payment > .container > .row > .col:nth-child(1) > p{
+.payment > .container > .row:nth-child(1) > .col:nth-child(1) p{
     font-size: 20px;
     font-weight: bold;
     font-family: 'Poppins', sans-serif;
     margin-bottom: 16px;
 }
 
-.payment > .container >  .row > .col:nth-child(1) > .form-check >.icon-payment{
+.payment > .container >  .row:nth-child(1) > .col:nth-child(1) .form-check >.icon-payment{
     width: 40px;
     height: 40px;
     margin-left: 16px;
     margin-right: 16px;
+    display: flex;
+    align-items:center;
 }
 
-.payment > .container >  .row > .col:nth-child(1) > .form-check > .icon-payment > img{
+.payment > .container >  .row:nth-child(1) > .col:nth-child(1) .form-check > .icon-payment > img{
     width: 100%;
 }
+
+.payment > .container >  .row:nth-child(1) > .col:nth-child(1) .button-payment{
+    margin-top: 32px;
+}
+
+.payment > .container >  .row:nth-child(1) > .col:nth-child(1)  .button-payment > button{
+    width: 100%;
+    border-radius: 10px;
+    height: 48px;
+    color: white;
+    border: none;
+    background-color: #232323;
+}
+
+.payment > .container >  .row:nth-child(1) > .col:nth-child(1) > .button-payment > button:hover{
+    background-color: #e4c491;
+}
+
+.payment > .container > .row:nth-child(1) > .col:nth-child(2) > .container-scroll {
+     overflow: hidden auto;
+     border: 1px solid #d9d9d9;
+     height: 500px;
+     border-radius: 7px;
+     padding-left: 16px;
+     padding-top: 16px;
+     padding-bottom: 16px;
+     padding-right: 16px;
+}
+
+.payment > .container > .row:nth-child(1) > .col:nth-child(2) > .total-price {
+     margin-top: 48px;
+     background-color: #e4c491;
+     border-radius: 7px;
+     display: flex;
+     align-items: center;
+     text-align: center;
+}
+
+.payment > .container > .row:nth-child(1) > .col:nth-child(2) > .total-price > p {
+     font-size: 20px;
+     margin: 16px auto;
+}
+
 
 
 /* back to top */

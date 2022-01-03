@@ -8,35 +8,199 @@
     <div class="container" style="margin-top: 48px; margin-bottom: 48px;">
         <div class="row">
             <div class="col">
-                <p>Hình thức thanh toán</p>
-                <div class="form-check">
-                    <div class="icon-payment">
-                        <img src="https://res.cloudinary.com/dwgjmgf6o/image/upload/v1641123552/icons/momo-icon_scvrtm.png"
-                             alt="icon-payment">
+                <p>Thông tin thanh toán</p>
+                <form class="row g-3 needs-validation" method="post" action="{{ url_for('payment_page') }}"
+                      enctype="multipart/form-data">
+                    <div class="col-md-12">
+                        <label for="validationCustom01" class="form-label">Họ và tên</label>
+                        <input type="text"
+                               class="form-control"
+                               id="validationCustom01"
+                               value="{{ request.form['payment-fullname'] }}"
+                               name="payment-fullname">
+                        {% if fullname_validate != "" %}
+                        <div class="invalid-feedback" style="display: block">
+                            {{ fullname_validate }}
+                        </div>
+                        {% endif %}
                     </div>
-                    <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1"
-                           style="cursor: pointer;">
-                    <label class="form-check-label" for="flexRadioDefault1">
-                        Ví điện tử MOMO
-                    </label>
-                </div>
-                <div class="form-check">
-                    <div class="icon-payment">
-                        <img src="https://res.cloudinary.com/dwgjmgf6o/image/upload/v1641123552/icons/zalo-pay-icon_vr8enk.png"
-                             alt="icon-payment">
+                    <div class="col-md-12">
+                        <label for="validationCustomUsername" class="form-label">Email</label>
+                        <div class="input-group has-validation">
+                            <span class="input-group-text" id="inputGroupPrepend">@</span>
+                            <input type="text"
+                                   class="form-control"
+                                   id="validationCustomUsername"
+                                   aria-describedby="inputGroupPrepend"
+                                   name="payment-email"
+                                   value="{{ request.form['payment-email'] }}">
+                            {% if email_validate != "" %}
+                            <div class="invalid-feedback" style="display: block">
+                                {{ email_validate }}
+                            </div>
+                            {% endif %}
+                        </div>
                     </div>
-                    <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault2"
-                           style="cursor: pointer;">
-                    <label class="form-check-label" for="flexRadioDefault2">
-                        Ví điện tử ZaloPay
-                    </label>
-                </div>
-                <div class="button-payment">
-                    <button>Thanh toán</button>
-                </div>
+                    <div class="col-md-12">
+                        <label for="validationCustom02" class="form-label">Quốc gia/khu vực</label>
+                        <input type="text"
+                               class="form-control"
+                               id="validationCustom02"
+                               value="{{ request.form['payment-nation'] }}"
+                               name="payment-nation">
+                        {% if nation_validate != "" %}
+                        <div class="invalid-feedback" style="display: block">
+                            {{ nation_validate }}
+                        </div>
+                        {% endif %}
+                    </div>
+                    <div class="col-md-12">
+                        <label for="validationCustom03" class="form-label">Số CMND/Passport</label>
+                        <input type="text"
+                               class="form-control"
+                               id="validationCustom03"
+                               name="payment-identify"
+                               value="{{ request.form['payment-identify'] }}">
+                        {% if identify_validate != "" %}
+                        <div class="invalid-feedback" style="display: block">
+                            {{ identify_validate }}
+                        </div>
+                        {% endif %}
+                    </div>
+                    <div class="col-md-12">
+                        <label for="validationCustom05" class="form-label">Số điện thoại</label>
+                        <input type="text"
+                               class="form-control"
+                               id="validationCustom05"
+                               name="payment-phone-number"
+                               value="{{ request.form['payment-phone-number'] }}">
+                        {% if phone_number_validate != "" %}
+                        <div class="invalid-feedback" style="display: block">
+                            {{ phone_number_validate }}
+                        </div>
+                        {% endif %}
+                    </div>
+
+                    <p>Hình thức thanh toán</p>
+                    <div class="form-check">
+                        <div class="icon-payment">
+                            <img src="https://res.cloudinary.com/dwgjmgf6o/image/upload/v1641123552/icons/momo-icon_scvrtm.png"
+                                 alt="icon-payment">
+                        </div>
+                        <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1"
+                               style="cursor: pointer;" checked>
+                        <label class="form-check-label" for="flexRadioDefault1">
+                            Ví điện tử MOMO
+                        </label>
+                    </div>
+                    <div class="form-check">
+                        <div class="icon-payment">
+                            <img src="https://res.cloudinary.com/dwgjmgf6o/image/upload/v1641213611/icons/zalopay-icon_ticilq.png"
+                                 alt="icon-payment">
+                        </div>
+                        <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault2"
+                               style="cursor: pointer;">
+                        <label class="form-check-label" for="flexRadioDefault2">
+                            Ví điện tử ZaloPay
+                        </label>
+                    </div>
+                    <div class="form-check">
+                        <div class="icon-payment">
+                            <img src="https://res.cloudinary.com/dwgjmgf6o/image/upload/v1641213899/icons/paypal-icon_cxlf8r.png"
+                                 alt="icon-payment">
+                        </div>
+                        <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault3"
+                               style="cursor: pointer;">
+                        <label class="form-check-label" for="flexRadioDefault2">
+                            Paypal
+                        </label>
+                    </div>
+                    <div class="button-payment">
+                        <button type="submit"
+                                data-bs-toggle="modal"
+                                data-bs-target="#exampleModal">Thanh toán</button>
+                    </div>
+                </form>
+                <script>
+                    (function () {
+                      'use strict'
+                      // Fetch all the forms we want to apply custom Bootstrap validation styles to
+                      var forms = document.querySelectorAll('.needs-validation')
+
+                      // Loop over them and prevent submission
+                      Array.prototype.slice.call(forms)
+                        .forEach(function (form) {
+                          form.addEventListener('submit', function (event) {
+                            if (!form.checkValidity()) {
+                              event.preventDefault()
+                              event.stopPropagation()
+                            }
+
+                            form.classList.add('was-validated')
+                          }, false)
+                        })
+                    })()
+                </script>
             </div>
             <div class="col">
-
+                <div class="container-scroll">
+                    {% for booking_room in list_booking_room %}
+                    <div class="card mb-3" style="max-width: 540px;">
+                        <div class="row g-0">
+                            <div class="col-md-4">
+                                <img src="{{ booking_room.image }}" class="img-fluid rounded-start" alt="...">
+                            </div>
+                            <div class="col-md-8">
+                                <div class="card-body">
+                                    <h5 class="card-title">{{ booking_room.room_name }}</h5>
+                                    <p class="card-text">{{ booking_room.price }}$</p>
+                                    <p class="card-text">{{ booking_room.receive_day }} - {{ booking_room.pay_day }}</p>
+                                    <p class="card-text"><small class="text-muted">{{ booking_room.person_amount }}
+                                        người</small></p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+                <div class="total-price">
+                    <p>Tổng tiền: {{ total_price }}$</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Modal -->
+    <script>
+        $(document).ready(function () {
+            var is_open_modal = '{{ is_open_modal }}'
+            console.log('is open modal', is_open_modal)
+            if (is_open_modal === 'True'){
+                $('#exampleModal').modal('show');
+            }
+        });
+    </script>
+    <div class="modal fade" id="exampleModal" tabindex="9" aria-labelledby="exampleModalLabel" aria-hidden="true" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Trạng thái</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div style="display: flex; align-items:center">
+                        <div class="icon-payment-success" style="width: 50px; height: 50px">
+                            <img src="https://res.cloudinary.com/dwgjmgf6o/image/upload/v1641224187/icons/success-icon_bmd0a4.png"
+                                 alt="icon-payment"
+                                style="width: 100%"/>
+                        </div>
+                        <div style="display:flex; align-items:center; margin-left: 16px;">
+                            <p style="margin: 8px auto;">Thanh toán thành công !</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
             </div>
         </div>
     </div>
