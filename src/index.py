@@ -69,6 +69,10 @@ def user_signout():
 def user_load(user_id):
     return utils.get_user_by_id(user_id=user_id)
 
+@app.route('/contact-page')
+def contact_page():
+    return render_template("contactPage.html")
+
 if __name__ == "__main__":
     from src.admin import *
     # debug to view debugging in the future
