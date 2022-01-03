@@ -1,0 +1,62 @@
+{% extends 'layout/base.html' %}
+
+{% block title %}Giỏ hàng{% endblock %}
+
+{% block content %}
+    <h1 class="text-center myCart">Phòng của tôi</h1>
+    {% if err:%}
+    <h1 class="text-center alert alert-danger">{{err}}</h1>
+    {% endif %}
+    <h3 class="cart-h3">Danh sách phòng đã đặt:</h3>
+    <hr class="cart-hr">
+    {% if list_cart %}
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-7" >
+                <div class="row list-cart" id="list-room">
+                    <input type="text"  class="search-cart" onkeyup="searchCart(this)" placeholder="Nhập từ khóa..."  title="Tìm kiếm theo tên">
+                    {% for i in list_cart %}
+                    <div class="row col-lg-12 lc  room-cart">
+
+                        <div class="col-lg-3">
+                                <img src="{{i.image}}">
+                        </div>
+
+                        <div class="col-lg-6">
+                            <div class="name-room">
+                                <span id="name-cart">{{i.room_name}}</span>
+                                <span class="person-amount">{{i.person_amount}} người</span>
+                            </div>
+                            <div class="date-order">
+                                <div>Ngày nhận: <span class="color-gray">{{i.pay_day}}</span></div>
+                                <span>Ngày trả: <span class="color-gray">{{i.receive_day}}</span></span>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-2 color-orange">
+                            {{i.price}}$
+                        </div>
+
+                        <div class="col-lg-1">
+                            <input type="button" name="{{i.id}}" class="btn btn-danger" value="xóa" onclick="confirmDelete(this)">
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+            <div class="col-lg-4" id="pay">
+                <h3>Thông tin đặt phòng</h3>
+                <div>Tổng tiền: <span>{{total_money}}$</span></div>
+                <div class="voucher">
+                    <input type="text" placeholder="Nhập mã giảm giá" name="">
+                    <input type="button" value="Áp dụng" class="btn btn-voucher">
+                </div>
+                <button class="btn btn-payment"><span>Thanh toán</span></button>
+            </div>
+        </div>
+    </div>
+    {% else %}
+    <h3><i>Vui lòng đặt phòng!!!</i></h3>
+    {% endif %}
+    <br><br><br>,<br>
+{% endblock %}
