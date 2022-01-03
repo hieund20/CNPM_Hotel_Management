@@ -1,0 +1,88 @@
+Index: src/__init__.py
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>from flask import Flask\r\nfrom flask_sqlalchemy import SQLAlchemy\r\nfrom flask_babelex import Babel\r\nimport cloudinary\r\n\r\napp = Flask(__name__)\r\napp.secret_key = 'sfsjfffehr4$#$@$@$%^^^$^%@$GG'\r\napp.config[\"SQLALCHEMY_DATABASE_URI\"] = \"mysql+pymysql://root:Duchieu200301@localhost/hotel_management_db?charset=utf8mb4\"\r\napp.config[\"SQLALCHEMY_TRACK_MODIFICATIONS\"] = True\r\n\r\ndb = SQLAlchemy(app=app)\r\nbabel = Babel(app=app)\r\n@babel.localeselector\r\ndef get_locale():\r\n        # Put your logic here. Application can store locale in\r\n        # user profile, cookie, session, etc.\r\n        return 'vi'\r\n\r\n\r\ncloudinary.config(\r\n        cloud_name= 'dwgjmgf6o',\r\n        api_key= '963493837729524',\r\n        api_secret= 'ra068pqFPrbpRrMDgE-Lua2hDZ8',\r\n)\r\n\r\n\r\n\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/__init__.py b/src/__init__.py
+--- a/src/__init__.py	(revision e6ed4e7145e74922ab4ccd223df9211933fdb187)
++++ b/src/__init__.py	(date 1639570888801)
+@@ -5,7 +5,7 @@
+ 
+ app = Flask(__name__)
+ app.secret_key = 'sfsjfffehr4$#$@$@$%^^^$^%@$GG'
+-app.config["SQLALCHEMY_DATABASE_URI"] = "mysql+pymysql://root:Duchieu200301@localhost/hotel_management_db?charset=utf8mb4"
++app.config["SQLALCHEMY_DATABASE_URI"] = "mysql+pymysql://root:12345678@localhost/hotel?charset=utf8mb4"
+ app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = True
+ 
+ db = SQLAlchemy(app=app)
+Index: src/models.py
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>from jinja2 import meta\r\nfrom sqlalchemy import Column, Integer, String, Float, Boolean, Enum, DateTime, ForeignKey\r\nfrom sqlalchemy.orm import relationship\r\nfrom src import db\r\nfrom datetime import datetime\r\nfrom enum import Enum as UserEnum\r\n\r\n\r\nclass BaseModel(db.Model):\r\n    __abstract__ = True\r\n\r\n    id = Column(Integer, primary_key=True, autoincrement=True)\r\n\r\n\r\nclass UserRole(UserEnum):\r\n    ADMIN = 1\r\n    USER = 2\r\n\r\nclass User(BaseModel):\r\n    username = Column(String(50), nullable=False, unique=True)\r\n    password = Column(String(50), nullable=False)\r\n    joined_date = Column(DateTime, default=datetime.now())\r\n    user_role = Column(Enum(UserRole), default=UserRole.USER)\r\n\r\nclass ChangePolicyNumber(BaseModel):\r\n    foreign_visitor_number = Column(Float, nullable=True)\r\n    domestic_visitor_number = Column(Float, nullable=True)\r\n    quantity_types_visitors = Column(Integer, nullable=True)\r\n    quantity_types_rooms = Column(Integer, nullable=True)\r\n    max_visitors_in_a_room = Column(Integer, nullable=True)\r\n    number_price = Column(Float, nullable=True)\r\n    amount_extra = Column(Float, nullable=True)\r\n\r\nclass TypeVisit(BaseModel):\r\n    type_visit_name = Column(String(50), nullable= False)\r\n\r\n    rentalVoucherDetails = relationship('RentalVoucherDetail', backref='typeVisit', lazy=False)\r\n\r\nclass RentalVoucher(BaseModel):\r\n    start_date = Column(DateTime, default=datetime.now())\r\n\r\n    rooms = relationship('Room', backref='rentalVoucher', lazy=False)\r\n    # def __str__(self):\r\n    #     return self.id\r\n\r\nclass RentalVoucherDetail(BaseModel):\r\n    visit_name = Column(String(50), nullable=True)\r\n    type_visit_id = Column(Integer, ForeignKey(TypeVisit.id), primary_key=True, nullable=False)\r\n    cart_id = Column(Integer, nullable=True)\r\n    address = Column(String(100), nullable=True)\r\n    phone_number = Column(Integer, nullable=True)\r\n    rental_voucher_id = Column(Integer, ForeignKey(RentalVoucher.id), primary_key=True, nullable=False)\r\n\r\n\r\nclass TypeRoom(BaseModel):\r\n    type_room_name = Column(String(50), nullable=False)\r\n\r\n    rooms = relationship('Room', backref='typeRoom', lazy=False)\r\n\r\n    def __str__(self):\r\n        return self.type_room_name\r\n\r\nclass Room(BaseModel):\r\n    quantity_bed = Column(Integer, nullable=False)\r\n    price = Column(Float, nullable=False)\r\n    status = Column(String(50), default=\"GOOD\")\r\n    type_room_id = Column(Integer, ForeignKey(TypeRoom.id), nullable=False)\r\n    rental_voucher = Column(Integer, ForeignKey(RentalVoucher.id), default=0)\r\n    image = Column(String(150), nullable=False)\r\n\r\n    receiptDetails = relationship('ReceiptDetail', backref='room', lazy=True)\r\n\r\nclass Receipt(BaseModel):\r\n    visitor_name = Column(String(50), nullable=False)\r\n    address = Column(String(100))\r\n    price = Column(Float, default=0)\r\n\r\n    receiptDetails = relationship('ReceiptDetail', backref='receipt', lazy=False)\r\n\r\nclass ReceiptDetail(BaseModel):\r\n    receipt_id = Column(Integer, ForeignKey(Receipt.id), primary_key=True, nullable=False)\r\n    room_id = Column(Integer, ForeignKey(Room.id), primary_key=True, nullable=False)\r\n    rental_date = Column(DateTime, default=datetime.now())\r\n    price = Column(Float, default=0)\r\n    total = Column(Float, default=0)\r\n\r\n\r\nif __name__ == '__main__':\r\n    db.create_all()\r\n    # rooms = [\r\n    #     {\r\n    #         \"quantity_bed\": 2,\r\n    #         \"price\": 70,\r\n    #         \"status\": \"Trống\",\r\n    #         \"type_room_id\": 1,\r\n    #         \"rental_voucher\": 2\r\n    #     },\r\n    #     {\r\n    #         \"quantity_bed\": 2,\r\n    #         \"price\": 50,\r\n    #         \"status\": \"Trống\",\r\n    #         \"type_room_id\": 2,\r\n    #         \"rental_voucher\": 1\r\n    #     },\r\n    #     {\r\n    #         \"quantity_bed\": 3,\r\n    #         \"price\": 70,\r\n    #         \"status\": \"Trống\",\r\n    #         \"type_room_id\": 3,\r\n    #         \"rental_voucher\": 2\r\n    #     },\r\n    #     {\r\n    #         \"quantity_bed\": 3,\r\n    #         \"price\": 80,\r\n    #         \"status\": \"Trống\",\r\n    #         \"type_room_id\": 1,\r\n    #         \"rental_voucher\": 2\r\n    #     },\r\n    #     {\r\n    #         \"quantity_bed\": 3,\r\n    #         \"price\": 80,\r\n    #         \"status\": \"Trống\",\r\n    #         \"type_room_id\": 2,\r\n    #         \"rental_voucher\": 2\r\n    #     },\r\n    #     {\r\n    #         \"quantity_bed\": 3,\r\n    #         \"price\": 70,\r\n    #         \"status\": \"Trống\",\r\n    #         \"type_room_id\": 4,\r\n    #         \"rental_voucher\": 2\r\n    #     },\r\n    #     {\r\n    #         \"quantity_bed\": 3,\r\n    #         \"price\": 90,\r\n    #         \"status\": \"Trống\",\r\n    #         \"type_room_id\": 3,\r\n    #         \"rental_voucher\": 2\r\n    #     }\r\n    # ]\r\n    # receipt_detail = [\r\n    #     {\r\n    #         \"receipt_id\": 1,\r\n    #         \"room_id\": 4,\r\n    #         \"rental_date\": datetime.now(),\r\n    #         \"price\": 70,\r\n    #         \"total\": 70\r\n    #     },\r\n    #     {\r\n    #         \"receipt_id\": 2,\r\n    #         \"room_id\": 5,\r\n    #         \"rental_date\": datetime.now(),\r\n    #         \"price\": 50,\r\n    #         \"total\": 50\r\n    #     },\r\n    #     {\r\n    #         \"receipt_id\": 3,\r\n    #         \"room_id\": 6,\r\n    #         \"rental_date\": datetime.now(),\r\n    #         \"price\": 70,\r\n    #         \"total\": 70\r\n    #     },\r\n    #     {\r\n    #         \"receipt_id\": 4,\r\n    #         \"room_id\": 7,\r\n    #         \"rental_date\": datetime.now(),\r\n    #         \"price\": 80,\r\n    #         \"total\": 80\r\n    #     },\r\n    #     {\r\n    #         \"receipt_id\": 5,\r\n    #         \"room_id\": 8,\r\n    #         \"rental_date\": datetime.now(),\r\n    #         \"price\": 80,\r\n    #         \"total\": 80\r\n    #     },\r\n    #     {\r\n    #         \"receipt_id\": 6,\r\n    #         \"room_id\": 9,\r\n    #         \"rental_date\": datetime.now(),\r\n    #         \"price\": 70,\r\n    #         \"total\": 70\r\n    #     },\r\n    #     {\r\n    #         \"receipt_id\": 7,\r\n    #         \"room_id\": 10,\r\n    #         \"rental_date\": datetime.now(),\r\n    #         \"price\": 90,\r\n    #         \"total\": 90\r\n    #     },\r\n    # ]\r\n    #\r\n    # for p in receipt_detail:\r\n    #     room = ReceiptDetail(\r\n    #                 receipt_id=p['receipt_id'],\r\n    #                 room_id=p['room_id'],\r\n    #                 rental_date=p['rental_date'],\r\n    #                 price=p['price'],\r\n    #                 total=p['total']\r\n    #                 )\r\n    #     db.session.add(room)\r\n    #     db.session.commit()
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/models.py b/src/models.py
+--- a/src/models.py	(revision e6ed4e7145e74922ab4ccd223df9211933fdb187)
++++ b/src/models.py	(date 1639836729430)
+@@ -63,7 +63,7 @@
+ class Room(BaseModel):
+     quantity_bed = Column(Integer, nullable=False)
+     price = Column(Float, nullable=False)
+-    status = Column(String(50), default="GOOD")
++    status = Column(String(50), default="Trống")
+     type_room_id = Column(Integer, ForeignKey(TypeRoom.id), nullable=False)
+     rental_voucher = Column(Integer, ForeignKey(RentalVoucher.id), default=0)
+     image = Column(String(150), nullable=False)
+Index: src/admin.py
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>import imghdr\r\n\r\nfrom flask import request\r\nfrom flask_admin import Admin, expose, BaseView\r\nfrom flask_admin.form import FileUploadField\r\nfrom wtforms import ValidationError\r\n\r\nfrom src import app, db, utils\r\nfrom flask_admin.contrib.sqla import ModelView\r\nfrom flask_admin import AdminIndexView\r\nfrom src.models import Room, TypeRoom, RentalVoucher\r\n\r\n\r\nclass MyAdminIndexView(AdminIndexView):\r\n    @expose('/')\r\n    def index(self):\r\n        return self.render('admin/index.html')\r\n\r\n\r\n# class Home_page(BaseView):\r\n#     @expose('/')\r\n#     def index(self):\r\n#         return self.render('index.html')\r\n\r\n\r\nclass RoomView(ModelView):\r\n    column_display_pk = True\r\n    can_view_details = True\r\n    can_export = True\r\n    edit_modal = True\r\n    details_modal = True\r\n    column_exclude_list = ['rentalVoucher']\r\n    column_filters = ['quantity_bed', 'price']\r\n    column_searchable_list = ['quantity_bed', 'price']\r\n    column_labels = {\r\n        'id': 'Mã phòng',\r\n        'quantity_bed': 'Số giường',\r\n        'price': 'Giá',\r\n        'status': 'Trạng thái',\r\n        'typeRoom': 'Loại phòng',\r\n        'rentalVoucher': 'Phiếu thuê phòng',\r\n        'image': 'Hình ảnh'\r\n    }\r\n    form_excluded_columns = ['receiptDetails', 'rentalVoucher']\r\n\r\n\r\nclass TypeRoomView(ModelView):\r\n    column_display_pk = True\r\n    can_view_details = True\r\n    can_export = True\r\n    edit_modal = True\r\n    details_modal = True\r\n    column_filters = ['id','type_room_name']\r\n    column_searchable_list = ['id','type_room_name']\r\n    column_labels = {\r\n        'id': 'Mã thuê phòng',\r\n        'type_room_name': 'Tên loại phòng'\r\n    }\r\n\r\n\r\nclass StatsView(BaseView):\r\n    @expose('/')\r\n    def index(self):\r\n        type_rooms_list = utils.get_all_type_rooms()\r\n        used_type_room_counter = utils.get_used_quantity_type_room_in_month()\r\n        return self.render('admin/stats.html',\r\n                           type_rooms_list=type_rooms_list,\r\n                           used_type_room_counter=used_type_room_counter)\r\n\r\n\r\nadmin = Admin(app=app, name='Lotus hotel', template_mode='bootstrap4', index_view=MyAdminIndexView())\r\n# admin.add_view(Home_page(name='Trang chủ'))\r\nadmin.add_view(RoomView(Room, db.session, name='Phòng'))\r\nadmin.add_view(TypeRoomView(TypeRoom, db.session, name='Loại phòng'))\r\nadmin.add_view(StatsView(name='Thống kê'))\r\n\r\n\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/admin.py b/src/admin.py
+--- a/src/admin.py	(revision e6ed4e7145e74922ab4ccd223df9211933fdb187)
++++ b/src/admin.py	(date 1639840806618)
+@@ -8,7 +8,7 @@
+ from src import app, db, utils
+ from flask_admin.contrib.sqla import ModelView
+ from flask_admin import AdminIndexView
+-from src.models import Room, TypeRoom, RentalVoucher
++from src.models import Room, TypeRoom, RentalVoucher, User
+ 
+ 
+ class MyAdminIndexView(AdminIndexView):
+@@ -57,7 +57,21 @@
+         'type_room_name': 'Tên loại phòng'
+     }
+ 
+-
++class UserView(ModelView):
++    column_display_pk = True
++    can_view_details = True
++    can_export = True
++    edit_modal = True
++    details_modal = True
++    # column_filters = ['id', 'type_room_name']
++    # column_searchable_list = ['id', 'type_room_name']
++    column_labels = {
++        'id': 'Mã người dùng',
++        'username': 'Tên người dùng',
++        'password': 'Mật khẩu',
++        'joined_date': 'Ngày tạo',
++        'user_role': 'Phân quyền'
++    }
+ class StatsView(BaseView):
+     @expose('/')
+     def index(self):
+@@ -72,6 +86,7 @@
+ # admin.add_view(Home_page(name='Trang chủ'))
+ admin.add_view(RoomView(Room, db.session, name='Phòng'))
+ admin.add_view(TypeRoomView(TypeRoom, db.session, name='Loại phòng'))
++admin.add_view(UserView(User, db.session, name='Người dùng'))
+ admin.add_view(StatsView(name='Thống kê'))
+ 
+ 
