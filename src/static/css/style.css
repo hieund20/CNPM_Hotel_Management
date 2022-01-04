@@ -671,6 +671,24 @@
 }
 
 
+/* Payment success page */
+.payment-success > .container > .content{
+    text-align: center;
+}
+
+.payment-success > .container > .content > p:nth-child(1){
+    font-size: 25px;
+    color: #a7783e;
+    margin-bottom: 32px;
+}
+
+.payment-success > .container > .redirect{
+    margin-top: 60px;
+    text-align: center;
+    font-size: 15px;
+    color: #6c6868;
+}
+
 
 /* back to top */
 #back-to-top{
@@ -707,4 +725,40 @@
   height: 5px;
   background: #a7783e;
   width: 0%;
+}
+
+/* Toast message */
+#toast-message{
+    visibility: hidden;
+    background-color: #80ff80;
+    color: #fff;
+    min-width: 250px;
+    height: 70px;
+    border-radius: 7px;
+    display: flex;
+    align-items: center;
+
+    position: fixed;
+    right: 32px;
+    left: auto;
+    bottom: 32px;
+}
+
+#toast-message > .toast-body{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+#toast-message > .toast-body > span:nth-child(1){
+    margin-right: 8px;
+    color: #00b300;
+}
+
+#toast-message > .toast-body > span:nth-child(2){
+    color: #232323;
+}
+
+#toast-message.show {
+  visibility: visible;
 }

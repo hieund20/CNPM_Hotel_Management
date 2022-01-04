@@ -4,6 +4,7 @@ import json
 import re
 import urllib
 import uuid
+from datetime import datetime
 
 import paypalrestsdk as paypalrestsdk
 import utils
@@ -211,7 +212,7 @@ def payment_page():
         identify = request.form.get('payment-identify')
         phone_number = request.form.get('payment-phone-number')
 
-    # Validate fullname (thêm dâu cách và Tiếng việt thì chekc sai)
+    # Validate fullname (thêm dâu cách và Tiếng việt thì check sai)
     if fullname == "":
         fullname_validate = "Hãy nhập họ và tên!"
     else:
@@ -225,7 +226,7 @@ def payment_page():
         if re.match(r'\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b', email) is None and email != "default":
             email_validate = "Email không hợp lệ!"
 
-    # Validate nation (thêm dâu cách và Tiếng việt thì chekc sai)
+    # Validate nation (thêm dâu cách và Tiếng việt thì check sai)
     if nation == "":
         nation_validate = "Hãy nhập tên quốc gia/khu vực!"
     else:
@@ -246,6 +247,7 @@ def payment_page():
         if re.match(r"[\d]{3}[\d]{3}[\d]{3}", phone_number) is None and email != "default":
             phone_number_validate = "Số điện thoại không hợp lệ!"
 
+    print('run this after that')
     print('fullname', fullname)
     print('email', email)
     print('nation', nation)
@@ -253,8 +255,28 @@ def payment_page():
     print('phone_number', phone_number)
 
     # Check modal will be open
-    if fullname_validate == "" and email_validate == "" and nation_validate == "" and identify_validate == "" and phone_number_validate == "":
+    if fullname != "default" and fullname_validate == "" and \
+            email != "default" and email_validate == "" and \
+            nation != "default" and nation_validate == "" and \
+            identify != "default" and identify_validate == "" and \
+            phone_number != "default" and phone_number_validate == "":
         is_open_modal = True
+
+    # Check data before add to database
+    if fullname != "default" and fullname != "" and fullname_validate == "" and \
+            email != "default" and email != "" and email_validate == "" and \
+            nation != "default" and nation != "" and nation_validate == "" and \
+            identify != "default" and identify != "" and identify_validate == "" and \
+            phone_number != "default" and phone_number != "" and phone_number_validate == "":
+        print("run this")
+        utils.add_rental_voucher_detail(visit_name=fullname,
+                                        type_visit_id=1,
+                                        phone_number=phone_number,
+                                        rental_voucher_id=1,
+                                        email=email,
+                                        visit_name_id=1,
+                                        nation=nation)
+        utils.add_rental_voucher(booking_date=datetime.now())
 
     return render_template('payment.html',
                            list_booking_room=list_booking_room,
@@ -265,6 +287,13 @@ def payment_page():
                            identify_validate=identify_validate,
                            phone_number_validate=phone_number_validate,
                            is_open_modal=is_open_modal)
+
+
+@app.route('/payment/success')
+def payment_success_page():
+    # Delete all receipt detail when payment success
+    utils.delete_all_receipt_detail()
+    return render_template("payment-success.html")
 
 
 if __name__ == "__main__":

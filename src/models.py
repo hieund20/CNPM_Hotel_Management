@@ -42,18 +42,17 @@ class TypeVisit(BaseModel):
     rentalVoucherDetails = relationship('RentalVoucherDetail', backref='typeVisit', lazy=False)
 
 class RentalVoucher(BaseModel):
-    start_date = Column(DateTime, default=datetime.now())
-
+    booking_date = Column(DateTime, default=datetime.now())
     rooms = relationship('Room', backref='rentalVoucher', lazy=False)
-    # def __str__(self):
-    #     return self.id
+
 
 class RentalVoucherDetail(BaseModel):
-    visit_name = Column(String(50), nullable=True)
-    type_visit_id = Column(Integer, ForeignKey(TypeVisit.id), primary_key=True, nullable=False)
-    cart_id = Column(Integer, nullable=True)
-    address = Column(String(100), nullable=True)
+    visit_name = Column(String(50), nullable=False)
+    email = Column(String(100), nullable=False)
+    visit_name_id = Column(Integer, nullable=False)
+    nation = Column(String(100), nullable=True)
     phone_number = Column(Integer, nullable=True)
+    type_visit_id = Column(Integer, ForeignKey(TypeVisit.id), primary_key=True, nullable=False)
     rental_voucher_id = Column(Integer, ForeignKey(RentalVoucher.id), primary_key=True, nullable=False)
 
 
