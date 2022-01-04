@@ -7,8 +7,8 @@ import cloudinary
 app = Flask(__name__)
 app.secret_key = 'sfsjfffehr4$#$@$@$%^^^$^%@$GG'
 
-app.config["SQLALCHEMY_DATABASE_URI"] = "mysql+pymysql://root:12345678@localhost/hotel?charset=utf8mb4"
-
+app.config["SQLALCHEMY_DATABASE_URI"] = "mysql+pymysql://root:phuc12345@localhost/newdata?charset=utf8mb4"
+app.config['COMMENT_SIZE'] = 4
 
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = True
 
@@ -22,5 +22,7 @@ def get_locale():
 
 
 cloudinary.config(cloud_name='dwgjmgf6o', api_key='963493837729524', api_secret='ra068pqFPrbpRrMDgE-Lua2hDZ8')
+
+#1954052027hieu@ou.edu.vn
 
 login = LoginManager(app=app)

@@ -1,14 +1,13 @@
 from flask import request
 from sqlalchemy import text, func, extract
 from src import app, db
-<<<<<<< HEAD
+
 from src.models import Room, TypeRoom, ReceiptDetail, User, Receipt, ChangePolicyNumber, RentalVoucher, RentalVoucherDetail, TypeVisit, Comment
 from sqlalchemy.orm import Session
 from flask_login import current_user
-=======
-from src.models import Room, TypeRoom, ReceiptDetail, User, Receipt, ChangePolicyNumber, RentalVoucher, RentalVoucherDetail, TypeVisit
+
 from sqlalchemy import desc, asc
->>>>>>> develop
+
 from datetime import datetime
 import hashlib
 import pymysql.cursors
@@ -17,8 +16,8 @@ import mysql.connector
 mydb = mysql.connector.connect(
         host="localhost",
         user="root",
-        passwd="12345678",
-        database="hotel"
+        passwd="phuc12345",
+        database="newdata"
     )
 
 def get_all_type_rooms():
@@ -107,14 +106,25 @@ def cart_stats(cart):
     return total_quantity, total_amount
 
 
-def add_comment(content, product_id):
-    c = Comment(content=content, product_id=product_id, user=current_user)
+def add_comment(content, room_id):
+    c = Comment(content=content, room_id=room_id, user=current_user)
 
     db.session.add(c)
     db.session.commit()
 
     return c
 
+
+def get_comments(room_id, page=1):
+    page_size = app.config['COMMENT_SIZE']
+    start = (page-1) * page_size
+
+    return Comment.query.filter(Comment.room_id.__eq__(room_id)).\
+        order_by(-Comment.id).slice(start, start + page_size).all()
+
+
+def count_comment(room_id):
+    return Comment.query.filter(Comment.room_id.__eq__(room_id)).count()
 
 
 

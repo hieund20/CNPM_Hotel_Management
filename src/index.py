@@ -1,4 +1,5 @@
 import json
+import math
 
 import utils
 from flask import Flask, render_template, request, url_for, redirect, session, jsonify, make_response
@@ -8,7 +9,7 @@ from src.admin import *
 
 @app.context_processor
 def repos():
-    return{
+    return {
         "cart": len(utils. total_room_by_receiptId(0))
     }
 
@@ -125,7 +126,12 @@ def delete_cart():
 def room_detail_page(room_id):
     room = utils.get_room_by_id(room_id)
     type_room = utils.get_type_room_by_room_id(room_id)
-    return render_template('room-detail.html', room=room, type_room=type_room)
+    comments = utils.get_comments(room_id=room_id, page=int(request.args.get('page', 1)) )
+
+
+    return render_template('room-detail.html', room=room, type_room=type_room,
+                           comments=comments,
+                           pages=math.ceil(utils.count_comment(room_id=room_id) / app.config['COMMENT_SIZE']))
 
 
 @app.route('/api/cart', methods=['post'])
@@ -179,15 +185,15 @@ def add_to_cart():
     return jsonify(utils.cart_stats(cart), cart, booking_infor, len(utils. total_room_by_receiptId(0)))
 
 
-@app.route('/api/comment', methods=['post'])
+@app.route('/api/comments', methods=['post'])
 @login_required
 def add_comments():
     data = request.json
     content = data.get('content')
-    product_id = data.get('product_id')
+    room_id = data.get('room_id')
 
     try:
-        c = utils.add_comment(content=content, product_id=product_id)
+        c = utils.add_comment(content=content, room_id=room_id)
     except:
         return {'status': 404, 'err_msg': 'Lỗi' }
 
@@ -205,4 +211,4 @@ def add_comments():
 if __name__ == "__main__":
     from src.admin import *
 
-    app.run(debug=True)
+    app.run(debug=True, host='0.0.0.0')

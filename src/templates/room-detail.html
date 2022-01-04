@@ -98,7 +98,7 @@
           });
         });
     </script>
-<<<<<<< HEAD
+
 
 
         {% if current_user.is_authenticated %}
@@ -106,7 +106,7 @@
             <div class="form-group">
                 <textarea class="form-control" id="commentId" placeholder="Nhập nội dung bình luận ..."></textarea>
             </div>
-            <input type="button" onclick="addComment({{ product.id }})" class="btn btn-primary" value="Gửi bình luận" />
+            <input type="button" onclick="addComment({{ room.id }})" class="btn btn-primary" value="Gửi bình luận" />
         </div>
         {% else %}
         <div class="cmt">
@@ -115,20 +115,37 @@
         {% endif %}
 
     <div id="commentArea">
-        <!--thử comment--->
+        <!--thử comment---> {% for c in comments %}
         <div class="cmt comment">
-            <div class="col-md-1 col-xs-4 flex">
-                <p><b>username</b></p>
+            <div class="col-md-1 col-xs-4 flex distance">
+                <p>
+                    {% if c.user.avatar and c.user.avatar.startswith('https') %}
+                    <img src="{{ c.user.avatar }}" width="30" class="rounded-circle" />
+                    {% else %}
+                    <img src="https://res.cloudinary.com/dwgjmgf6o/image/upload/v1641091873/user_image/images_yjunll.jpg" width="30" class="rounded-circle" />
+                    {% endif %}
+                </p>
+                <p><b>{{ c.user.username }}</b></p>
             </div>
+
             <div class="col-md-11 col-xs-8">
-                <p>Sản phẩm tuyệt vời!!!</p>
-                <p><em>2021-12-23 11:11</em></p>
+                <p>{{ c.content }}</p>
+                <p style="font-size: 10px;"><em>{{ c.created_date }}</em></p>
             </div>
         </div>
-        <!--thử comment --->
+        <!--thử comment --->{% endfor %}
     </div>
 
-=======
->>>>>>> develop
+
+    {% if pages > 1 %}
+    <ul class="pagination">
+        {% for idx in range(1, pages + 1) %}
+        <li class="page-item">
+            <a class="page-link" href="{{ url_for('room_detail_page', room_id=room.id, page=idx) }}">{{ idx }}</a>
+        </li>
+        {% endfor %}
+    </ul>
+    {% endif %}
+
 </div>
 {% endblock %}

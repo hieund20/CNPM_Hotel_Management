@@ -1,0 +1,445 @@
+Index: src/templates/index.html
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>{% extends 'layout/base.html' %}\r\n\r\n{% block title %} The Lotus Hotel {% endblock %}\r\n\r\n{% block content %}\r\n<!-- Carousel -->\r\n<div id=\"demo\" class=\"carousel slide\" data-ride=\"carousel\">\r\n    <!-- Indicators -->\r\n    <ul class=\"carousel-indicators\">\r\n        <li data-target=\"#demo\" data-slide-to=\"0\" class=\"active\"></li>\r\n        <li data-target=\"#demo\" data-slide-to=\"1\"></li>\r\n    </ul>\r\n    <!-- The slideshow -->\r\n    <div class=\"carousel-inner\">\r\n        <div class=\"carousel-item active\">\r\n            <img src=\"{{ url_for('static', filename='images/carousel-item-2.jpg') }}\" alt=\"carousel-1\">\r\n        </div>\r\n        <div class=\"carousel-item\">\r\n            <img src=\"{{ url_for('static', filename='images/carousel-item-1.jpg') }}\" alt=\"carousel-2\">\r\n        </div>\r\n    </div>\r\n    <!-- Left and right controls -->\r\n    <a class=\"carousel-control-prev\" href=\"#demo\" data-slide=\"prev\">\r\n        <span class=\"carousel-control-prev-icon\"></span>\r\n    </a>\r\n    <a class=\"carousel-control-next\" href=\"#demo\" data-slide=\"next\">\r\n        <span class=\"carousel-control-next-icon\"></span>\r\n    </a>\r\n</div>\r\n\r\n<div class=\"add-room\">\r\n    <div class=\"row\" id=\"row-override\">\r\n        <div class=\"col\">\r\n            <div class=\"flex-box news-group\">\r\n                <div class=\"icon-rounded\">\r\n                    <span class=\"material-icons\">email</span>\r\n                </div>\r\n                PHÒNG & GIÁ\r\n            </div>\r\n        </div>\r\n        <div class=\"col\">\r\n            <div class=\"container\" style=\"margin-top: 0;\">\r\n                <form method=\"post\"\r\n                      action=\"{{ url_for('home_page') }}\"\r\n                      enctype=\"multipart/form-data\"\r\n                      id=\"filter-room-form\">\r\n                    <div class=\"col-md-4\" style=\"padding-left: 0\">\r\n                        <select\r\n                                class=\"form-select\"\r\n                                name=\"type-room-id\"\r\n                                style=\"width: 100%; height:40px; border-radius: 8px; border: 1px solid gray;\">\r\n                            <option value=\"\" selected>Tất cả phòng</option>\r\n                            <option value=\"1\">Phòng Suite</option>\r\n                            <option value=\"2\">Phòng Deluxe</option>\r\n                            <option value=\"3\">Phòng Superior</option>\r\n                            <option value=\"4\">Phòng Standard</option>\r\n                        </select>\r\n                    </div>\r\n                    <div class=\"col-md-4\" style=\"padding-left: 0; width: 20px\">\r\n                        <div class=\"input-group\">\r\n                            <input type=\"text\" class=\"form-control\"\r\n                                   aria-label=\"Recipient's username\" aria-describedby=\"basic-addon2\"\r\n                                   name=\"quantity-bed\"\r\n                                   value=\"{{ request.form['quantity-bed'] }}\"/>\r\n                            <span class=\"input-group-text\" id=\"basic-addon2\">giường</span>\r\n                        </div>\r\n                    </div>\r\n                    <div class=\"col-md-4\" style=\"padding-left: 0\">\r\n                        <select\r\n                                class=\"form-select\"\r\n                                name=\"price-sort\"\r\n                                style=\"width: 100%; height:40px; border-radius: 8px; border: 1px solid gray;\">\r\n                            <option selected value=\"asc\">Giá tăng dần</option>\r\n                            <option value=\"desc\">Giá giảm dần</option>\r\n                        </select>\r\n                    </div>\r\n                    <input type=\"submit\"\r\n                           class=\"btn btn-secondary\"\r\n                           id=\"find-button\"\r\n                           value=\"Tìm kiếm\"/>\r\n                </form>\r\n                <!--                <script>-->\r\n                <!--                    var selectedValue = document.getElementsByName('type-room-id')[0].value-->\r\n                <!--                    if(value === \"\")-->\r\n                <!--                        console.log(\"sle\", sle)-->\r\n                <!--                </script>-->\r\n            </div>\r\n        </div>\r\n    </div>\r\n</div>\r\n\r\n<div class=\"content\">\r\n    <div class=\"container\">\r\n        <span class=\"content-title\">TIỆN NGHI</span>\r\n    </div>\r\n    <div class=\"container\">\r\n        {% if filter_room_list %}\r\n        <div class=\"row\">\r\n            {% for room in filter_room_list %}\r\n            <div class=\"col\">\r\n                <div class=\"card\" style=\"width: 20rem; margin-bottom: 32px; height: 400px;\">\r\n                    <div style=\"height: 180px; overflow: hidden;\">\r\n                        <img src=\"{{ room.image }}\"\r\n                             class=\"card-img-top\"\r\n                             alt=\"{{ room.type_room_name }}\"\r\n                             style=\"width: 100%;\">\r\n                    </div>\r\n                    <div class=\"card-body\">\r\n                        <h5 class=\"card-title\">{{ room.type_room_name }}</h5>\r\n                        <span class=\"card-text\" style=\"display: block;\">\r\n                            {{ room.descriptions }}\r\n                        </span>\r\n\r\n                        <div class=\"btn-box\"\r\n                             style=\"display: flex; justify-content: space-between; \">\r\n                            <div style=\"margin-top: 8px; margin-bottom: 8px;\">\r\n                                <span class=\"card-text-price\">{{ room.price }}$</span>\r\n                                <span>/days</span>\r\n                            </div>\r\n                            <a href=\"{{ url_for('room_detail_page', room_id=room.id) }}\"\r\n                               class=\"btn btn-primary\"\r\n                               style=\"width: 52%\">CHI TIẾT</a>\r\n                        </div>\r\n                    </div>\r\n                </div>\r\n            </div>\r\n            {% endfor %}\r\n        </div>\r\n        {% else %}\r\n        <div class=\"row\">\r\n            {% for room in room_list %}\r\n            <div class=\"col\">\r\n                <div class=\"card\" style=\"width: 20rem; margin-bottom: 32px; height: 400px;\">\r\n                    <div style=\"height: 180px; overflow: hidden;\">\r\n                        <img src=\"{{ room.image }}\"\r\n                             class=\"card-img-top\"\r\n                             alt=\"{{ room.type_room_name }}\"\r\n                             style=\"width: 100%;\">\r\n                    </div>\r\n                    <div class=\"card-body\">\r\n                        <h5 class=\"card-title\">{{ room.type_room_name }}</h5>\r\n                        <span class=\"card-text\" style=\"display: block;\">\r\n                            {{ room.descriptions }}\r\n                        </span>\r\n\r\n                        <div class=\"btn-box\"\r\n                             style=\"display: flex; justify-content: space-between; \">\r\n                            <div style=\"margin-top: 8px; margin-bottom: 8px;\">\r\n                                <span class=\"card-text-price\">{{ room.price }}$</span>\r\n                                <span>/days</span>\r\n                            </div>\r\n                            <a href=\"{{ url_for('room_detail_page', room_id=room.id) }}\"\r\n                               class=\"btn btn-primary\"\r\n                               style=\"width: 52%\">CHI TIẾT</a>\r\n                        </div>\r\n                    </div>\r\n                </div>\r\n            </div>\r\n            {% endfor %}\r\n        </div>\r\n        {% endif %}\r\n    </div>\r\n    <div class=\"container\" id=\"home-grid-1\">\r\n        <div class=\"row\">\r\n            <div class=\"col\">\r\n                <img src=\"{{ url_for('static', filename='images/img-1.jpg') }}\" class=\"card-img-top\" alt=\"...\">\r\n            </div>\r\n            <div class=\"col\">\r\n                <span class=\"title\">VỀ CHÚNG TÔI</span>\r\n                <div class=\"paragraph\">\r\n                    <p>\r\n                        Tọa lạc tại vị trí trung tâm quận Gò Vấp trên đường Nguyễn Kiệm, kế bên là nhà hàng Adora, cách\r\n                        các trung tâm thành phố 20 phút di chuyển, cách khu mua sắm giải trí 15 phút di chuyển,\r\n                        Lotus hotel là lựa chọn lý tưởng giúp du khách hòa mình vào nhịp sống sôi động nhưng yên\r\n                        tĩnh về đêm của thành phố với trải nghiệm sang trọng, cơ sở vật chất hiện đại và dịch vụ\r\n                        chuyên nghiệp...\r\n                    </p>\r\n                </div>\r\n                <a href=\"/about\">\r\n                    <button type=\"button\" class=\"btn btn-light\">XEM THÊM</button>\r\n                </a>\r\n            </div>\r\n        </div>\r\n    </div>\r\n    <div class=\"container\" id=\"home-grid-2\">\r\n        <div class=\"row\">\r\n            <div class=\"col\">\r\n                <span class=\"title\">NỔI BẬT</span>\r\n                <div class=\"paragraph\">\r\n                      <span style=\"display: block;\">\r\n                        - Được Hội đồng kiến trúc sư Việt Nam trao tặng khách sạn có kiến trúc đẹp mắt\r\n                      </span>\r\n                    <span>\r\n                         - Được Hội đồng kiến trúc sư Đông Nam Á đánh giá là top 50 khách sạn đáng sống ở khu vực Đông Nam Á, được đánh giá 5 sao về chất lượng và xếp hạng 8/50\r\n                      </span>\r\n                </div>\r\n                <div class=\"container\">\r\n                    <div class=\"row align-items-start\">\r\n                        <div class=\"col\">\r\n                            <div class=\"img-box\">\r\n                                <img src=\"{{ url_for('static', filename='images/icon-3.png') }}\" class=\"card-img-top\"\r\n                                     alt=\"...\">\r\n                            </div>\r\n                            <span>\r\n                                250 Phòng chuẩn 5 sao\r\n                            </span>\r\n                        </div>\r\n                        <div class=\"col\">\r\n                            <div class=\"img-box\">\r\n                                <img src=\"{{ url_for('static', filename='images/icon-2.png') }}\" class=\"card-img-top\"\r\n                                     alt=\"...\">\r\n                            </div>\r\n                            <span>\r\n                                Quầy bar đầy đủ tiện nghi\r\n                            </span>\r\n                        </div>\r\n                    </div>\r\n                    <div class=\"row align-items-start\">\r\n                        <div class=\"col\">\r\n                            <div class=\"img-box\">\r\n                                <img src=\"{{ url_for('static', filename='images/icon-5.png') }}\" class=\"card-img-top\"\r\n                                     alt=\"...\">\r\n                            </div>\r\n                            <span>\r\n                              Ghế trường kỷ cao cấp\r\n                            </span>\r\n                        </div>\r\n                        <div class=\"col\">\r\n                            <div class=\"img-box\">\r\n                                <img src=\"{{ url_for('static', filename='images/icon-1.png') }}\" class=\"card-img-top\"\r\n                                     alt=\"...\">\r\n                            </div>\r\n                            <span>\r\n                               Phục vụ bữa sáng mỗi ngày\r\n                            </span>\r\n                        </div>\r\n                    </div>\r\n                </div>\r\n            </div>\r\n            <div class=\"col\">\r\n                <img src=\"{{ url_for('static', filename='images/img-2.jpg') }}\" class=\"card-img-top\" alt=\"...\">\r\n            </div>\r\n        </div>\r\n    </div>\r\n</div>\r\n{% endblock %}
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/templates/index.html b/src/templates/index.html
+--- a/src/templates/index.html	(revision 8997eb66ca912b46728d7c412c312cb6abcd652c)
++++ b/src/templates/index.html	(date 1641267999037)
+@@ -108,8 +108,9 @@
+                     <div class="card-body">
+                         <h5 class="card-title">{{ room.type_room_name }}</h5>
+                         <span class="card-text" style="display: block;">
+-                            {{ room.descriptions }}
++                            Để xem mô tả bấm vào CHI TIẾT
+                         </span>
++                        <span>abcd</span>
+ 
+                         <div class="btn-box"
+                              style="display: flex; justify-content: space-between; ">
+Index: src/index.py
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>import json\r\n\r\nimport utils\r\nfrom flask import Flask, render_template, request, url_for, redirect, session, jsonify, make_response\r\nfrom flask_login import login_user, logout_user, current_user, login_required\r\nfrom src import app, login\r\nfrom src.admin import *\r\n\r\n@app.context_processor\r\ndef repos():\r\n    return{\r\n        \"cart\": len(utils. total_room_by_receiptId(0))\r\n    }\r\n\r\n\r\n\r\n@app.route('/', methods=['post', 'get'])\r\ndef home_page():\r\n    filter_room_list = None\r\n    if request.method.__eq__('POST'):\r\n        type_room_id = request.form.get('type-room-id')\r\n        quantity_bed = request.form.get('quantity-bed')\r\n        price_sort = request.form.get('price-sort')\r\n        filter_room_list = utils.filters_room(type_room_id=type_room_id,\r\n                                              quantity_bed=quantity_bed,\r\n                                              price_order_by=price_sort)\r\n\r\n    room_list = utils.get_all_rooms()\r\n\r\n    return render_template('index.html', room_list=room_list,\r\n                           filter_room_list=filter_room_list)\r\n\r\n\r\n@app.route('/about')\r\ndef about_us_page():\r\n    return render_template('about-us.html')\r\n\r\n\r\ndef admin_stats_page():\r\n    pass\r\n\r\n\r\n@app.route('/register', methods=['post', 'get'])\r\ndef user_register():\r\n    err_msg = \"\"\r\n    if request.method.__eq__('POST'):\r\n        username = request.form.get('username')\r\n        password = request.form.get('password')\r\n        confirm = request.form.get('confirm')\r\n        email = request.form.get('email')\r\n        try:\r\n            if password.strip().__eq__(confirm.strip()):\r\n\r\n                utils.add_user(username=username,\r\n                               password=password, email=email)\r\n                return redirect(url_for('user_signin'))\r\n            else:\r\n                err_msg = \"Xác nhận mật khẩu không trùng khớp với Mật khẩu !!! \"\r\n        except Exception as ex:\r\n            err_msg = \"Có lỗi xảy ra rồi !! \" + str(ex)\r\n\r\n    return render_template('register.html', err_msg=err_msg)\r\n\r\n\r\n\r\n@app.route('/user-login', methods=['post', 'get'])\r\ndef user_signin():\r\n    err_msg = ''\r\n\r\n    if request.method.__eq__('POST'):\r\n        username = request.form.get('username')\r\n        password = request.form.get('password')\r\n\r\n        user = utils.check_login(username=username, password=password)\r\n        if user:\r\n            login_user(user=user)\r\n            return redirect(url_for('home_page'))\r\n        else:\r\n            err_msg = 'Username hay password không đúng, vui lòng kiểm tra lại'\r\n\r\n    return render_template('login.html', err_msg=err_msg)\r\n\r\n\r\n@app.route('/user-logout')\r\ndef user_signout():\r\n    logout_user()\r\n    return redirect(url_for('home_page'))\r\n\r\n\r\n@login.user_loader\r\ndef user_load(user_id):\r\n    return utils.get_user_by_id(user_id=user_id)\r\n\r\n\r\n\r\n\r\n@app.route('/my-room')\r\ndef cart():\r\n    err =\"\"\r\n    try:\r\n        cart = utils.get_list_receipt_detail(0)\r\n        total_money = utils.total_money(user_id=0)\r\n    except:\r\n        err = \"Trang web lỗi! Vui lòng thử lại sau\"\r\n    return render_template('cart.html', list_cart=cart, total_money=total_money, err=err)\r\n\r\n\r\n@app.route('/delete-cart', methods=['post'])\r\ndef delete_cart():\r\n    data = json.loads(request.data)\r\n    id = str(data.get(\"id\"))\r\n    tb =\"Đã xóa thành công\"\r\n    try:\r\n       utils.delete_Receipt_detail(id = id)\r\n    except:\r\n        tb=\"Lỗi databasse! Vui lòng thử lại sau!\"\r\n\r\n    # update cart\r\n\r\n    return jsonify(tb, len(utils. total_room_by_receiptId(0)))\r\n\r\n\r\n\r\n@app.route(\"/rooms/<int:room_id>\")\r\ndef room_detail_page(room_id):\r\n    room = utils.get_room_by_id(room_id)\r\n    type_room = utils.get_type_room_by_room_id(room_id)\r\n    return render_template('room-detail.html', room=room, type_room=type_room)\r\n\r\n\r\n@app.route('/api/cart', methods=['post'])\r\ndef add_to_cart():\r\n    if 'cart' not in session:\r\n        session['cart'] = {}\r\n\r\n    cart = session['cart']\r\n\r\n    data = json.loads(request.data)\r\n    id = str(data.get(\"id\"))\r\n    name = data.get(\"name\")\r\n    price = data.get(\"price\", 0)\r\n\r\n    receive_day = data.get(\"receive-day\")\r\n    pay_day = data.get(\"pay-day\")\r\n    person_amount = str(data.get(\"person-amount\"))\r\n\r\n    cart = session.get('cart')\r\n\r\n    if id in cart:\r\n        cart[id]['quantity'] = cart[id]['quantity'] + 1\r\n    else:\r\n        cart[id] = {\r\n            \"id\": id,\r\n            \"name\": name,\r\n            \"price\": price,\r\n            \"quantity\": 1,\r\n        }\r\n\r\n    session['cart'] = cart\r\n\r\n    booking_infor = {\r\n        \"receive_day\": receive_day,\r\n        \"pay_day\": pay_day,\r\n        \"person_amount\": person_amount\r\n    }\r\n\r\n    quantity, price = utils.cart_stats(cart)\r\n    utils.add_receipt_detail(room_id=int(id),\r\n                             room_name=name,\r\n                             price=float(price),\r\n                             quantity=float(quantity),\r\n                             receive_day=receive_day,\r\n                             pay_day=pay_day,\r\n                             person_amount=int(person_amount))\r\n    print('person_amount', person_amount)\r\n\r\n\r\n\r\n    return jsonify(utils.cart_stats(cart), cart, booking_infor, len(utils. total_room_by_receiptId(0)))\r\n\r\n\r\n@app.route('/api/comment', methods=['post'])\r\n@login_required\r\ndef add_comments():\r\n    data = request.json\r\n    content = data.get('content')\r\n    product_id = data.get('product_id')\r\n\r\n    try:\r\n        c = utils.add_comment(content=content, product_id=product_id)\r\n    except:\r\n        return {'status': 404, 'err_msg': 'Lỗi' }\r\n\r\n    return {'status': 201, 'comment': {\r\n        'id': c.id,\r\n        'content': c.content,\r\n        'created_date': c.created_date,\r\n        'user': {\r\n            'username': current_user.username,\r\n            'avatar': current_user.avatar\r\n        }\r\n    } }\r\n\r\n\r\nif __name__ == \"__main__\":\r\n    from src.admin import *\r\n\r\n    app.run(debug=True)\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/index.py b/src/index.py
+--- a/src/index.py	(revision 8997eb66ca912b46728d7c412c312cb6abcd652c)
++++ b/src/index.py	(date 1641266956087)
+@@ -1,4 +1,5 @@
+ import json
++import math
+ 
+ import utils
+ from flask import Flask, render_template, request, url_for, redirect, session, jsonify, make_response
+@@ -8,7 +9,7 @@
+ 
+ @app.context_processor
+ def repos():
+-    return{
++    return {
+         "cart": len(utils. total_room_by_receiptId(0))
+     }
+ 
+@@ -125,7 +126,12 @@
+ def room_detail_page(room_id):
+     room = utils.get_room_by_id(room_id)
+     type_room = utils.get_type_room_by_room_id(room_id)
+-    return render_template('room-detail.html', room=room, type_room=type_room)
++    comments = utils.get_comments(room_id=room_id, page=int(request.args.get('page', 1)) )
++
++
++    return render_template('room-detail.html', room=room, type_room=type_room,
++                           comments=comments,
++                           pages=math.ceil(utils.count_comment(room_id=room_id) / app.config['COMMENT_SIZE']))
+ 
+ 
+ @app.route('/api/cart', methods=['post'])
+@@ -179,15 +185,15 @@
+     return jsonify(utils.cart_stats(cart), cart, booking_infor, len(utils. total_room_by_receiptId(0)))
+ 
+ 
+-@app.route('/api/comment', methods=['post'])
++@app.route('/api/comments', methods=['post'])
+ @login_required
+ def add_comments():
+     data = request.json
+     content = data.get('content')
+-    product_id = data.get('product_id')
++    room_id = data.get('room_id')
+ 
+     try:
+-        c = utils.add_comment(content=content, product_id=product_id)
++        c = utils.add_comment(content=content, room_id=room_id)
+     except:
+         return {'status': 404, 'err_msg': 'Lỗi' }
+ 
+@@ -205,4 +211,4 @@
+ if __name__ == "__main__":
+     from src.admin import *
+ 
+-    app.run(debug=True)
++    app.run(debug=True, host='0.0.0.0')
+Index: src/templates/room-detail.html
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>{% extends 'layout/base.html' %}\r\n\r\n{% block title %} The Lotus Hotel {% endblock %}\r\n\r\n{% block content %}\r\n<div class=\"container\" xmlns=\"http://www.w3.org/1999/html\">\r\n</div>\r\n<div class=\"container\" style=\"margin-top: 48px; margin-bottom: 48px;\">\r\n    <span class=\"content-title\" style=\"font-size: 25px; font-weight: bold; font-family: 'Poppins', sans-serif; \">\r\n        {{ type_room[0].type_room_name }}\r\n    </span>\r\n    <div class=\"row\">\r\n        <div class=\"col\">\r\n            <div class=\"img-box\" style=\"width: 95%; margin-top: 16px; border-radius: 10px;\">\r\n                <img src=\"{{ room.image }}\"\r\n                     class=\"card-img-top\"\r\n                     alt=\"{{ type_room[0].type_room_name }}\"\r\n                     style=\"border-radius: 10px;\">\r\n            </div>\r\n            <div style=\"margin-top: 32px;\">\r\n                <span style=\"font-size: 20px; font-weight: bold;\">Mô tả</span>\r\n                <p class=\"card-text\" style=\"margin-top: 16px;\">\r\n                    {{ room.descriptions }}\r\n                </p>\r\n            </div>\r\n        </div>\r\n        <div class=\"col\">\r\n            <div class=\"container\" style=\"margin-top: 48px;\">\r\n                <span style=\"color: #b58943; font-size: 30px;\">{{ room.price }} $/days</span>\r\n                <form class=\"row g-3\" style=\"margin-top: 8px;\">\r\n                    <div style=\"display: flex; justify-content: space-between;\">\r\n                        <div class=\"col-md-5\">\r\n                            <label for=\"receive-day\" class=\"form-label\">Ngày nhận phòng</label>\r\n                            <input type=\"text\"\r\n                                   name=\"receive-day\"\r\n                                   value=\"12/25/2021\"\r\n                                   id=\"receive-day\"\r\n                                   style=\"width: 100%; height:40px; border-radius: 8px; border: 1px solid gray; padding-left: 16px;\"/>\r\n                        </div>\r\n                        <div class=\"col-md-5\">\r\n                            <label for=\"pay-day\" class=\"form-label\">Ngày trả phòng</label>\r\n                            <input type=\"text\"\r\n                                   name=\"pay-day\"\r\n                                   value=\"12/25/2021\"\r\n                                   id=\"pay-day\"\r\n                                   style=\"width: 100%; height:40px; border-radius: 8px; border: 1px solid gray; padding-left: 16px;\"/>\r\n                        </div>\r\n                        <div class=\"col-md-4\">\r\n                            <label for=\"validationDefault04\" class=\"form-label\">Khách</label>\r\n                            <select\r\n                                    class=\"form-select\"\r\n                                    id=\"validationDefault04\" required\r\n                                    name=\"person-amount\"\r\n                                    style=\"width: 100%; height:40px; border-radius: 8px; border: 1px solid gray;\">\r\n                                <option selected disabled value=\"1\">1 người</option>\r\n                                <option value=\"2\">2 người</option>\r\n                                <option value=\"3\">3 người</option>\r\n                                <option value=\"4\">4 người</option>\r\n                            </select>\r\n                        </div>\r\n                    </div>\r\n                    <div>\r\n                        <div class=\"col-12\">\r\n                            <input class=\"btn btn-primary\"\r\n                                   style=\"background-color: #b58955; border: 1px solid #b58955; margin-top:8px;\"\r\n                                   type=\"submit\"\r\n                                   value=\"ĐẶT PHÒNG\"\r\n                                   onclick=\"addToCart({{ room.id }}, '{{ type_room[0].type_room_name }}', {{ room.price }}, document.getElementById('receive-day').value,  document.getElementById('pay-day').value, document.getElementsByName('person-amount')[0].value)\"/>\r\n\r\n\r\n                        </div>\r\n                    </div>\r\n                </form>\r\n            </div>\r\n        </div>\r\n    </div>\r\n\r\n    <script>\r\n        $(function() {\r\n          $('input[name=\"receive-day\"]').daterangepicker({\r\n            singleDatePicker: true,\r\n            showDropdowns: true,\r\n            minYear: 1901,\r\n            maxYear: parseInt(moment().format('YYYY'),10)\r\n          }, function(start, end, label) {\r\n            var years = moment().diff(start, 'years');\r\n          });\r\n        });\r\n\r\n        $(function() {\r\n          $('input[name=\"pay-day\"]').daterangepicker({\r\n            singleDatePicker: true,\r\n            showDropdowns: true,\r\n            minYear: 1901,\r\n            maxYear: parseInt(moment().format('YYYY'),10)\r\n          }, function(start, end, label) {\r\n            var years = moment().diff(start, 'years');\r\n          });\r\n        });\r\n    </script>\r\n<<<<<<< HEAD\r\n\r\n\r\n        {% if current_user.is_authenticated %}\r\n        <div class=\"cmt\">\r\n            <div class=\"form-group\">\r\n                <textarea class=\"form-control\" id=\"commentId\" placeholder=\"Nhập nội dung bình luận ...\"></textarea>\r\n            </div>\r\n            <input type=\"button\" onclick=\"addComment({{ product.id }})\" class=\"btn btn-primary\" value=\"Gửi bình luận\" />\r\n        </div>\r\n        {% else %}\r\n        <div class=\"cmt\">\r\n        <p>Chỉ được bình luận khi đã đăng nhập.<a href=\"{{ url_for('user_signin') }}\">Đăng nhập tại đây</a></p>\r\n        </div>\r\n        {% endif %}\r\n\r\n    <div id=\"commentArea\">\r\n        <!--thử comment--->\r\n        <div class=\"cmt comment\">\r\n            <div class=\"col-md-1 col-xs-4 flex\">\r\n                <p><b>username</b></p>\r\n            </div>\r\n            <div class=\"col-md-11 col-xs-8\">\r\n                <p>Sản phẩm tuyệt vời!!!</p>\r\n                <p><em>2021-12-23 11:11</em></p>\r\n            </div>\r\n        </div>\r\n        <!--thử comment --->\r\n    </div>\r\n\r\n=======\r\n>>>>>>> develop\r\n</div>\r\n{% endblock %}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/templates/room-detail.html b/src/templates/room-detail.html
+--- a/src/templates/room-detail.html	(revision 8997eb66ca912b46728d7c412c312cb6abcd652c)
++++ b/src/templates/room-detail.html	(date 1641264791336)
+@@ -98,7 +98,7 @@
+           });
+         });
+     </script>
+-<<<<<<< HEAD
++
+ 
+ 
+         {% if current_user.is_authenticated %}
+@@ -106,7 +106,7 @@
+             <div class="form-group">
+                 <textarea class="form-control" id="commentId" placeholder="Nhập nội dung bình luận ..."></textarea>
+             </div>
+-            <input type="button" onclick="addComment({{ product.id }})" class="btn btn-primary" value="Gửi bình luận" />
++            <input type="button" onclick="addComment({{ room.id }})" class="btn btn-primary" value="Gửi bình luận" />
+         </div>
+         {% else %}
+         <div class="cmt">
+@@ -115,20 +115,37 @@
+         {% endif %}
+ 
+     <div id="commentArea">
+-        <!--thử comment--->
++        <!--thử comment---> {% for c in comments %}
+         <div class="cmt comment">
+-            <div class="col-md-1 col-xs-4 flex">
+-                <p><b>username</b></p>
++            <div class="col-md-1 col-xs-4 flex distance">
++                <p>
++                    {% if c.user.avatar and c.user.avatar.startswith('https') %}
++                    <img src="{{ c.user.avatar }}" width="30" class="rounded-circle" />
++                    {% else %}
++                    <img src="https://res.cloudinary.com/dwgjmgf6o/image/upload/v1641091873/user_image/images_yjunll.jpg" width="30" class="rounded-circle" />
++                    {% endif %}
++                </p>
++                <p><b>{{ c.user.username }}</b></p>
+             </div>
++
+             <div class="col-md-11 col-xs-8">
+-                <p>Sản phẩm tuyệt vời!!!</p>
+-                <p><em>2021-12-23 11:11</em></p>
++                <p>{{ c.content }}</p>
++                <p style="font-size: 10px;"><em>{{ c.created_date }}</em></p>
+             </div>
+         </div>
+-        <!--thử comment --->
++        <!--thử comment --->{% endfor %}
+     </div>
+ 
+-=======
+->>>>>>> develop
++
++    {% if pages > 1 %}
++    <ul class="pagination">
++        {% for idx in range(1, pages + 1) %}
++        <li class="page-item">
++            <a class="page-link" href="{{ url_for('room_detail_page', room_id=room.id, page=idx) }}">{{ idx }}</a>
++        </li>
++        {% endfor %}
++    </ul>
++    {% endif %}
++
+ </div>
+ {% endblock %}
+Index: src/utils.py
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>from flask import request\r\nfrom sqlalchemy import text, func, extract\r\nfrom src import app, db\r\n<<<<<<< HEAD\r\nfrom src.models import Room, TypeRoom, ReceiptDetail, User, Receipt, ChangePolicyNumber, RentalVoucher, RentalVoucherDetail, TypeVisit, Comment\r\nfrom sqlalchemy.orm import Session\r\nfrom flask_login import current_user\r\n=======\r\nfrom src.models import Room, TypeRoom, ReceiptDetail, User, Receipt, ChangePolicyNumber, RentalVoucher, RentalVoucherDetail, TypeVisit\r\nfrom sqlalchemy import desc, asc\r\n>>>>>>> develop\r\nfrom datetime import datetime\r\nimport hashlib\r\nimport pymysql.cursors\r\nimport mysql.connector\r\n\r\nmydb = mysql.connector.connect(\r\n        host=\"localhost\",\r\n        user=\"root\",\r\n        passwd=\"12345678\",\r\n        database=\"hotel\"\r\n    )\r\n\r\ndef get_all_type_rooms():\r\n    return TypeRoom.query.all()\r\n\r\n\r\n# Get used quantity type room in current month\r\ndef get_used_quantity_type_room_in_month():\r\n    query = db.session.query(TypeRoom.id, TypeRoom.type_room_name, func.count(TypeRoom.id), ).filter(Room.type_room_id == TypeRoom.id).filter(Room.id == ReceiptDetail.room_id).filter(extract('month', ReceiptDetail.rental_date) == datetime.now().month).group_by(TypeRoom.id, TypeRoom.type_room_name)\r\n    return query.all()\r\n\r\n\r\ndef add_user(username, password, email):\r\n    password = str(hashlib.md5(password.strip().encode('utf-8')).hexdigest())\r\n    user = User(username=username.strip(), password=password,\r\n                email=email)\r\n\r\n    db.session.add(user)\r\n    db.session.commit()\r\n\r\n\r\n\r\ndef check_login(username, password):\r\n    if username and password:\r\n        password = str(hashlib.md5(password.strip().encode('utf-8')).hexdigest()) #hash bằng md5 khi create password thì cũng hash bằng md5 khi login\r\n\r\n        return User.query.filter(User.username.__eq__(username.strip()),\r\n                                User.password.__eq__(password)).first()\r\n\r\n\r\n\r\ndef get_user_by_id(user_id):\r\n    return User.query.get(user_id)\r\n\r\n\r\n\r\ndef count_cart(cart):\r\n    quantity, amount= 0, 0\r\n    if cart:\r\n        for i in cart.values():\r\n            quantity += i['quantity']\r\n            amount += i['quantity'] * i['price']\r\n    return {\r\n        'totalQuantity': quantity,\r\n        'totalAmount': amount\r\n    }\r\n\r\n\r\ndef is_name_in_receipt(name):\r\n    return Receipt.query.filter(Receipt.visitor_name.__eq__(name)).first()\r\n\r\n\r\n\r\ndef add_receipt(name, address, price):\r\n    new = Receipt(visitor_name = name, address= address, price = price)\r\n    db.session.add(new)\r\n    db.session.commit()\r\n\r\n\r\ndef get_user_by_name(name):\r\n    return User.query.filter(User.username.__eq__(name)).first()\r\n\r\n\r\n\r\ndef get_all_rooms():\r\n    query = db.session.query(Room.id, Room.quantity_bed, Room.price, Room.status, Room.type_room_id, Room.rental_voucher, Room.image, Room.descriptions, TypeRoom.type_room_name).filter(Room.type_room_id == TypeRoom.id)\r\n    return query.all()\r\n\r\n\r\ndef get_room_by_id(room_id):\r\n    return Room.query.get(room_id)\r\n\r\n\r\ndef get_type_room_by_room_id(room_id):\r\n    query = db.session.query(TypeRoom.type_room_name).filter(Room.type_room_id == TypeRoom.id).filter(Room.id == room_id)\r\n    return query.all()\r\n\r\n\r\ndef cart_stats(cart):\r\n    total_amount, total_quantity = 0, 0\r\n    if cart:\r\n        for p in cart.values():\r\n            total_quantity += p[\"quantity\"]\r\n            total_amount += p[\"quantity\"]*p[\"price\"]\r\n\r\n    return total_quantity, total_amount\r\n\r\n\r\ndef add_comment(content, product_id):\r\n    c = Comment(content=content, product_id=product_id, user=current_user)\r\n\r\n    db.session.add(c)\r\n    db.session.commit()\r\n\r\n    return c\r\n\r\n\r\n\r\n\r\ndef add_receipt_detail(room_id, room_name, price, quantity, receive_day, pay_day, person_amount ):\r\n    receipt_detail = ReceiptDetail(room_id=room_id,\r\n                                   room_name=room_name,\r\n                                   price=price,\r\n                                   quantity=quantity,\r\n                                   receive_day=receive_day,\r\n                                   pay_day=pay_day,\r\n                                   person_amount=person_amount)\r\n    db.session.add(receipt_detail)\r\n    db.session.commit()\r\n\r\n\r\n\r\ndef get_user_by_name(name):\r\n    return User.query.filter(User.username.__eq__(name)).first()\r\n\r\ndef total_room_by_receiptId(receipt_id):\r\n    #receipt=ReceiptDetail.query.filter(ReceiptDetail.user_id.__eq__(user_id))\r\n    # receipt=ReceiptDetail.query.all()\r\n    #return  db.session.query(func.count(ReceiptDetail.id))\r\n\r\n    return ReceiptDetail.query.all()\r\n\r\ndef get_list_receipt_detail(receipt_id):\r\n    #list=ReceiptDetail.query.filter(ReceiptDetail.receipt_id.__eq__(receipt_id))\r\n    query = db.session.query(Room.image, ReceiptDetail.room_name,ReceiptDetail.id, ReceiptDetail.pay_day,ReceiptDetail.price, ReceiptDetail.quantity, ReceiptDetail.receive_day, ReceiptDetail.person_amount).filter( Room.id==ReceiptDetail.room_id)\r\n    return query.all()\r\n\r\ndef total_money(user_id):\r\n    # rd = ReceiptDetail.query.filter(ReceiptDetail.user_id.__eq__(user_id))\r\n    rd = ReceiptDetail.query.all()\r\n    total = 0\r\n    for r in rd:\r\n        total+=r.price\r\n    return total\r\n\r\n#establishing the connection\r\n\r\n\r\n\r\ndef delete_Receipt_detail(id):\r\n    mycursor = mydb.cursor()\r\n    sql = \"DELETE FROM receipt_detail WHERE id = \" + id\r\n    mycursor.execute(sql)\r\n    mydb.commit()\r\n\r\n\r\ndef filters_room(type_room_id, quantity_bed, price_order_by):\r\n    print('check order by', price_order_by)\r\n    query = \"\"\r\n    if price_order_by == 'asc':\r\n        if quantity_bed == '' and type_room_id == '':\r\n            query = db.session.query(Room.id, Room.quantity_bed, Room.price, Room.status, Room.type_room_id, Room.image, Room.descriptions, TypeRoom.type_room_name).filter(Room.type_room_id == TypeRoom.id).order_by(asc(Room.price))\r\n        if quantity_bed == '' and type_room_id != '':\r\n            query = db.session.query(Room.id, Room.quantity_bed, Room.price, Room.status, Room.type_room_id, Room.image, Room.descriptions, TypeRoom.type_room_name).filter(Room.type_room_id == TypeRoom.id).filter(Room.type_room_id == type_room_id).order_by(asc(Room.price))\r\n        if quantity_bed != '' and type_room_id == '':\r\n            query = db.session.query(Room.id, Room.quantity_bed, Room.price, Room.status, Room.type_room_id, Room.image, Room.descriptions, TypeRoom.type_room_name).filter(Room.type_room_id == TypeRoom.id).filter(Room.quantity_bed == quantity_bed).order_by(asc(Room.price))\r\n        if type_room_id != '' and quantity_bed != '':\r\n            query = db.session.query(Room.id, Room.quantity_bed, Room.price, Room.status, Room.type_room_id, Room.image, Room.descriptions, TypeRoom.type_room_name).filter(Room.type_room_id == TypeRoom.id).filter(Room.type_room_id == type_room_id).filter(Room.quantity_bed == quantity_bed).order_by(asc(Room.price))\r\n    if price_order_by == 'desc':\r\n        if quantity_bed == '' and type_room_id == '':\r\n            query = db.session.query(Room.id, Room.quantity_bed, Room.price, Room.status, Room.type_room_id, Room.image, Room.descriptions, TypeRoom.type_room_name).filter(Room.type_room_id == TypeRoom.id).order_by(desc(Room.price))\r\n        if quantity_bed == '' and type_room_id != '':\r\n            query = db.session.query(Room.id, Room.quantity_bed, Room.price, Room.status, Room.type_room_id, Room.image, Room.descriptions, TypeRoom.type_room_name).filter(Room.type_room_id == TypeRoom.id).filter(Room.type_room_id == type_room_id).order_by(desc(Room.price))\r\n        if quantity_bed != '' and type_room_id == '':\r\n            query = db.session.query(Room.id, Room.quantity_bed, Room.price, Room.status, Room.type_room_id, Room.image, Room.descriptions, TypeRoom.type_room_name).filter(Room.type_room_id == TypeRoom.id).filter(Room.quantity_bed == quantity_bed).order_by(desc(Room.price))\r\n        if type_room_id != '' and quantity_bed != '':\r\n            query = db.session.query(Room.id, Room.quantity_bed, Room.price, Room.status, Room.type_room_id, Room.image, Room.descriptions, TypeRoom.type_room_name).filter(Room.type_room_id == TypeRoom.id).filter(Room.type_room_id == type_room_id).filter(Room.quantity_bed == quantity_bed).order_by(desc(Room.price))\r\n\r\n    return query.all()\r\n\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/utils.py b/src/utils.py
+--- a/src/utils.py	(revision 8997eb66ca912b46728d7c412c312cb6abcd652c)
++++ b/src/utils.py	(date 1641139213991)
+@@ -1,14 +1,13 @@
+ from flask import request
+ from sqlalchemy import text, func, extract
+ from src import app, db
+-<<<<<<< HEAD
++
+ from src.models import Room, TypeRoom, ReceiptDetail, User, Receipt, ChangePolicyNumber, RentalVoucher, RentalVoucherDetail, TypeVisit, Comment
+ from sqlalchemy.orm import Session
+ from flask_login import current_user
+-=======
+-from src.models import Room, TypeRoom, ReceiptDetail, User, Receipt, ChangePolicyNumber, RentalVoucher, RentalVoucherDetail, TypeVisit
++
+ from sqlalchemy import desc, asc
+->>>>>>> develop
++
+ from datetime import datetime
+ import hashlib
+ import pymysql.cursors
+@@ -17,8 +16,8 @@
+ mydb = mysql.connector.connect(
+         host="localhost",
+         user="root",
+-        passwd="12345678",
+-        database="hotel"
++        passwd="phuc12345",
++        database="newdata"
+     )
+ 
+ def get_all_type_rooms():
+@@ -107,8 +106,8 @@
+     return total_quantity, total_amount
+ 
+ 
+-def add_comment(content, product_id):
+-    c = Comment(content=content, product_id=product_id, user=current_user)
++def add_comment(content, room_id):
++    c = Comment(content=content, room_id=room_id, user=current_user)
+ 
+     db.session.add(c)
+     db.session.commit()
+@@ -116,6 +115,17 @@
+     return c
+ 
+ 
++def get_comments(room_id, page=1):
++    page_size = app.config['COMMENT_SIZE']
++    start = (page-1) * page_size
++
++    return Comment.query.filter(Comment.room_id.__eq__(room_id)).\
++        order_by(-Comment.id).slice(start, start + page_size).all()
++
++
++def count_comment(room_id):
++    return Comment.query.filter(Comment.room_id.__eq__(room_id)).count()
++
+ 
+ 
+ def add_receipt_detail(room_id, room_name, price, quantity, receive_day, pay_day, person_amount ):
+Index: src/static/js/comment.js
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/static/js/comment.js b/src/static/js/comment.js
+new file mode 100644
+--- /dev/null	(date 1641182389931)
++++ b/src/static/js/comment.js	(date 1641182389931)
+@@ -0,0 +1,36 @@
++function addComment(room_id) {
++    let content = document.getElementById('commentId')
++    if (content !== null) {
++        fetch('/api/comments', {
++            method: 'post',
++            body: JSON.stringify({
++                'room_id': room_id,
++                'content': content.value
++            }),
++            headers: {
++                'Content-Type': 'application/json'
++            }
++        }).then(res => res.json()).then(data => {
++            if (data.status == 201) {
++                let c = data.comment
++
++                let area = document.getElementById('commentArea')
++                area.innerHTML = `
++                    <div class="cmt comment flex distance">
++                        <div class="col-md-1 col-xs-4 flex">
++                            <p><img width="30" height="30"  class="rounded-circle"
++                            src="https://res.cloudinary.com/dwgjmgf6o/image/upload/v1641091873/user_image/images_yjunll.jpg" /></p>
++                            <p><b>${c.user.username}</b></p>
++                        </div>
++                        <div class="col-md-11 col-xs-8">
++                            <p>${c.content}</p>
++                            <p style="font-size: 10px;"><em>${c.created_date}</em></p>
++                        </div>
++                    </div>
++                ` + area.innerHTML
++            } else if (data.status == 404)
++                alert(data.err_msg)
++        })
++    }
++}
++
+Index: src/templates/layout/header.html
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><header class=\"header\">\r\n  <!-- Header-Top -->\r\n  <nav class=\"navbar navbar-expand-sm\">\r\n    <!-- Links -->\r\n    <ul class=\"navbar-nav top-nav-right\">\r\n      <li class=\"nav-item\">\r\n<!--        <span>371 Nguyen Kiem, Go Vap district</span>-->\r\n      </li>\r\n    </ul>\r\n\r\n    <ul class=\"navbar-nav top-nav-left\">\r\n      {% if current_user.is_authenticated %}\r\n      <li class=\"nav-item \">\r\n        <a class=\"nav-link\" href=\"{{ url_for('home_page') }}\">\r\n          {{ current_user.username }}\r\n        </a>\r\n      </li>\r\n      <li class=\"nav-item \">\r\n        <a class=\"nav-link\" href=\"{{ url_for('user_signout') }}\">Đăng xuất</a>\r\n      </li>\r\n      {% else %}\r\n      <li class=\"nav-item\">\r\n        <a class=\"nav-link\" href=\"{{ url_for('user_signin') }}\">Đăng nhập</a>\r\n      </li>\r\n      <li class=\"nav-item\">\r\n        <a class=\"nav-link\" href=\"{{ url_for('user_register') }}\">Đăng ký</a>\r\n      </li>\r\n      {% endif %}\r\n    </ul>\r\n  </nav>\r\n\r\n  <!-- Header-Nav -->\r\n  <nav class=\"navbar navbar-expand-sm\" id=\"header-fixed\">\r\n    <!-- Brand -->\r\n    <a class=\"navbar-brand\" href=\"/\">\r\n      <img src=\"{{ url_for('static', filename='images/logo-header.png')}}\" alt=\"Logo\">\r\n    </a>\r\n\r\n    <!-- Links -->\r\n    <ul class=\"navbar-nav bottom-nav\">\r\n      <!-- Dropdown -->\r\n      <li class=\"nav-item dropdown\">\r\n        <a class=\"nav-link dropdown-toggle\" href=\"#\" id=\"navbardrop\" data-toggle=\"dropdown\">\r\n          Phòng Suite\r\n        </a>\r\n        <div class=\"dropdown-menu\">\r\n          <a class=\"dropdown-item\" href=\"#\">Junior Suite</a>\r\n          <a class=\"dropdown-item\" href=\"#\">Executive Suite</a>\r\n        </div>\r\n      </li>\r\n      <li class=\"nav-item\">\r\n        <a class=\"nav-link\" href=\"#\">Phòng Deluxe</a>\r\n      </li>\r\n      <li class=\"nav-item\">\r\n        <a class=\"nav-link\" href=\"#\">Phòng Superior</a>\r\n      </li>\r\n      <li class=\"nav-item\">\r\n        <a class=\"nav-link\" href=\"#\">Phòng Standard</a>\r\n      </li>\r\n      {% if current_user.is_authenticated %}\r\n      <li class=\"nav-item\">\r\n        <a class=\"nav-link disabled\" href=\"#\"> | </a>\r\n      </li>\r\n      <li class=\"nav-item\">\r\n        <a class=\"nav-link\" href=\"{{ url_for('cart')}} \"> Phòng của tôi <span class=\"badge badge-info\" id=\"countCart\">{{ cart}}</span></a>\r\n      </li>\r\n\r\n      {% endif %}\r\n      <li class=\"nav-item\">\r\n        <a class=\"nav-link disabled\" href=\"#\"> | </a>\r\n      </li>\r\n      <li class=\"nav-item\">\r\n<<<<<<< HEAD\r\n        <a class=\"nav-link\" href=\"{{ url_for('add_to_cart') }}\">Giỏ hàng</a>\r\n=======\r\n        <a class=\"nav-link\" href=\"#\">Liên hệ</a>\r\n>>>>>>> develop\r\n      </li>\r\n      <li class=\"nav-item\">\r\n        <a class=\"nav-link\" href=\"#\">Về chúng tôi</a>\r\n      </li>\r\n    </ul>\r\n\r\n  </nav>\r\n\r\n    <!--  Scroll -->\r\n  <div class=\"progress-container\" id=\"scrollIndicator\">\r\n    <div class=\"progress-bar\" id=\"myBar\"></div>\r\n  </div>\r\n\r\n</header>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/templates/layout/header.html b/src/templates/layout/header.html
+--- a/src/templates/layout/header.html	(revision 8997eb66ca912b46728d7c412c312cb6abcd652c)
++++ b/src/templates/layout/header.html	(date 1641052830962)
+@@ -70,11 +70,7 @@
+         <a class="nav-link disabled" href="#"> | </a>
+       </li>
+       <li class="nav-item">
+-<<<<<<< HEAD
+-        <a class="nav-link" href="{{ url_for('add_to_cart') }}">Giỏ hàng</a>
+-=======
+         <a class="nav-link" href="#">Liên hệ</a>
+->>>>>>> develop
+       </li>
+       <li class="nav-item">
+         <a class="nav-link" href="#">Về chúng tôi</a>
+Index: src/templates/layout/base.html
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><!DOCTYPE html>\r\n<html lang=\"en\">\r\n<head>\r\n    <meta charset=\"UTF-8\">\r\n    <title>\r\n      {% block title %}{% endblock %}\r\n    </title>\r\n    <link rel=\"preconnect\" href=\"https://fonts.googleapis.com\">\r\n    <link rel=\"preconnect\" href=\"https://fonts.gstatic.com\" crossorigin>\r\n    <link href=\"https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,600;1,300;1,400;1,700&display=swap\" rel=\"stylesheet\">\r\n    <link href=\"https://fonts.googleapis.com/icon?family=Material+Icons\"\r\n      rel=\"stylesheet\">\r\n\r\n    <!-- CSS only -->\r\n    <link href=\"https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css\" rel=\"stylesheet\"\r\n          integrity=\"sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3\" crossorigin=\"anonymous\">\r\n    <!-- JavaScript Bundle with Popper -->\r\n    <script src=\"https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js\"\r\n            integrity=\"sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p\"\r\n            crossorigin=\"anonymous\"></script>\r\n\r\n    <link rel=\"stylesheet\" href=\"https://pro.fontawesome.com/releases/v5.10.0/css/all.css\"\r\n          integrity=\"sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p\" crossorigin=\"anonymous\"/>\r\n    <link rel=\"stylesheet\" href=\"https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css\"\r\n          integrity=\"sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm\" crossorigin=\"anonymous\">\r\n    <script src=\"https://code.jquery.com/jquery-3.2.1.slim.min.js\"\r\n            integrity=\"sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN\"\r\n            crossorigin=\"anonymous\"></script>\r\n    <script src=\"https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js\"\r\n            integrity=\"sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q\"\r\n            crossorigin=\"anonymous\"></script>\r\n    <script src=\"https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js\"\r\n            integrity=\"sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl\"\r\n            crossorigin=\"anonymous\"></script>\r\n\r\n    <script type=\"text/javascript\" src=\"https://cdn.jsdelivr.net/jquery/latest/jquery.min.js\"></script>\r\n    <script type=\"text/javascript\" src=\"https://cdn.jsdelivr.net/momentjs/latest/moment.min.js\"></script>\r\n    <script type=\"text/javascript\" src=\"https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js\"></script>\r\n\r\n    <link rel=\"stylesheet\" type=\"text/css\" href=\"https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css\"/>\r\n    <script src=\"{{ url_for('static', filename='js/cart.js') }}\"></script>\r\n    <script src=\"{{ url_for('static', filename='js/support.js') }}\"></script>\r\n    <link href=\"{{ url_for('static', filename='css/style.css')}}\" rel=\"stylesheet\"/>\r\n    {% block css %}{% endblock %}\r\n    {% block js %}{% endblock %}\r\n</head>\r\n<body>\r\n    <!-- back to top-->\r\n    <div title=\"Back to top\" id=\"back-to-top\" onclick=\"topFunction()\"><i class=\"fa fa-angle-double-up \"></i></div>\r\n    {% block header %}\r\n        {% include 'layout/header.html' %}\r\n    {% endblock %}\r\n\r\n    {% block content %}{% endblock %}\r\n\r\n    {% block footer %}\r\n            {% include 'layout/footer.html' %}\r\n    {% endblock %}\r\n\r\n</body>\r\n</html>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/templates/layout/base.html b/src/templates/layout/base.html
+--- a/src/templates/layout/base.html	(revision 8997eb66ca912b46728d7c412c312cb6abcd652c)
++++ b/src/templates/layout/base.html	(date 1641137477545)
+@@ -40,6 +40,7 @@
+     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css"/>
+     <script src="{{ url_for('static', filename='js/cart.js') }}"></script>
+     <script src="{{ url_for('static', filename='js/support.js') }}"></script>
++    <script src="{{ url_for('static', filename='js/comment.js')}}"></script>
+     <link href="{{ url_for('static', filename='css/style.css')}}" rel="stylesheet"/>
+     {% block css %}{% endblock %}
+     {% block js %}{% endblock %}
+Index: src/static/js/cart.js
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>const addToCart = (id, name, price, receiveDay, payDay, personAmount) => {\r\n    event.preventDefault();\r\n\r\n    fetch('/api/cart', {\r\n        method: 'post',\r\n        body: JSON.stringify({\r\n            \"id\": id,\r\n            \"name\": name,\r\n            \"price\": price,\r\n            \"receive-day\": receiveDay,\r\n            \"pay-day\": payDay,\r\n            \"person-amount\": personAmount,\r\n        }),\r\n        headers: {\r\n            'Context-Type': 'application/json'\r\n        }\r\n    }).then(\r\n    res => {\r\n        if (res) {\r\n            if (res?.status !== 500) {\r\n                console.log(\"Thao tác thành công\")\r\n                console.log(\"res\", res)\r\n                return res.json()\r\n            }\r\n            else {\r\n                console.log(\"Thao tác thất bại\", res?.statusText)\r\n            }\r\n        }\r\n    }\r\n    ).then(data => {\r\n            console.log('data', data);\r\n            total_quantity = document.getElementById(\"countCart\");\r\n            total_quantity.innerHTML = data[3];\r\n        }\r\n    ).catch(err => {\r\n            console.log(err);\r\n        }\r\n    );\r\n}\r\n\r\n<<<<<<< HEAD\r\nfunction addComment(productId) {\r\n    let content = document.getElementById('commentId')\r\n    if (content !== null) {\r\n        fetch('/api/comments', {\r\n            method: 'post'\r\n            body: JSON.stringify({\r\n                'product_id': productId,\r\n                'content': content.value\r\n            })\r\n            headers: {\r\n                'Content-Type': 'application/json'\r\n            }\r\n        }).then(res => res.json()).then(data => {\r\n            if (data.status == 201) {\r\n                let c = data.comment\r\n\r\n                let area = getElementById('commentArea')\r\n                area.innerHTML = `\r\n                <div class=\"cmt comment\">\r\n                    <div class=\"col-md-1 col-xs-4 flex\">\r\n                        <p><b>${c.user.username}</b></p>\r\n                    </div>\r\n                    <div class=\"col-md-11 col-xs-8\">\r\n                        <p>${c.content}</p>\r\n                        <p><em>${c.created_date}</em></p>\r\n                    </div>\r\n                </div>\r\n                ` + area.innerHTML\r\n            } else if (data.status == 404)\r\n                alert(data.err_msg)\r\n        })\r\n    }\r\n}\r\n=======\r\n\r\nfunction searchCart(element){\r\n    text = element.value.toUpperCase();\r\n    l = document.getElementById(\"list-room\");\r\n    listRoom = l.getElementsByClassName(\"room-cart\")\r\n//    listName = listRoom.getElementsByClassName(\"name-cart\")\r\n    for (i= 0; i < listRoom.length; i++){\r\n        nameRoom = listRoom[i].getElementsByTagName(\"span\")[0].innerHTML;\r\n        if(nameRoom.toUpperCase().indexOf(text) > -1){\r\n            listRoom[i].style.display = \"\";\r\n        } else{\r\n            listRoom[i].style.display = \"none\";\r\n        }\r\n    }\r\n\r\n}\r\nfunction confirmDelete(element){\r\n    var result = confirm(\"Bạn có muốn xóa phòng này?\");\r\n        if (result == true) {\r\n            deleteCart(element);\r\n        }\r\n}\r\n\r\nfunction deleteCart(element){\r\n    event.preventDefault();\r\n    fetch('/delete-cart', {\r\n        method: 'post',\r\n        body: JSON.stringify({\r\n            \"id\": element.name\r\n        }),\r\n        headers: {\r\n            'Context-Type': 'application/json'\r\n        }\r\n    }).then(\r\n    res => {\r\n        if (res) {\r\n            if (res?.status !== 500) {\r\n                console.log(\"Thao tác thành công\")\r\n                return res.json()\r\n            }\r\n            else {\r\n                console.log(\"Thao tác thất bại\", res?.statusText)\r\n            }\r\n        }\r\n    }\r\n    ).then(data => {\r\n            alert(data[0]);\r\n            total_quantity = document.getElementById(\"countCart\");\r\n            total_quantity.innerHTML = data[1];\r\n            hideRoomDeleted(element);\r\n        }\r\n    ).catch(err => {\r\n            console.log(err);\r\n        }\r\n    );\r\n\r\n}\r\n\r\n\r\nfunction hideRoomDeleted(element){\r\n    roomIdDelete = element.name;\r\n    l = document.getElementById(\"list-room\");\r\n    listRoom = l.getElementsByClassName(\"room-cart\")\r\n//    listName = listRoom.getElementsByClassName(\"name-cart\")\r\n    for (i= 0; i < listRoom.length; i++){\r\n        roomId = listRoom[i].getElementsByTagName(\"input\")[0].name;\r\n        if(roomIdDelete == roomId ){\r\n            listRoom[i].style.display = \"none\";\r\n        }\r\n    }\r\n\r\n}\r\n\r\n\r\n>>>>>>> develop\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/static/js/cart.js b/src/static/js/cart.js
+--- a/src/static/js/cart.js	(revision 8997eb66ca912b46728d7c412c312cb6abcd652c)
++++ b/src/static/js/cart.js	(date 1641132357397)
+@@ -38,41 +38,7 @@
+     );
+ }
+ 
+-<<<<<<< HEAD
+-function addComment(productId) {
+-    let content = document.getElementById('commentId')
+-    if (content !== null) {
+-        fetch('/api/comments', {
+-            method: 'post'
+-            body: JSON.stringify({
+-                'product_id': productId,
+-                'content': content.value
+-            })
+-            headers: {
+-                'Content-Type': 'application/json'
+-            }
+-        }).then(res => res.json()).then(data => {
+-            if (data.status == 201) {
+-                let c = data.comment
+ 
+-                let area = getElementById('commentArea')
+-                area.innerHTML = `
+-                <div class="cmt comment">
+-                    <div class="col-md-1 col-xs-4 flex">
+-                        <p><b>${c.user.username}</b></p>
+-                    </div>
+-                    <div class="col-md-11 col-xs-8">
+-                        <p>${c.content}</p>
+-                        <p><em>${c.created_date}</em></p>
+-                    </div>
+-                </div>
+-                ` + area.innerHTML
+-            } else if (data.status == 404)
+-                alert(data.err_msg)
+-        })
+-    }
+-}
+-=======
+ 
+ function searchCart(element){
+     text = element.value.toUpperCase();
+@@ -145,6 +111,3 @@
+     }
+ 
+ }
+-
+-
+->>>>>>> develop
+Index: src/static/css/style.css
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>*{\r\n    font-family: 'Poppins', sans-serif;\r\n}\r\n\r\na.nextbtn {\r\n    background-color:red;\r\n    border: 1px solid red;\r\n    width: 500px;\r\n    height: 30px;\r\n}\r\n\r\ndiv.cmt {\r\n    padding-top: 100px;\r\n    padding-bottom: 0px;\r\n}\r\n\r\n.block {\r\n    width: 60%;\r\n    padding: auto;\r\n    margin: auto;\r\n    padding-top: 50px;\r\n    padding-bottom: 50px;\r\n    margin-top: 10px;\r\n    margin-bottom: 10px;\r\n    font-family: 'Poppins', sans-serif;\r\n}\r\n\r\n\r\n.button {\r\n    background-color: black;\r\n    color: whitesmoke;\r\n}\r\n\r\n.button:hover {\r\n    background-color: gold;\r\n    color: black;\r\n}\r\n\r\n.header > .navbar.navbar-expand-sm {\r\n     background-color: #000;\r\n     opacity: 0.9;\r\n     font-family: 'Poppins', sans-serif;\r\n     font-size: 14px;\r\n     font-weight: 500;\r\n}\r\n\r\n.header > .navbar.navbar-expand-sm:nth-child(1) {\r\n    padding-top: 16px;\r\n    height: 32px;\r\n    font-size: 12px;\r\n    font-weight: 500;\r\n    line-height: 36px;\r\n}\r\n\r\n.header > .navbar.navbar-expand-sm > .navbar-nav.top-nav-right {\r\n    margin-left: 3rem;\r\n    margin-right: auto;\r\n}\r\n\r\n.header > .navbar.navbar-expand-sm > .navbar-nav.top-nav-right > .nav-item > span {\r\n     color: white;\r\n}\r\n\r\n.header > .navbar.navbar-expand-sm > .navbar-nav.top-nav-left {\r\n    margin-left: auto;\r\n    margin-right: 3rem;\r\n}\r\n\r\n.header > .navbar.navbar-expand-sm > .navbar-nav.top-nav-left > .nav-item > .nav-link {\r\n     color: white;\r\n}\r\n\r\n.header > .navbar.navbar-expand-sm > .navbar-nav.bottom-nav {\r\n    margin-left: auto;\r\n    margin-right: 3rem;\r\n}\r\n\r\n.header > .navbar.navbar-expand-sm > .navbar-brand {\r\n    margin-left: 3rem;\r\n    margin-right: auto;\r\n}\r\n\r\n.header > .navbar.navbar-expand-sm > .navbar-nav.bottom-nav > .nav-item:hover {\r\n    background-color:  #1a1a1a;\r\n}\r\n\r\n.header > .navbar.navbar-expand-sm > .navbar-nav.bottom-nav > .nav-item > .nav-link {\r\n     color: white;\r\n}\r\n\r\n.header .dropdown-menu{\r\n    font-size: 14px;\r\n}\r\n\r\n#demo{\r\n    height: 500px;\r\n    z-index: -1;\r\n}\r\n\r\n#demo >.carousel-inner > .carousel-item > img{\r\n    height: 500px;\r\n    width: 100%;\r\n    object-fit: cover;\r\n}\r\n\r\n\r\n/*ADD-ROOM*/\r\n.add-room{\r\n    background-color: #000;\r\n    opacity: 0.9;\r\n    height: 80px;\r\n    font-family: 'Poppins', sans-serif;\r\n    display: flex;\r\n    align-items: center;\r\n    padding-left: 3rem;\r\n    padding-right: 3rem;\r\n}\r\n\r\n.add-room > #row-override > .col:nth-child(1)  {\r\n    color: white;\r\n    width: 30% !important;\r\n    font-size: 20px;\r\n}\r\n\r\n.add-room > #row-override > .col:nth-child(1) > .flex-box{\r\n    display:flex;\r\n    align-items:center;\r\n}\r\n\r\n.add-room > #row-override {\r\n    justify-content: space-between;\r\n    width: 95%;\r\n    align-items:center;\r\n}\r\n\r\n.add-room > #row-override > .col:nth-child(2)  {\r\n    padding-left: 0;\r\n    display:flex;\r\n    align-items: center;\r\n    font-size: 12px;\r\n}\r\n\r\n.add-room > .row > .col:nth-child(2) > .container{\r\n    padding-left: 0;\r\n    align-items: center;\r\n    width: 100%;\r\n}\r\n\r\n.add-room > .row > .col:nth-child(2) > .container > form{\r\n    display: flex;\r\n    align-items: center;\r\n    width: 100%;\r\n}\r\n\r\n.add-room > .row > .col:nth-child(2) > .container > form #find-button{\r\n    background-color: #b58955;\r\n    border: 1px solid #b58955;\r\n}\r\n\r\n.add-room > .row > .col:nth-child(2) > .container > form #find-button:hover{\r\n    background-color: #b97f3a;\r\n    border: 1px solid #b97f3a;\r\n}\r\n\r\n.content{\r\n    margin-top: 56px;\r\n}\r\n\r\n.content .content-title{\r\n    font-size: 35px;\r\n    font-weight: bold;\r\n    font-family: 'Poppins', sans-serif;\r\n    margin-bottom:16px;\r\n    display:block;\r\n}\r\n\r\n.content > .container:nth-child(2) .col > .card{\r\n   border: 1px solid #9a9a9a;\r\n}\r\n\r\n.content > .container:nth-child(2) .col > .card .card-img-top{\r\n   transition: transform 1s;\r\n}\r\n\r\n.content > .container:nth-child(2) .col > .card .card-img-top:hover{\r\n  transform: scale(1.5);\r\n}\r\n\r\n.content > .container:nth-child(2) .col > .card .card-body .btn-box a:nth-child(1):hover{\r\n    background-color: #e4c491;\r\n    color: white;\r\n    border: 1px solid #e4c491;\r\n}\r\n\r\n.content > .container:nth-child(2) .col > .card .card-body .btn-box a:nth-child(2):hover{\r\n    background-color: #e4c491;\r\n    color: white;\r\n    border: 1px solid #e4c491;\r\n}\r\n\r\n.content > .container:nth-child(2) .col > .card .card-body .card-text-price {\r\n    margin-top:8px;\r\n    margin-bottom:8px;\r\n    color: #b58943;\r\n    font-size: 20px;\r\n}\r\n\r\n\r\n.content #home-grid-1{\r\n    margin-top: 72px;\r\n}\r\n\r\n.content > .container:nth-child(2) .card-body a{\r\n    background-color: white;\r\n    color: #898989;\r\n    border: 1px solid #898989;\r\n}\r\n\r\n\r\n.content #home-grid-1 .title{\r\n   font-size: 35px;\r\n    font-weight: bold;\r\n    font-family: 'Poppins', sans-serif;\r\n    margin-bottom:32px;\r\n    display:block;\r\n}\r\n\r\n.content #home-grid-1 .paragraph{\r\n    font-family: 'Poppins', sans-serif;\r\n    font-size: 14px;\r\n}\r\n\r\n.content #home-grid-2{\r\n    margin-top: 72px;\r\n    margin-bottom: 72px;\r\n}\r\n\r\n.content #home-grid-2 .title{\r\n   font-size: 35px;\r\n    font-weight: bold;\r\n    font-family: 'Poppins', sans-serif;\r\n    margin-bottom:32px;\r\n    display:block;\r\n}\r\n\r\n.content #home-grid-2 .paragraph{\r\n    font-family: 'Poppins', sans-serif;\r\n    font-size: 14px;\r\n}\r\n\r\n.content #home-grid-2 .container{\r\n    font-family: 'Poppins', sans-serif;\r\n    font-size: 14px;\r\n    margin-top: 48px;\r\n}\r\n\r\n\r\n\r\n.content #home-grid-2 .container .row.align-items-start{\r\n    margin-bottom: 16px;\r\n}\r\n\r\n.content #home-grid-2 .container .row.align-items-start >  .col{\r\n    display: flex;\r\n    align-items: center;\r\n}\r\n\r\n.content #home-grid-2 .container .row.align-items-start >  .col span{\r\n    font-size: 12px;\r\n}\r\n\r\n.content #home-grid-2 .container .row.align-items-start .img-box{\r\n    width: 50px;\r\n    height: 50px;\r\n    margin-right: 16px;\r\n}\r\n\r\n.content #home-grid-2 .container .row.align-items-start img{\r\n    width: 100%;\r\n}\r\n\r\n.content #home-grid-3 .paragraph{\r\n    font-family: 'Poppins', sans-serif;\r\n    font-size: 14px;\r\n}\r\n\r\n.content #home-grid-4 .paragraph{\r\n    font-family: 'Poppins', sans-serif;\r\n    font-size: 14px;\r\n}\r\n\r\n\r\n.footer > .jumbotron{\r\n    background-color: #000;\r\n\r\n    color: white;\r\n    font-family: 'Poppins', sans-serif;\r\n    font-size: 14px;\r\n    font-weight: 500;\r\n}\r\n\r\n.flex-box{\r\n    display:flex;\r\n}\r\n\r\n.footer .flex-box.input-group{\r\n}\r\n\r\n.footer .flex-box{\r\n    justify-content: space-between;\r\n}\r\n\r\n.footer .flex-box.input-group > input{\r\n    border: 1px solid #fff;\r\n    padding-left: 1rem;\r\n    color: #fff;\r\n    width: 60%;\r\n}\r\n\r\n.footer .flex-box.input-group > button{\r\n    width: 35%;\r\n}\r\n\r\n.footer .flex-box.news-group{\r\n    justify-content: left;\r\n    align-items: center;\r\n    font-size: 24px;\r\n}\r\n\r\n.footer .flex-box.icon-group{\r\n    justify-content: right;\r\n    align-items: center;\r\n    font-size: 16px;\r\n}\r\n\r\n.icon-rounded > span{\r\n    display: inline-block;\r\n    border-radius: 60px;\r\n    box-shadow: 0px 0px 3px #e1bd85;\r\n    padding: 0.5em 0.6em;\r\n    margin-right: 1rem;\r\n    color: #e1bd85;\r\n}\r\n\r\n.icon-rounded > i{\r\n    display: inline-block;\r\n    border-radius: 60px;\r\n    box-shadow: 0px 0px 3px #e1bd85;\r\n    padding: 0.5em 0.6em;\r\n    margin-right: 1rem;\r\n    color: #e1bd85;\r\n    cursor: pointer;\r\n}\r\n\r\n.row.align-items{\r\n    align-items: center;\r\n}\r\n\r\n\r\n.footer #jumbotron-top{\r\n    height: 16px;\r\n    display: flex;\r\n    align-items: center;\r\n    opacity: 0.8;\r\n}\r\n\r\n.footer > .jumbotron{\r\n    margin-bottom: 0;\r\n}\r\n\r\n.footer #jumbotron-bottom{\r\n   background-color: #232323;\r\n   align-items: center;\r\n}\r\n\r\n.footer #jumbotron-bottom > .container > .row{\r\n   align-items: center;\r\n}\r\n\r\n.footer #jumbotron-bottom > .container > .row > .col:nth-child(2) > .text-icon {\r\n   display: flex;\r\n   align-items: center;\r\n   font-size: 12px;\r\n   color: #acacac;\r\n   margin-bottom: 12px;\r\n}\r\n\r\n.footer #jumbotron-bottom > .container > .row > .col:nth-child(2) > .text-icon >.text {\r\n   margin-left: 0.5rem;\r\n}\r\n\r\n\r\n.footer #jumbotron-bottom > .container > .row > .col:nth-child(3) > .title {\r\n   font-size: 16px;\r\n   font-weight: normal;\r\n   margin-bottom: 1rem;\r\n}\r\n\r\n.footer #jumbotron-bottom > .container > .row > .col:nth-child(3) > .sub-title span {\r\n   display: block;\r\n   font-size: 14px;\r\n   margin-bottom: 10px;\r\n   color: #acacac;\r\n}\r\n\r\n.footer #jumbotron-bottom > .container > .row > .col:nth-child(3) > .sub-title a{\r\n    text-decoration: none;\r\n}\r\n\r\n.footer #jumbotron-bottom > .container > .row > .col:nth-child(4) > .title {\r\n   font-size: 16px;\r\n   font-weight: normal;\r\n   margin-bottom: 1rem;\r\n}\r\n\r\n.footer #jumbotron-bottom > .container > .row > .col:nth-child(4) > .sub-title span {\r\n   display: block;\r\n   font-size: 14px;\r\n   margin-bottom: 10px;\r\n   color: #acacac;\r\n}\r\n\r\n.footer #jumbotron-bottom > .container > .row > .col:nth-child(4) > .sub-title a{\r\n    text-decoration: none;\r\n}\r\n\r\n.footer >.footer-created{\r\n    height: 48px;\r\n    background: #000;\r\n    color: #acacac;\r\n    display: flex;\r\n    align-items: center;\r\n    font-size: 13px;\r\n}\r\n\r\n.footer >.footer-created > .container{\r\n    text-align: center;\r\n}\r\n\r\n/* giỏ hàng */\r\n.myCart{\r\n    margin: 30px 0 80px 0;\r\n}\r\n\r\n.cart-hr{\r\n    width:90%;\r\n    margin:auto;\r\n    color: #b2b3b2;\r\n    margin-bottom: 20px;\r\n}\r\n.cart-h3{\r\n    color: #333;\r\n    font-family: 'Font Awesome 5 Brands';\r\n    margin-left:10%;\r\n}\r\n\r\n.search-cart{\r\n    background-image: url('/static/images/searchicon.png');\r\n    background-position: 10px 12px;\r\n    background-repeat: no-repeat;\r\n    width: 100%;\r\n    font-size: 16px;\r\n    padding: 12px 20px 12px 40px;\r\n    border: 1px solid #ddd;\r\n    margin-bottom: 12px;\r\n}\r\n\r\n.list-cart > div{\r\n    margin-bottom:20px;\r\n}\r\n.lc{\r\n    display: flex;\r\n    align-items: center;\r\n    padding: 1.25rem 0 1.25rem 2.5rem;\r\n    border-bottom: 1px solid rgba(0,0,0,.09);\r\n}\r\n\r\n.lc > div:first-child{\r\n    margin:auto;\r\n}\r\n.lc img{\r\n    width: 100%;\r\n}\r\n\r\n.name-room{\r\n    margin-top: -30px;\r\n    margin-bottom: 5px;\r\n    font-style: oblique;\r\n    font-size: 19px;\r\n}\r\n\r\n.person-amount{\r\n    background-color: #929292\r\n    margin-left : auto;\r\n    padding: 2px;\r\n    font-style: oblique;\r\n    font-size: 12px;\r\n    border-style: solid;\r\n    border-width: 1px;\r\n    border-color: #b2b3b2;\r\n    border-radius: 5px;\r\n}\r\n\r\n.date-order{\r\n    margin-bottom: -20px;\r\n    font-size: 14px;\r\n}\r\n\r\n.color-gray{\r\n    color: #929292;\r\n    font-style: oblique;\r\n}\r\n\r\n.color-orange{\r\n    color: #ee4d2d;\r\n    font-size: 20px;\r\n}\r\n\r\n#pay{\r\n    background-color: #f5f5f5;\r\n    opacity: 1;\r\n    height: 250px;\r\n    border-radius: 3px;\r\n    margin-top: 80px;\r\n    margin-left: 85px;\r\n    padding-left: 24px;\r\n}\r\n\r\n#pay > h3{\r\n    font-family: 'Font Awesome 5 Brands';\r\n    margin-top: 15px;\r\n}\r\n\r\n\r\n#pay > div {\r\n    font-size: 20px;\r\n    font-weight: bold;\r\n    margin-top: 20px;\r\n    margin-bottom: 20px;\r\n}\r\n#pay >div > span{\r\n    font-size: 20px;\r\n    color: red;\r\n    margin-left: 140px;\r\n}\r\n\r\n\r\n#pay .voucher input{\r\n    height: 40px;\r\n    font-size: 15px;\r\n}\r\n\r\n.btn-voucher{\r\n    background-color: #846135;\r\n    color: white;\r\n    margin-left: 45px;\r\n}\r\n\r\n.btn-voucher:hover{\r\n    background-color: #1a1a1a;\r\n    color: white;\r\n}\r\n\r\n.btn-payment{\r\n    width: 97%;\r\n    background-color: #1a1a1a;\r\n    color: white;\r\n    font-size: 17px;\r\n    font-weight: 600;\r\n    text-align: center;\r\n    transition: all 0.5s;\r\n    cursor: pointer;\r\n}\r\n\r\n.btn-payment:hover{\r\n    background-color: #d9bb8b;\r\n    color: black;\r\n}\r\n\r\n.btn-payment span {\r\n  cursor: pointer;\r\n  display: inline-block;\r\n  position: relative;\r\n  transition: 0.5s;\r\n}\r\n\r\n.btn-payment span:after {\r\n  content: '\\2713';\r\n  position: absolute;\r\n  opacity: 0;\r\n  top: 0;\r\n  right: -20px;\r\n  transition: 0.5s;\r\n}\r\n\r\n.btn-payment:hover span {\r\n  padding-right: 15px;\r\n}\r\n\r\n.btn-payment:hover span:after {\r\n  opacity: 1;\r\n  right: 0;\r\n}\r\n\r\n/* back to top */\r\n#back-to-top{\r\n    position: fixed;\r\n    display: none;\r\n    top: 80%;\r\n    left: 95%;\r\n    font-size: 26px;\r\n    width: 35px;\r\n    background-color: rgba(223, 223, 223, 0.411);\r\n    color: #333;\r\n    cursor: pointer;\r\n    border: 3px solid rgba(0, 0, 0, 0.514);\r\n    border-radius: 5px;\r\n    padding-top: 0px;\r\n    transition: 0.5s;\r\n    text-align: center;\r\n    z-index: 10000;\r\n}\r\n#back-to-top:hover{\r\n    background-color: black;\r\n    color: white;\r\n}\r\n\r\n/* scroll */\r\n\r\n.progress-container {\r\n  width: 100%;\r\n  height: 5px;\r\n  background: #ccc;\r\n}\r\n\r\n.progress-bar {\r\n  height: 5px;\r\n  background: #a7783e;\r\n  width: 0%;\r\n}
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/static/css/style.css b/src/static/css/style.css
+--- a/src/static/css/style.css	(revision 8997eb66ca912b46728d7c412c312cb6abcd652c)
++++ b/src/static/css/style.css	(date 1641178381682)
+@@ -9,6 +9,14 @@
+     height: 30px;
+ }
+ 
++.flex {
++    display: flex;
++}
++
++.distance > p {
++    margin: 8px;
++}
++
+ div.cmt {
+     padding-top: 100px;
+     padding-bottom: 0px;
+Index: src/__init__.py
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>from flask import Flask\r\nfrom flask_sqlalchemy import SQLAlchemy\r\nfrom flask_babelex import Babel\r\nfrom flask_login import LoginManager\r\nimport cloudinary\r\n\r\napp = Flask(__name__)\r\napp.secret_key = 'sfsjfffehr4$#$@$@$%^^^$^%@$GG'\r\n\r\napp.config[\"SQLALCHEMY_DATABASE_URI\"] = \"mysql+pymysql://root:12345678@localhost/hotel?charset=utf8mb4\"\r\n\r\n\r\napp.config[\"SQLALCHEMY_TRACK_MODIFICATIONS\"] = True\r\n\r\ndb = SQLAlchemy(app=app)\r\nbabel = Babel(app=app)\r\n@babel.localeselector\r\ndef get_locale():\r\n        # Put your logic here. Application can store locale in\r\n        # user profile, cookie, session, etc.\r\n        return 'vi'\r\n\r\n\r\ncloudinary.config(cloud_name='dwgjmgf6o', api_key='963493837729524', api_secret='ra068pqFPrbpRrMDgE-Lua2hDZ8')\r\n\r\nlogin = LoginManager(app=app)
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/__init__.py b/src/__init__.py
+--- a/src/__init__.py	(revision 8997eb66ca912b46728d7c412c312cb6abcd652c)
++++ b/src/__init__.py	(date 1641196211046)
+@@ -7,8 +7,8 @@
+ app = Flask(__name__)
+ app.secret_key = 'sfsjfffehr4$#$@$@$%^^^$^%@$GG'
+ 
+-app.config["SQLALCHEMY_DATABASE_URI"] = "mysql+pymysql://root:12345678@localhost/hotel?charset=utf8mb4"
+-
++app.config["SQLALCHEMY_DATABASE_URI"] = "mysql+pymysql://root:phuc12345@localhost/newdata?charset=utf8mb4"
++app.config['COMMENT_SIZE'] = 4
+ 
+ app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = True
+ 
+@@ -23,4 +23,6 @@
+ 
+ cloudinary.config(cloud_name='dwgjmgf6o', api_key='963493837729524', api_secret='ra068pqFPrbpRrMDgE-Lua2hDZ8')
+ 
++#1954052027hieu@ou.edu.vn
++
+ login = LoginManager(app=app)
+\ No newline at end of file
+Index: src/models.py
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>from jinja2 import meta\r\nfrom sqlalchemy import Column, Integer, String, Float, Boolean, Enum, DateTime, ForeignKey\r\nfrom sqlalchemy.orm import relationship\r\nfrom src import db\r\nfrom datetime import datetime\r\nfrom enum import Enum as UserEnum\r\nfrom flask_login import UserMixin\r\n\r\n\r\n\r\nclass BaseModel(db.Model):\r\n    __abstract__ = True\r\n\r\n    id = Column(Integer, primary_key=True, autoincrement=True)\r\n\r\n\r\nclass UserRole(UserEnum):\r\n    ADMIN = 1\r\n    USER = 2\r\n\r\nclass User(BaseModel, UserMixin):\r\n    username = Column(String(50), nullable=False, unique=True)\r\n    password = Column(String(50), nullable=False)\r\n    email = Column(String(50), nullable=False)\r\n    avatar = Column(String(200), default='')\r\n    joined_date = Column(DateTime, default=datetime.now())\r\n    user_role = Column(Enum(UserRole), default=UserRole.USER)\r\n    comments = relationship('Comment', backref='user', lazy=True)\r\n\r\nclass ChangePolicyNumber(BaseModel):\r\n    foreign_visitor_number = Column(Float, nullable=True)\r\n    domestic_visitor_number = Column(Float, nullable=True)\r\n    quantity_types_visitors = Column(Integer, nullable=True)\r\n    quantity_types_rooms = Column(Integer, nullable=True)\r\n    max_visitors_in_a_room = Column(Integer, nullable=True)\r\n    number_price = Column(Float, nullable=True)\r\n    amount_extra = Column(Float, nullable=True)\r\n\r\nclass TypeVisit(BaseModel):\r\n    type_visit_name = Column(String(50), nullable= False)\r\n\r\n    rentalVoucherDetails = relationship('RentalVoucherDetail', backref='typeVisit', lazy=False)\r\n\r\nclass RentalVoucher(BaseModel):\r\n    start_date = Column(DateTime, default=datetime.now())\r\n\r\n    rooms = relationship('Room', backref='rentalVoucher', lazy=False)\r\n    # def __str__(self):\r\n    #     return self.id\r\n\r\nclass RentalVoucherDetail(BaseModel):\r\n    visit_name = Column(String(50), nullable=True)\r\n    type_visit_id = Column(Integer, ForeignKey(TypeVisit.id), primary_key=True, nullable=False)\r\n    cart_id = Column(Integer, nullable=True)\r\n    address = Column(String(100), nullable=True)\r\n    phone_number = Column(Integer, nullable=True)\r\n    rental_voucher_id = Column(Integer, ForeignKey(RentalVoucher.id), primary_key=True, nullable=False)\r\n\r\n\r\nclass TypeRoom(BaseModel):\r\n    type_room_name = Column(String(50), nullable=False)\r\n\r\n    rooms = relationship('Room', backref='typeRoom', lazy=False)\r\n\r\n    def __str__(self):\r\n        return self.type_room_name\r\n\r\nclass Room(BaseModel):\r\n    quantity_bed = Column(Integer, nullable=False)\r\n    price = Column(Float, nullable=False)\r\n    status = Column(String(50), default=\"GOOD\")\r\n    type_room_id = Column(Integer, ForeignKey(TypeRoom.id), nullable=False)\r\n    rental_voucher = Column(Integer, ForeignKey(RentalVoucher.id), default=0)\r\n    image = Column(String(150), nullable=False)\r\n    descriptions = Column(String(200), nullable=False)\r\n    comments = relationship('Comment', backref='room', lazy=True)\r\n\r\n    receiptDetails = relationship('ReceiptDetail', backref='room', lazy=True)\r\n\r\nclass Receipt(BaseModel):\r\n    visitor_name = Column(String(50), nullable=False)\r\n    address = Column(String(100))\r\n    price = Column(Float, default=0)\r\n\r\n    receiptDetails = relationship('ReceiptDetail', backref='receipt', lazy=False)\r\n\r\n\r\n    user_id = Column(Integer, nullable = False)\r\n\r\nclass ReceiptDetail(db.Model):\r\n    id = Column(Integer, ForeignKey(Receipt.id), primary_key=True, nullable=False, autoincrement=True)\r\n    room_id = Column(Integer, ForeignKey(Room.id), primary_key=True, nullable=False)\r\n    room_name = Column(String(100), nullable=False)\r\n    price = Column(Float, default=0)\r\n    quantity = Column(Integer, default=0)\r\n    receive_day = Column(String(50), default=datetime.now())\r\n    pay_day = Column(String(50), default=datetime.now())\r\n    person_amount = Column(Integer)\r\n\r\n\r\nclass Comment(BaseModel):\r\n    content = Column(String(255), nullable=False)\r\n    room_id = Column(Integer, ForeignKey(Room.id), nullable=False)\r\n    user_id = Column(Integer, ForeignKey(User.id), nullable=False)\r\n    created_date = Column(DateTime, default=datetime.now())\r\n\r\n    def __str__(self):\r\n        return self.content\r\n\r\n\r\nif __name__ == '__main__':\r\n    db.create_all()\r\n    # rooms = [\r\n    #     {\r\n    #         \"quantity_bed\": 2,\r\n    #         \"price\": 70,\r\n    #         \"status\": \"Trống\",\r\n    #         \"type_room_id\": 1,\r\n    #         \"rental_voucher\": 2\r\n    #     },\r\n    #     {\r\n    #         \"quantity_bed\": 2,\r\n    #         \"price\": 50,\r\n    #         \"status\": \"Trống\",\r\n    #         \"type_room_id\": 2,\r\n    #         \"rental_voucher\": 1\r\n    #     },\r\n    #     {\r\n    #         \"quantity_bed\": 3,\r\n    #         \"price\": 70,\r\n    #         \"status\": \"Trống\",\r\n    #         \"type_room_id\": 3,\r\n    #         \"rental_voucher\": 2\r\n    #     },\r\n    #     {\r\n    #         \"quantity_bed\": 3,\r\n    #         \"price\": 80,\r\n    #         \"status\": \"Trống\",\r\n    #         \"type_room_id\": 1,\r\n    #         \"rental_voucher\": 2\r\n    #     },\r\n    #     {\r\n    #         \"quantity_bed\": 3,\r\n    #         \"price\": 80,\r\n    #         \"status\": \"Trống\",\r\n    #         \"type_room_id\": 2,\r\n    #         \"rental_voucher\": 2\r\n    #     },\r\n    #     {\r\n    #         \"quantity_bed\": 3,\r\n    #         \"price\": 70,\r\n    #         \"status\": \"Trống\",\r\n    #         \"type_room_id\": 4,\r\n    #         \"rental_voucher\": 2\r\n    #     },\r\n    #     {\r\n    #         \"quantity_bed\": 3,\r\n    #         \"price\": 90,\r\n    #         \"status\": \"Trống\",\r\n    #         \"type_room_id\": 3,\r\n    #         \"rental_voucher\": 2\r\n    #     }\r\n    # ]\r\n    # receipt_detail = [\r\n    #     {\r\n    #         \"receipt_id\": 1,\r\n    #         \"room_id\": 4,\r\n    #         \"rental_date\": datetime.now(),\r\n    #         \"price\": 70,\r\n    #         \"total\": 70\r\n    #     },\r\n    #     {\r\n    #         \"receipt_id\": 2,\r\n    #         \"room_id\": 5,\r\n    #         \"rental_date\": datetime.now(),\r\n    #         \"price\": 50,\r\n    #         \"total\": 50\r\n    #     },\r\n    #     {\r\n    #         \"receipt_id\": 3,\r\n    #         \"room_id\": 6,\r\n    #         \"rental_date\": datetime.now(),\r\n    #         \"price\": 70,\r\n    #         \"total\": 70\r\n    #     },\r\n    #     {\r\n    #         \"receipt_id\": 4,\r\n    #         \"room_id\": 7,\r\n    #         \"rental_date\": datetime.now(),\r\n    #         \"price\": 80,\r\n    #         \"total\": 80\r\n    #     },\r\n    #     {\r\n    #         \"receipt_id\": 5,\r\n    #         \"room_id\": 8,\r\n    #         \"rental_date\": datetime.now(),\r\n    #         \"price\": 80,\r\n    #         \"total\": 80\r\n    #     },\r\n    #     {\r\n    #         \"receipt_id\": 6,\r\n    #         \"room_id\": 9,\r\n    #         \"rental_date\": datetime.now(),\r\n    #         \"price\": 70,\r\n    #         \"total\": 70\r\n    #     },\r\n    #     {\r\n    #         \"receipt_id\": 7,\r\n    #         \"room_id\": 10,\r\n    #         \"rental_date\": datetime.now(),\r\n    #         \"price\": 90,\r\n    #         \"total\": 90\r\n    #     },\r\n    # ]\r\n    #\r\n    # for p in receipt_detail:\r\n    #     room = ReceiptDetail(\r\n    #                 receipt_id=p['receipt_id'],\r\n    #                 room_id=p['room_id'],\r\n    #                 rental_date=p['rental_date'],\r\n    #                 price=p['price'],\r\n    #                 total=p['total']\r\n    #                 )\r\n    #     db.session.add(room)\r\n    #     db.session.commit()
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/models.py b/src/models.py
+--- a/src/models.py	(revision 8997eb66ca912b46728d7c412c312cb6abcd652c)
++++ b/src/models.py	(date 1641264293239)
+@@ -72,7 +72,7 @@
+     type_room_id = Column(Integer, ForeignKey(TypeRoom.id), nullable=False)
+     rental_voucher = Column(Integer, ForeignKey(RentalVoucher.id), default=0)
+     image = Column(String(150), nullable=False)
+-    descriptions = Column(String(200), nullable=False)
++    descriptions = Column(String(20000), nullable=False)   #description-datatype:varchar(200)->varchar(20000)
+     comments = relationship('Comment', backref='room', lazy=True)
+ 
+     receiptDetails = relationship('ReceiptDetail', backref='room', lazy=True)

@@ -9,6 +9,14 @@ a.nextbtn {
     height: 30px;
 }
 
+.flex {
+    display: flex;
+}
+
+.distance > p {
+    margin: 8px;
+}
+
 div.cmt {
     padding-top: 100px;
     padding-bottom: 0px;
