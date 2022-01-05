@@ -78,12 +78,16 @@ def get_user_by_name(name):
     return User.query.filter(User.username.__eq__(name)).first()
 
 
-def get_all_rooms():
+def get_all_rooms(page):
+    page_size = app.config['PAGE_SIZE']
+    start = (page - 1) * page_size
+    end = start + page_size
+
     query = db.session.query(Room.id, Room.quantity_bed, Room.price, Room.status, Room.type_room_id,
                              Room.rental_voucher, Room.image, Room.descriptions, TypeRoom.type_room_name).filter(
         Room.type_room_id == TypeRoom.id)
-    print('execute', query)
-    return query.all()
+
+    return query.slice(start, end).all()
 
 
 def get_room_by_id(room_id):
@@ -154,9 +158,13 @@ def delete_Receipt_detail(id):
     mydb.commit()
 
 
-def filters_room(type_room_id, quantity_bed, price_order_by):
-    print('check order by', price_order_by)
+def count_rooms(type_room_id, quantity_bed, price_order_by):
     query = ""
+    if (type_room_id == '' and quantity_bed == '' and price_order_by == '') or \
+            (type_room_id is None and quantity_bed is None and price_order_by is None):
+        query = db.session.query(Room.id, Room.quantity_bed, Room.price, Room.status, Room.type_room_id, Room.image,
+                                 Room.descriptions, TypeRoom.type_room_name).filter(
+            Room.type_room_id == TypeRoom.id).order_by(asc(Room.price))
     if price_order_by == 'asc':
         if quantity_bed == '' and type_room_id == '':
             query = db.session.query(Room.id, Room.quantity_bed, Room.price, Room.status, Room.type_room_id, Room.image,
@@ -194,7 +202,58 @@ def filters_room(type_room_id, quantity_bed, price_order_by):
                 Room.type_room_id == TypeRoom.id).filter(Room.type_room_id == type_room_id).filter(
                 Room.quantity_bed == quantity_bed).order_by(desc(Room.price))
 
-    return query.all()
+    return len(query.all())
+
+
+def filters_room(type_room_id, quantity_bed, price_order_by, page):
+    page_size = app.config['PAGE_SIZE']
+    start = (page - 1) * page_size
+    end = start + page_size
+
+    query = ""
+    if (type_room_id == '' and quantity_bed == '' and price_order_by == '') or \
+            (type_room_id is None and quantity_bed is None and price_order_by is None):
+        query = db.session.query(Room.id, Room.quantity_bed, Room.price, Room.status, Room.type_room_id, Room.image,
+                                     Room.descriptions, TypeRoom.type_room_name).filter(
+                Room.type_room_id == TypeRoom.id).order_by(asc(Room.price))
+    if price_order_by == 'asc':
+        if quantity_bed == '' and type_room_id == '':
+            query = db.session.query(Room.id, Room.quantity_bed, Room.price, Room.status, Room.type_room_id, Room.image,
+                                     Room.descriptions, TypeRoom.type_room_name).filter(
+                Room.type_room_id == TypeRoom.id).order_by(asc(Room.price))
+        if quantity_bed == '' and type_room_id != '':
+            query = db.session.query(Room.id, Room.quantity_bed, Room.price, Room.status, Room.type_room_id, Room.image,
+                                     Room.descriptions, TypeRoom.type_room_name).filter(
+                Room.type_room_id == TypeRoom.id).filter(Room.type_room_id == type_room_id).order_by(asc(Room.price))
+        if quantity_bed != '' and type_room_id == '':
+            query = db.session.query(Room.id, Room.quantity_bed, Room.price, Room.status, Room.type_room_id, Room.image,
+                                     Room.descriptions, TypeRoom.type_room_name).filter(
+                Room.type_room_id == TypeRoom.id).filter(Room.quantity_bed == quantity_bed).order_by(asc(Room.price))
+        if type_room_id != '' and quantity_bed != '':
+            query = db.session.query(Room.id, Room.quantity_bed, Room.price, Room.status, Room.type_room_id, Room.image,
+                                     Room.descriptions, TypeRoom.type_room_name).filter(
+                Room.type_room_id == TypeRoom.id).filter(Room.type_room_id == type_room_id).filter(
+                Room.quantity_bed == quantity_bed).order_by(asc(Room.price))
+    if price_order_by == 'desc':
+        if quantity_bed == '' and type_room_id == '':
+            query = db.session.query(Room.id, Room.quantity_bed, Room.price, Room.status, Room.type_room_id, Room.image,
+                                     Room.descriptions, TypeRoom.type_room_name).filter(
+                Room.type_room_id == TypeRoom.id).order_by(desc(Room.price))
+        if quantity_bed == '' and type_room_id != '':
+            query = db.session.query(Room.id, Room.quantity_bed, Room.price, Room.status, Room.type_room_id, Room.image,
+                                     Room.descriptions, TypeRoom.type_room_name).filter(
+                Room.type_room_id == TypeRoom.id).filter(Room.type_room_id == type_room_id).order_by(desc(Room.price))
+        if quantity_bed != '' and type_room_id == '':
+            query = db.session.query(Room.id, Room.quantity_bed, Room.price, Room.status, Room.type_room_id, Room.image,
+                                     Room.descriptions, TypeRoom.type_room_name).filter(
+                Room.type_room_id == TypeRoom.id).filter(Room.quantity_bed == quantity_bed).order_by(desc(Room.price))
+        if type_room_id != '' and quantity_bed != '':
+            query = db.session.query(Room.id, Room.quantity_bed, Room.price, Room.status, Room.type_room_id, Room.image,
+                                     Room.descriptions, TypeRoom.type_room_name).filter(
+                Room.type_room_id == TypeRoom.id).filter(Room.type_room_id == type_room_id).filter(
+                Room.quantity_bed == quantity_bed).order_by(desc(Room.price))
+
+    return query.slice(start, end).all()
 
 
 # Add cart
