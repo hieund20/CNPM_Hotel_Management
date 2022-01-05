@@ -81,7 +81,7 @@
                         {% endif %}
                     </div>
 
-                    <p>Hình thức thanh toán</p>
+                    <p class="payment-mode">Hình thức thanh toán</p>
                     <div class="form-check">
                         <div class="icon-payment">
                             <img src="https://res.cloudinary.com/dwgjmgf6o/image/upload/v1641123552/icons/momo-icon_scvrtm.png"
@@ -143,14 +143,15 @@
                 </script>
             </div>
             <div class="col">
+                <p>Danh sách phòng đã đặt</p>
                 <div class="container-scroll">
                     {% for booking_room in list_booking_room %}
                     <div class="card mb-3" style="max-width: 540px;">
                         <div class="row g-0">
-                            <div class="col-md-4">
+                            <div class="col-md-5">
                                 <img src="{{ booking_room.image }}" class="img-fluid rounded-start" alt="...">
                             </div>
-                            <div class="col-md-8">
+                            <div class="col-md-7">
                                 <div class="card-body">
                                     <h5 class="card-title">{{ booking_room.room_name }}</h5>
                                     <p class="card-text">{{ booking_room.price }}$</p>
