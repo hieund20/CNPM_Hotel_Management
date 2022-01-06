@@ -66,8 +66,6 @@
                                    type="submit"
                                    value="ĐẶT PHÒNG"
                                    onclick="addToCart({{ room.id }}, '{{ type_room[0].type_room_name }}', {{ room.price }}, document.getElementById('receive-day').value,  document.getElementById('pay-day').value, document.getElementsByName('person-amount')[0].value)"/>
-
-
                         </div>
                     </div>
                 </form>
@@ -97,6 +95,7 @@
             var years = moment().diff(start, 'years');
           });
         });
+
     </script>
 
 
@@ -147,6 +146,16 @@
     </ul>
     {% endif %}
     <!-- color: #a5763e; -->
+
+
+    <div id="toast-message">
+        <div class="toast-body">
+            <span class="material-icons">
+                check_circle_outline
+            </span>
+            <span>Đặt phòng thành công</span>
+        </div>
+    </div>
 
 </div>
 {% endblock %}

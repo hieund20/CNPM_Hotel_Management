@@ -31,6 +31,8 @@ const addToCart = (id, name, price, receiveDay, payDay, personAmount) => {
             console.log('data', data);
             total_quantity = document.getElementById("countCart");
             total_quantity.innerHTML = data[3];
+            //Show toast message
+            handleShowToast();
         }
     ).catch(err => {
             console.log(err);
@@ -38,6 +40,11 @@ const addToCart = (id, name, price, receiveDay, payDay, personAmount) => {
     );
 }
 
+const handleShowToast = () => {
+    var toastEl = document.getElementById("toast-message");
+    toastEl.className = "show";
+    setTimeout(() => { toastEl.className = toastEl.className.replace("show", ""); }, 3000);
+}
 
 
 function searchCart(element){
