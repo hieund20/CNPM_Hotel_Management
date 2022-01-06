@@ -43,10 +43,6 @@ def home_page():
                                           price_order_by=price_sort,
                                           page=int(page))
 
-    print('len', utils.count_rooms(type_room_id=type_room_id,
-                                   quantity_bed=quantity_bed,
-                                   price_order_by=price_sort))
-
     page_counter = utils.count_rooms(type_room_id=type_room_id,
                                      quantity_bed=quantity_bed,
                                      price_order_by=price_sort)
