@@ -10,13 +10,11 @@ import pymysql.cursors
 import mysql.connector
 
 mydb = mysql.connector.connect(
-    host="localhost",
-    user="root",
-    passwd="Duchieu200301",
-    database="hotel_management_db"
-)
-
-
+        host="localhost",
+        user="root",
+        passwd="123456789",
+        database="hotel5"
+    )
 def get_all_type_rooms():
     return TypeRoom.query.all()
 

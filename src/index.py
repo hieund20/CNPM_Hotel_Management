@@ -116,6 +116,13 @@ def user_load(user_id):
     return utils.get_user_by_id(user_id=user_id)
 
 
+
+@app.route('/contact-page')
+def contact_page():
+    return render_template("contactPage.html")
+
+
+
 @app.route('/my-room')
 def cart():
     err = ""
