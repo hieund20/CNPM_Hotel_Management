@@ -3,6 +3,7 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_babelex import Babel
 from flask_login import LoginManager
 import cloudinary
+from flask_migrate import Migrate
 
 app = Flask(__name__)
 app.secret_key = 'sfsjfffehr4$#$@$@$%^^^$^%@$GG'
@@ -13,6 +14,7 @@ app.config['COMMENT_SIZE'] = 4
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = True
 
 db = SQLAlchemy(app=app)
+migrate = Migrate(app, db)
 babel = Babel(app=app)
 @babel.localeselector
 def get_locale():

@@ -49,8 +49,13 @@ def user_register():
         password = request.form.get('password')
         confirm = request.form.get('confirm')
         email = request.form.get('email')
+
+
         try:
             if password.strip().__eq__(confirm.strip()):
+                #Nhớ KT password
+
+
 
                 utils.add_user(username=username,
                                password=password, email=email)
@@ -211,4 +216,4 @@ def add_comments():
 if __name__ == "__main__":
     from src.admin import *
 
-    app.run(debug=True, host='0.0.0.0')
+    app.run(debug=True)

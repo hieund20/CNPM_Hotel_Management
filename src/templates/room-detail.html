@@ -62,7 +62,7 @@
                     <div>
                         <div class="col-12">
                             <input class="btn btn-primary"
-                                   style="background-color: #b58955; border: 1px solid #b58955; margin-top:8px;"
+                                   style="background-color: black; border: 1px solid black; margin-top:8px;"
                                    type="submit"
                                    value="ĐẶT PHÒNG"
                                    onclick="addToCart({{ room.id }}, '{{ type_room[0].type_room_name }}', {{ room.price }}, document.getElementById('receive-day').value,  document.getElementById('pay-day').value, document.getElementsByName('person-amount')[0].value)"/>
@@ -146,6 +146,7 @@
         {% endfor %}
     </ul>
     {% endif %}
+    <!-- color: #a5763e; -->
 
 </div>
 {% endblock %}

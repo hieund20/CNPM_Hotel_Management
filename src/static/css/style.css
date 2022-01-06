@@ -2,6 +2,24 @@
     font-family: 'Poppins', sans-serif;
 }
 
+div.container > ul.pagination > li.page-item > a {
+    background-color: white;
+    color: black;
+    border: 1px solid black;
+}
+
+div.container > ul.pagination > li.page-item > a:hover {
+    background-color: #a5763e;
+    color: black;
+    border: 1px solid #a5763e;
+}
+
+div.container > div.row > div.col:last-child > div.container > form.row > div:last-child > div.col-12 > input.btn-primary:hover {
+    background-color: #a5763e !important;
+    color: white !important;
+    border: 1px solid #a5763e !important;
+}
+
 a.nextbtn {
     background-color:red;
     border: 1px solid red;
@@ -9,12 +27,24 @@ a.nextbtn {
     height: 30px;
 }
 
-.flex {
+div.cmt > input.btn {
+    background-color: black;
+    color: white;
+    border: 1px solid black;
+}
+
+div.cmt > input.btn:hover {
+    background-color: #a5763e;
+    color: white;
+    border: 1px solid #a5763e;
+}
+
+#commentArea > .comment > div.flex {
     display: flex;
 }
 
-.distance > p {
-    margin: 8px;
+#commentArea > .comment > div.distance > p {
+    margin: 10px;
 }
 
 div.cmt {
