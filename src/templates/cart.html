@@ -3,13 +3,13 @@
 {% block title %}Giỏ hàng{% endblock %}
 
 {% block content %}
-    <h1 class="text-center myCart">Phòng của tôi</h1>
+    <h1 class="myCart">PHÒNG CỦA TÔI</h1>
     {% if err:%}
     <h1 class="text-center alert alert-danger">{{err}}</h1>
     {% endif %}
+    {% if list_cart %}
     <h3 class="cart-h3">Danh sách phòng đã đặt:</h3>
     <hr class="cart-hr">
-    {% if list_cart %}
     <div class="container">
         <div class="row">
             <div class="col-lg-7" >
@@ -33,12 +33,12 @@
                             </div>
                         </div>
 
-                        <div class="col-lg-2 color-orange">
+                        <div class="col-lg-2 color-money">
                             {{i.price}}$
                         </div>
 
                         <div class="col-lg-1">
-                            <input type="button" name="{{i.id}}" class="btn btn-danger" value="xóa" onclick="confirmDelete(this)">
+                            <input type="button" name="{{i.id}}" class="btn btn-del" value="xóa" onclick="confirmDelete(this)">
                         </div>
                     </div>
                     {% endfor %}
@@ -46,7 +46,7 @@
             </div>
             <div class="col-lg-4" id="pay">
                 <h3>Thông tin đặt phòng</h3>
-                <div>Tổng tiền: <span>{{total_money}}$</span></div>
+                <div>Tổng tiền: <span id="total_money">{{total_money}}$</span></div>
                 <div class="voucher">
                     <input type="text" placeholder="Nhập mã giảm giá" name="">
                     <input type="button" value="Áp dụng" class="btn btn-voucher">
@@ -56,7 +56,8 @@
         </div>
     </div>
     {% else %}
-    <h3><i>Vui lòng đặt phòng!!!</i></h3>
+    <div class="text-center" style="margin-bottom: 17px">Vui lòng đặt phòng!!!</div>
+    <div class="text-center">Cảm ơn bạn đã lựa chọn dịch vụ của Lotus Hotel !</div>
     {% endif %}
     <br><br><br>,<br>
 {% endblock %}

@@ -109,15 +109,15 @@ def cart():
 def delete_cart():
     data = json.loads(request.data)
     id = str(data.get("id"))
-    tb ="Đã xóa thành công"
+    tb = True
     try:
        utils.delete_Receipt_detail(id = id)
     except:
-        tb="Lỗi databasse! Vui lòng thử lại sau!"
+        tb =False
 
-    # update cart
+    total_money = utils.total_money(user_id=0)
 
-    return jsonify(tb, len(utils. total_room_by_receiptId(0)))
+    return jsonify(tb, len(utils.total_room_by_receiptId(0)), total_money)
 
 
 
