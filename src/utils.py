@@ -11,8 +11,8 @@ import mysql.connector
 mydb = mysql.connector.connect(
         host="localhost",
         user="root",
-        passwd="12345678",
-        database="hotel"
+        passwd="123456789",
+        database="hotel5"
     )
 
 def get_all_type_rooms():
