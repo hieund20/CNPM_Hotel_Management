@@ -44,7 +44,7 @@ Bài tập lớn môn Công nghệ phần mềm
   <br/>
 - git commit -m"write commit content"
   <br/>
-- git push origin <your branch>
+- git push origin tên nhánh
   <br/>
 - Sau khi push lên, tạo Megre Request (MR) để merge vào develop.
 

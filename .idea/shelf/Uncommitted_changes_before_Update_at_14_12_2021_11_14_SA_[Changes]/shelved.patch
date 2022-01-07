@@ -1,0 +1,19 @@
+Index: src/__init__.py
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>from flask import Flask\r\nfrom flask_sqlalchemy import SQLAlchemy\r\n\r\napp = Flask(__name__)\r\napp.config[\"SQLALCHEMY_DATABASE_URI\"] = \"mysql+pymysql://root:Duchieu200301@localhost/hotel_management_db?charset=utf8mb4\"\r\napp.config[\"SQLALCHEMY_TRACK_MODIFICATIONS\"] = True\r\n\r\n\r\ndb = SQLAlchemy(app=app)\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/__init__.py b/src/__init__.py
+--- a/src/__init__.py	(revision 03979d64f47653db60df76c3b2d2d92b76cabd7a)
++++ b/src/__init__.py	(date 1639455269854)
+@@ -2,7 +2,7 @@
+ from flask_sqlalchemy import SQLAlchemy
+ 
+ app = Flask(__name__)
+-app.config["SQLALCHEMY_DATABASE_URI"] = "mysql+pymysql://root:Duchieu200301@localhost/hotel_management_db?charset=utf8mb4"
++app.config["SQLALCHEMY_DATABASE_URI"] = "mysql+pymysql://root:12345678@localhost/hotel?charset=utf8mb4"
+ app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = True
+ 
+ 

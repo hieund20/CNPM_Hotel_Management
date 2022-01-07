@@ -1,0 +1,75 @@
+{% extends 'layout/base.html' %}
+
+{% block title %} The Lotus Hotel {% endblock %}
+
+{% block content %}
+    <div class="content">
+        <div class="container">
+            <span class="content-title">VỀ CHÚNG TÔI</span>
+        </div>
+        <div class="container" id="home-grid-1">
+              <div class="row" style="display: flex; align-items: center;">
+                <div class="col">
+                    <div style="height: 300px;">
+                       <img src="{{ url_for('static', filename='images/about-1.jfif') }}" alt="..." style="width: 100%; object-fit: cover; height: 300px;" >
+                    </div>
+                </div>
+                <div class="col">
+                  <div class="paragraph">
+                      <p>
+                          Tọa lạc tại vị trí trung tâm quận Gò Vấp trên đường Nguyễn Kiệm, kế bên là nhà hàng Adora, cách các trung tâm thành phố 20 phút di chuyển, cách khu mua sắm giải trí 15 phút di chuyển, Lotus hotel là lựa chọn lý tưởng giúp du khách hòa mình vào nhịp sống sôi động nhưng yên tĩnh về đêm của thành phố với trải nghiệm sang trọng, cơ sở vật chất hiện đại và dịch vụ chuyên nghiệp
+                      </p>
+                  </div>
+                </div>
+              </div>
+        </div>
+        <div class="container" id="home-grid-2">
+              <div class="row" style="display: flex; align-items: center;">
+                <div class="col">
+                    <div class="paragraph">
+                      <p>
+                        Thưởng thức món ngon tại các món buffet được chế biến ngay tại tầng 7 khách sạn, hay nhà hàng Adora chỉ với vài bước đi bộ từ khách sạn, cùng chuỗi thương hiệu độc quyền siêu thị Vinmart+, Phúc Long coffee, Trà sữa Tocotoco, Tour les jour.
+                      </p>
+                  </div>
+                </div>
+                <div class="col">
+                    <div style="height: 300px;">
+                        <img src="{{ url_for('static', filename='images/about-3.jfif') }}" class="card-img-top" alt="..." style="width: 100%; object-fit: cover; height: 300px;">
+                    </div>
+                </div>
+              </div>
+        </div>
+        <div class="container" id="home-grid-3" style="margin-bottom: 70px;">
+              <div class="row" style="display: flex; align-items: center;">
+                <div class="col">
+                    <div style="height: 300px;">
+                       <img src="{{ url_for('static', filename='images/about-2.jpg') }}" class="card-img-top" alt="..." style="width: 100%; object-fit: cover; height: 300px;">
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="paragraph">
+                      <p>
+                         Hệ thống hồ bơi được kiểm định theo quy trình nghiêm ngặt: nước trong hồ bơi có lượng javel vừa phải theo tiêu chuẩn của các hồ bơi đạt chuẩn, có hóa chất kiểm tra độ sạch của nước (đổi màu khi tác dụng với nước tiểu), có hệ thống giám sát và bảo vệ hồ bơi, xử phạt theo quy định khi sử dụng hồ bơi của khách sạn
+                      </p>
+                    </div>
+                </div>
+              </div>
+        </div>
+        <div class="container" id="home-grid-4" style="margin-bottom: 70px;">
+              <div class="row" style="display: flex; align-items: center;">
+                <div class="col">
+                     <div class="paragraph">
+                      <p>
+                        Với 12 tầng, 2 sảnh phòng được trang bị tân tiến và hiện đại, có sức chứa tối đa đến 100 khách, Lotus hotel là lựa chọn hoàn hảo cho mọi nhu cầu nghỉ dưỡng và sự kiện nhỏ nhỏ tại Thành phố Hồ Chí Minh.
+                      </p>
+                    </div>
+                </div>
+                <div class="col">
+                    <div style="height: 300px;">
+                       <img src="{{ url_for('static', filename='images/about-4.jpg') }}" class="card-img-top" alt="..." style="width: 100%; object-fit: cover; height: 300px;">
+                    </div>
+                </div>
+              </div>
+        </div>
+    </div>
+{% endblock %}

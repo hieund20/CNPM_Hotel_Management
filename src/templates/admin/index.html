@@ -1,0 +1,26 @@
+{% extends 'admin/master.html' %}
+
+{% block brand %}
+    {{ super() }}
+    <a class="navbar-brand" href="/">
+      <img src="{{ url_for('static', filename='images/logo-header.png')}}" alt="Logo">
+    </a>
+{% endblock %}
+
+{% block head_css %}
+  {{ super() }}
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/my_flask_admin.css') }}">
+{% endblock %}
+
+{% block body %}
+    {{ super() }}
+    <link href="{{ url_for('static', filename='css/style.css')}}" rel="stylesheet"/>
+    <h1>nội dung admin home chỗ này</h1>
+    <footer class="footer" style="position: fixed; bottom: 0; width: 100%">
+        <div class="footer-created">
+          <div class="container">
+            <span>© 2021 Lotus Hotel All rights reserved.</span>
+          </div>
+        </div>
+    </footer>
+{% endblock %}

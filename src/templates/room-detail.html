@@ -1,0 +1,118 @@
+{% extends 'layout/base.html' %}
+
+{% block title %} The Lotus Hotel {% endblock %}
+
+{% block content %}
+<div class="container" xmlns="http://www.w3.org/1999/html">
+</div>
+<div class="container" style="margin-top: 48px; margin-bottom: 48px;">
+    <span class="content-title" style="font-size: 25px; font-weight: bold; font-family: 'Poppins', sans-serif; ">
+        {{ type_room[0].type_room_name }}
+    </span>
+    <div class="row">
+        <div class="col">
+            <div class="img-box" style="width: 95%; margin-top: 16px; border-radius: 10px;">
+                <img src="{{ room.image }}"
+                     class="card-img-top"
+                     alt="{{ type_room[0].type_room_name }}"
+                     style="border-radius: 10px;">
+            </div>
+            <div style="margin-top: 32px;">
+                <span style="font-size: 20px; font-weight: bold;">Mô tả</span>
+                <p class="card-text" style="margin-top: 16px;">
+                    {{ room.descriptions }}
+                </p>
+            </div>
+        </div>
+        <div class="col">
+            <div class="container" style="margin-top: 48px;">
+                <span style="color: #b58943; font-size: 30px;">{{ room.price }} $/days</span>
+                <form class="row g-3" style="margin-top: 8px;">
+                    <div style="display: flex; justify-content: space-between;">
+                        <div class="col-md-5">
+                            <label for="receive-day" class="form-label">Ngày nhận phòng</label>
+                            <input type="text"
+                                   name="receive-day"
+                                   value="12/25/2021"
+                                   id="receive-day"
+                                   style="width: 100%; height:40px; border-radius: 8px; border: 1px solid gray; padding-left: 16px;"/>
+                        </div>
+                        <div class="col-md-5">
+                            <label for="pay-day" class="form-label">Ngày trả phòng</label>
+                            <input type="text"
+                                   name="pay-day"
+                                   value="12/25/2021"
+                                   id="pay-day"
+                                   style="width: 100%; height:40px; border-radius: 8px; border: 1px solid gray; padding-left: 16px;"/>
+                        </div>
+                        <div class="col-md-4">
+                            <label for="validationDefault04" class="form-label">Khách</label>
+                            <select
+                                    class="form-select"
+                                    id="validationDefault04" required
+                                    name="person-amount"
+                                    style="width: 100%; height:40px; border-radius: 8px; border: 1px solid gray;">
+                                <option selected disabled value="1">1 người</option>
+                                <option value="2">2 người</option>
+                                <option value="3">3 người</option>
+                                <option value="4">4 người</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="col-12">
+                            <input class="btn btn-primary"
+                                   style="background-color: #b58955; border: 1px solid #b58955; margin-top:8px;"
+                                   type="submit"
+                                   value="ĐẶT PHÒNG"
+                                   onclick="addToCart({{ room.id }}, '{{ type_room[0].type_room_name }}', {{ room.price }}, document.getElementById('receive-day').value,  document.getElementById('pay-day').value, document.getElementsByName('person-amount')[0].value)"/>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col">
+
+        </div>
+        <div class="col">
+
+        </div>
+    </div>
+    <script>
+        $(function() {
+          $('input[name="receive-day"]').daterangepicker({
+            singleDatePicker: true,
+            showDropdowns: true,
+            minYear: 1901,
+            maxYear: parseInt(moment().format('YYYY'),10)
+          }, function(start, end, label) {
+            var years = moment().diff(start, 'years');
+          });
+        });
+
+        $(function() {
+          $('input[name="pay-day"]').daterangepicker({
+            singleDatePicker: true,
+            showDropdowns: true,
+            minYear: 1901,
+            maxYear: parseInt(moment().format('YYYY'),10)
+          }, function(start, end, label) {
+            var years = moment().diff(start, 'years');
+          });
+        });
+
+    </script>
+
+    <div id="toast-message">
+        <div class="toast-body">
+            <span class="material-icons">
+                check_circle_outline
+            </span>
+            <span>Đặt phòng thành công</span>
+        </div>
+    </div>
+</div>
+{% endblock %}
