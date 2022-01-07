@@ -95,7 +95,7 @@ class ReceiptDetail(db.Model):
 
 
 class Comment(BaseModel):
-    content = Column(String(255), nullable=False)
+    content = Column(String(2000), nullable=False)
     room_id = Column(Integer, ForeignKey(Room.id), nullable=False)
     user_id = Column(Integer, ForeignKey(User.id), nullable=False)
     created_date = Column(DateTime, default=datetime.now())
