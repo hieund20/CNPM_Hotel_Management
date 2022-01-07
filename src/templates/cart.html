@@ -1,9 +1,10 @@
 {% extends 'layout/base.html' %}
 
-{% block title %}Giỏ hàng{% endblock %}
+{% block title %}Phòng của tôi{% endblock %}
 
 {% block content %}
     <h1 class="myCart">PHÒNG CỦA TÔI</h1>
+
     {% if err:%}
     <h1 class="text-center alert alert-danger">{{err}}</h1>
     {% endif %}
@@ -38,9 +39,41 @@
                         </div>
 
                         <div class="col-lg-1">
-                            <input type="button" name="{{i.id}}" class="btn btn-del" value="xóa" onclick="confirmDelete(this)">
+                            <input type="button"  name="{{i.id}}" class="btn btn-del" value="xóa"
+                                onclick="deleteCart(this)" data-bs-toggle="modal"
+                                data-bs-target="#exampleModal">
                         </div>
-                    </div>
+                        <!-- Modal -->
+
+                        <div class="modal fade" id="exampleModal" style="z-index: 90000000000" tabindex="9" aria-labelledby="exampleModalLabel" aria-hidden="true" role="dialog">
+                            <div class="modal-dialog">
+                                <div class="modal-content"  >
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="exampleModalLabel">Trạng thái</h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <div style="display: flex; align-items:center">
+                                            <div class="icon-payment-success" style="width: 50px; height: 50px">
+                                                <img src="https://res.cloudinary.com/dwgjmgf6o/image/upload/v1641224187/icons/success-icon_bmd0a4.png"
+                                                     alt="icon-payment"
+                                                    style="width: 100%"/>
+                                            </div>
+                                            <div style="display:flex; align-items:center; margin-left: 16px;">
+                                                <p style="margin: 8px auto;">Xóa thành công !</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button"
+                                                class="btn btn-secondary"
+                                                data-bs-dismiss="modal"
+                                                onclick="">Đóng</button>
+                                    </div>
+                                </div>
+                            </div>
+                            </div>
+                        </div>
                     {% endfor %}
                 </div>
             </div>

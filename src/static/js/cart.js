@@ -104,23 +104,22 @@ function deleteCart(element){
         }
     }
     ).then(data => {
-            if (data[0] == true){
-                swal("Đã xóa thành công!!!", {
-                  icon: "success",
-                });
-            }
-            else{
-                 swal("Hệ thống đang bảo trì! Vui lòng quay lại sau!", {
-                  icon: "error",
-                });
-            }
+//            if (data[0] == true){
+//                swal("Đã xóa thành công!!!", {
+//                  icon: "success",
+//                });
+//            }
+//            else{
+//                 swal("Hệ thống đang bảo trì! Vui lòng quay lại sau!", {
+//                  icon: "error",
+//                });
+//            }
 //            alert(data[0]);
             total_quantity = document.getElementById("countCart");
             total_quantity.innerHTML = data[1];
 
             total_money = document.getElementById("total_money");
             total_money.innerHTML = (data[2].toFixed(1)) + "$";
-
             hideRoomDeleted(element);
         }
     ).catch(err => {

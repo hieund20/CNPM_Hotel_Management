@@ -527,10 +527,17 @@
     color: #a7783e;
     font-size: 20px;
 }
+
 .btn-del{
     background-color: #212529;
     color: white;
 }
+
+.btn-del:hover{
+    background-color: #d7b784;
+    color: #212529;
+}
+
 #pay{
     background-color: #f5f5f5;
     opacity: 1;
