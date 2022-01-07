@@ -13,8 +13,8 @@ from src.models import Room, TypeRoom, ReceiptDetail, User, Receipt, RentalVouch
 mydb = mysql.connector.connect(
         host="localhost",
         user="root",
-        passwd="123456789",
-        database="hotel5"
+        passwd="Duchieu200301",
+        database="hotel_management_db"
     )
 def get_all_type_rooms():
     return TypeRoom.query.all()
