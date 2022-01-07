@@ -9,7 +9,8 @@ app = Flask(__name__)
 app.secret_key = 'sfsjfffehr4$#$@$@$%^^^$^%@$GG'
 
 
-app.config["SQLALCHEMY_DATABASE_URI"] = "mysql+pymysql://root:Duchieu200301@localhost/hotel_management_db?charset=utf8mb4"
+app.config["SQLALCHEMY_DATABASE_URI"] = "mysql+pymysql://root:12345678@localhost/hotel?charset=utf8mb4"
+
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = True
 app.config["PAGE_SIZE"] = 6
 
