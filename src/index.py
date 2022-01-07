@@ -4,11 +4,11 @@ import json
 import math
 import os
 import re
+import smtplib
 import urllib
 import uuid
 from datetime import datetime
 
-import paypalrestsdk as paypalrestsdk
 import utils
 from urllib.request import urlopen, Request
 from flask import Flask, render_template, request, url_for, redirect, session, jsonify, make_response
@@ -217,6 +217,9 @@ def payment_page():
     nation = "default"
     identify = "default"
     phone_number = "default"
+    offline_payment = ""
+    online_payment = ""
+    is_sendmail_success = False
 
     # Validate variable
     fullname_validate = ""
@@ -234,6 +237,11 @@ def payment_page():
         nation = request.form.get('payment-nation')
         identify = request.form.get('payment-identify')
         phone_number = request.form.get('payment-phone-number')
+        offline_payment = request.form.get('offline-payment')
+        online_payment = request.form.get('online-payment')
+
+    # print('online', online_payment)
+    # print('ofline', offline_payment)
 
     # Validate fullname (thêm dâu cách và Tiếng việt thì check sai)
     if fullname == "":
@@ -270,28 +278,12 @@ def payment_page():
         if re.match(r"[\d]{3}[\d]{3}[\d]{3}", phone_number) is None and email != "default":
             phone_number_validate = "Số điện thoại không hợp lệ!"
 
-    print('run this after that')
-    print('fullname', fullname)
-    print('email', email)
-    print('nation', nation)
-    print('identify', identify)
-    print('phone_number', phone_number)
-
-    # Check modal will be open
-    if fullname != "default" and fullname_validate == "" and \
-            email != "default" and email_validate == "" and \
-            nation != "default" and nation_validate == "" and \
-            identify != "default" and identify_validate == "" and \
-            phone_number != "default" and phone_number_validate == "":
-        is_open_modal = True
-
     # Check data before add to database
     if fullname != "default" and fullname != "" and fullname_validate == "" and \
             email != "default" and email != "" and email_validate == "" and \
             nation != "default" and nation != "" and nation_validate == "" and \
             identify != "default" and identify != "" and identify_validate == "" and \
             phone_number != "default" and phone_number != "" and phone_number_validate == "":
-        print("run this")
         utils.add_rental_voucher_detail(visit_name=fullname,
                                         type_visit_id=1,
                                         phone_number=phone_number,
@@ -301,6 +293,30 @@ def payment_page():
                                         nation=nation)
         utils.add_rental_voucher(booking_date=datetime.now())
 
+        rental_voucher_detail_id = utils.get_new_record_rental_voucher_detai()[0]
+        print('check rental voucher id', rental_voucher_detail_id)
+        message = 'XÁC NHẬN ĐẶT PHÒNG THÀNH CÔNG\n\nChúng tôi xin trân trọng gửi đến quý khách thư xác nhận rằng quý khách đã thực hiện thao tác đặt phòng thành công.\nCảm ơn quý khách đã sử dụng dich vụ của Lotus Hotel.\nMã đặt phòng của quý khách là: ' + str(rental_voucher_detail_id) + ' \nĐể nhận phòng, quý khách vui lòng trình diện mã đặt phòng cho lễ tân tại sảnh chính khách sạn.\nXin trân trọng cảm ơn.\n\n\nLIÊN HỆ\nEmail: hotel.lotus371@gmail.com\nTổng đài: 1-548-854-8898\nĐịa chỉ: 371 Nguyễn Kiệm, quận Gò Vấp, TP. Hồ Chí Minh'
+
+        server = smtplib.SMTP("smtp.gmail.com", 587)
+        server.starttls()
+        server.login("hotel.lotus371@gmail.com", "!Hotellotus371")
+        server.sendmail("hotel.lotus371@gmail.com", email, message.encode('utf-8'))
+        server.quit()
+        try:
+            print('check mail sending', server.sendmail("hotel.lotus371@gmail.com", email, message.encode('utf-8')))
+        except (IOError, OSError):
+            print("Handling OSError...")
+        is_sendmail_success = True
+
+        # Check modal will be open
+        if fullname != "default" and fullname_validate == "" and \
+                email != "default" and email_validate == "" and \
+                nation != "default" and nation_validate == "" and \
+                identify != "default" and identify_validate == "" and \
+                phone_number != "default" and phone_number_validate == "" and \
+                is_sendmail_success is True:
+            is_open_modal = True
+
     return render_template('payment.html',
                            list_booking_room=list_booking_room,
                            total_price=total_price,
@@ -309,7 +325,8 @@ def payment_page():
                            nation_validate=nation_validate,
                            identify_validate=identify_validate,
                            phone_number_validate=phone_number_validate,
-                           is_open_modal=is_open_modal)
+                           is_open_modal=is_open_modal,
+                           is_sendmail_success=is_sendmail_success)
 
 
 @app.route('/payment/success')
