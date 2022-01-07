@@ -8,8 +8,13 @@ from wtforms import ValidationError
 from src import app, db, utils
 from flask_admin.contrib.sqla import ModelView
 from flask_admin import AdminIndexView
-from src.models import Room, TypeRoom, RentalVoucher, User, ChangePolicyNumber
+from src.models import Room, TypeRoom, RentalVoucher, User, ChangePolicyNumber, UserRole
+from flask_login import logout_user, current_user
 
+
+class AuthenticatedModelView(ModelView):
+    def is_accessible(self):
+        return current_user.is_authenticated and current_user.user_role == UserRole.ADMIN
 
 class MyAdminIndexView(AdminIndexView):
     @expose('/')

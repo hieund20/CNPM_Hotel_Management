@@ -82,7 +82,7 @@ function confirmDelete(element){
 }
 
 function deleteCart(element){
-    event.preventDefault();
+//    event.preventDefault();
     fetch('/delete-cart', {
         method: 'post',
         body: JSON.stringify({
