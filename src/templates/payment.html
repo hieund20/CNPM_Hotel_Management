@@ -81,15 +81,43 @@
                         {% endif %}
                     </div>
 
-                    <p class="payment-mode">Hình thức thanh toán</p>
+                    <p class="payment-mode-title">Hình thức thanh toán</p>
+                    <div class="payment-mode">
+                        <div class="form-check">
+                            <input class="form-check-input"
+                                   type="radio"
+                                   name="payment-radio-group"
+                                   id="offline-payment"
+                                   style="cursor: pointer;"
+                                   onclick="offlineRadioCheck()"
+                                   checked>
+                            <label class="form-check-label" for="offline-payment">
+                                Thanh toán trực tiếp
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input"
+                                   type="radio"
+                                   name="payment-radio-group"
+                                   id="online-payment"
+                                   style="cursor: pointer;"
+                                   onclick="onlineRadioCheck()">
+                            <label class="form-check-label" for="online-payment">
+                                Thanh toán trực tuyến
+                            </label>
+                        </div>
+                    </div>
                     <div class="form-check">
                         <div class="icon-payment">
                             <img src="https://res.cloudinary.com/dwgjmgf6o/image/upload/v1641123552/icons/momo-icon_scvrtm.png"
                                  alt="icon-payment">
                         </div>
-                        <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1"
-                               style="cursor: pointer;" checked>
-                        <label class="form-check-label" for="flexRadioDefault1">
+                        <input class="form-check-input"
+                               type="radio"
+                               name="flexRadioDefault"
+                               id="momo-button"
+                               style="cursor: pointer;">
+                        <label class="form-check-label" for="momo-button">
                             Ví điện tử MOMO
                         </label>
                     </div>
@@ -98,9 +126,12 @@
                             <img src="https://res.cloudinary.com/dwgjmgf6o/image/upload/v1641213611/icons/zalopay-icon_ticilq.png"
                                  alt="icon-payment">
                         </div>
-                        <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault2"
+                        <input class="form-check-input"
+                               type="radio"
+                               name="flexRadioDefault"
+                               id="zalo-button"
                                style="cursor: pointer;">
-                        <label class="form-check-label" for="flexRadioDefault2">
+                        <label class="form-check-label" for="zalo-button">
                             Ví điện tử ZaloPay
                         </label>
                     </div>
@@ -109,9 +140,12 @@
                             <img src="https://res.cloudinary.com/dwgjmgf6o/image/upload/v1641213899/icons/paypal-icon_cxlf8r.png"
                                  alt="icon-payment">
                         </div>
-                        <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault3"
+                        <input class="form-check-input"
+                               type="radio"
+                               name="flexRadioDefault"
+                               id="paypal-button"
                                style="cursor: pointer;">
-                        <label class="form-check-label" for="flexRadioDefault2">
+                        <label class="form-check-label" for="paypal-button">
                             Paypal
                         </label>
                     </div>
@@ -172,41 +206,46 @@
     </div>
     <!-- Modal -->
     <script>
-        $(document).ready(function () {
-            var is_open_modal = '{{ is_open_modal }}'
-            console.log('is open modal', is_open_modal)
-            if (is_open_modal === 'True'){
-                $('#exampleModal').modal('show');
-            }
-        });
+<!--        $(document).ready(function () {-->
+<!--            var is_open_modal = '{{ is_open_modal }}'-->
+<!--            console.log('is open modal', is_open_modal)-->
+<!--            if (is_open_modal === 'True'){-->
+<!--                $('#exampleModal').modal('show');-->
+<!--            }-->
+<!--        });-->
+
+        const is_sendmail_success = '{{is_sendmail_success}}'
+        if (is_sendmail_success === 'True'){
+            payment_success()
+        }
     </script>
-    <div class="modal fade" id="exampleModal" tabindex="9" aria-labelledby="exampleModalLabel" aria-hidden="true" role="dialog">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Trạng thái</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <div style="display: flex; align-items:center">
-                        <div class="icon-payment-success" style="width: 50px; height: 50px">
-                            <img src="https://res.cloudinary.com/dwgjmgf6o/image/upload/v1641224187/icons/success-icon_bmd0a4.png"
-                                 alt="icon-payment"
-                                style="width: 100%"/>
-                        </div>
-                        <div style="display:flex; align-items:center; margin-left: 16px;">
-                            <p style="margin: 8px auto;">Thanh toán thành công !</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button"
-                            class="btn btn-secondary"
-                            data-bs-dismiss="modal"
-                            onclick="payment_success()">Đóng</button>
-                </div>
-            </div>
-        </div>
-    </div>
+<!--    <div class="modal fade" id="exampleModal" tabindex="9" aria-labelledby="exampleModalLabel" aria-hidden="true" role="dialog">-->
+<!--        <div class="modal-dialog">-->
+<!--            <div class="modal-content">-->
+<!--                <div class="modal-header">-->
+<!--                    <h5 class="modal-title" id="exampleModalLabel">Trạng thái</h5>-->
+<!--                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>-->
+<!--                </div>-->
+<!--                <div class="modal-body">-->
+<!--                    <div style="display: flex; align-items:center">-->
+<!--                        <div class="icon-payment-success" style="width: 50px; height: 50px">-->
+<!--                            <img src="https://res.cloudinary.com/dwgjmgf6o/image/upload/v1641224187/icons/success-icon_bmd0a4.png"-->
+<!--                                 alt="icon-payment"-->
+<!--                                style="width: 100%"/>-->
+<!--                        </div>-->
+<!--                        <div style="display:flex; align-items:center; margin-left: 16px;">-->
+<!--                            <p style="margin: 8px auto;">Thanh toán thành công !</p>-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--                <div class="modal-footer">-->
+<!--                    <button type="button"-->
+<!--                            class="btn btn-secondary"-->
+<!--                            data-bs-dismiss="modal"-->
+<!--                            onclick="payment_success()">Đóng</button>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--    </div>-->
 </div>
 {% endblock %}

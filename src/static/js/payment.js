@@ -17,3 +17,23 @@ if (url === "/payment/success"){
      }, 1000);
 }
 
+/* UI button payment brand handle */
+window.onload = () => {
+   document.getElementById("momo-button").disabled = true
+   document.getElementById("zalo-button").disabled = true
+   document.getElementById("paypal-button").disabled = true
+};
+
+const offlineRadioCheck = () => {
+    document.getElementById("momo-button").disabled = true
+    document.getElementById("zalo-button").disabled = true
+    document.getElementById("paypal-button").disabled = true
+}
+
+const onlineRadioCheck = () => {
+    document.getElementById("momo-button").disabled = false
+    document.getElementById("zalo-button").disabled = false
+    document.getElementById("paypal-button").disabled = false
+}
+
+
