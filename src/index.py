@@ -43,10 +43,6 @@ def home_page():
                                           price_order_by=price_sort,
                                           page=int(page))
 
-    print('len', utils.count_rooms(type_room_id=type_room_id,
-                                   quantity_bed=quantity_bed,
-                                   price_order_by=price_sort))
-
     page_counter = utils.count_rooms(type_room_id=type_room_id,
                                      quantity_bed=quantity_bed,
                                      price_order_by=price_sort)
@@ -118,6 +114,13 @@ def user_signout():
 @login.user_loader
 def user_load(user_id):
     return utils.get_user_by_id(user_id=user_id)
+
+
+
+@app.route('/contact-page')
+def contact_page():
+    return render_template("contactPage.html")
+
 
 
 @app.route('/my-room')
