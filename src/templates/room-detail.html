@@ -60,6 +60,7 @@
                         </div>
                     </div>
                     <div>
+                        {% if current_user.is_authenticated and current_user.user_role.value == 2 %}
                         <div class="col-12">
                             <input class="btn btn-primary"
                                    style="background-color: #b58955; border: 1px solid #b58955; margin-top:8px;"
@@ -67,6 +68,17 @@
                                    value="ĐẶT PHÒNG"
                                    onclick="addToCart({{ room.id }}, '{{ type_room[0].type_room_name }}', {{ room.price }}, document.getElementById('receive-day').value,  document.getElementById('pay-day').value, document.getElementsByName('person-amount')[0].value)"/>
                         </div>
+                        {% endif %}
+                        {% if current_user.is_authenticated and current_user.user_role.value == 1 %}
+                            <div class="col-12">
+                                <p>Chỉ người dùng mới được phép đặt phòng</p>
+                            </div>
+                        {% endif %}
+                        {% if current_user.is_authenticated == False %}
+                            <div class="col-12">
+                                <p>Hãy đăng nhập để đặt phòng !</p>
+                            </div>
+                        {% endif %}
                     </div>
                 </form>
             </div>

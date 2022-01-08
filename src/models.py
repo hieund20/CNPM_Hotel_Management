@@ -94,6 +94,18 @@ class ReceiptDetail(db.Model):
     receipt_id = Column(Integer, ForeignKey(Receipt.id), nullable=True)
 
 
+class BookingRoom(db.Model):
+    id = Column(Integer, primary_key=True, nullable=False, autoincrement=True)
+    room_id = Column(Integer, ForeignKey(Room.id), primary_key=True, nullable=False)
+    room_name = Column(String(100), nullable=False)
+    image = Column(String(150), nullable=False)
+    price = Column(Float, default=0)
+    receive_day = Column(String(50), default=datetime.now())
+    pay_day = Column(String(50), default=datetime.now())
+    person_amount = Column(Integer)
+    rental_voucher_detail_id = Column(Integer, ForeignKey(RentalVoucherDetail.id), nullable=True)
+
+
 class Comment(BaseModel):
     content = Column(String(2000), nullable=False)
     room_id = Column(Integer, ForeignKey(Room.id), nullable=False)
@@ -102,6 +114,8 @@ class Comment(BaseModel):
 
     def __str__(self):
         return self.content
+
+
 
 
 if __name__ == '__main__':

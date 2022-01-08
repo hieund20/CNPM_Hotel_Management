@@ -8,14 +8,16 @@ from sqlalchemy import func, extract
 
 from src import app, db
 from src.models import Room, TypeRoom, ReceiptDetail, User, Receipt, RentalVoucher, \
-    RentalVoucherDetail
+    RentalVoucherDetail, BookingRoom
 
 mydb = mysql.connector.connect(
-        host="localhost",
-        user="root",
-        passwd="12345678",
-        database="hotel"
-    )
+    host="localhost",
+    user="root",
+    passwd="Duchieu200301",
+    database="hotel_management_db"
+)
+
+
 def get_all_type_rooms():
     return TypeRoom.query.all()
 
@@ -24,7 +26,7 @@ def get_all_type_rooms():
 def get_used_quantity_type_room_in_month():
     query = db.session.query(TypeRoom.id, TypeRoom.type_room_name, func.count(TypeRoom.id), ).filter(
         Room.type_room_id == TypeRoom.id).filter(Room.id == ReceiptDetail.room_id).filter(
-        extract('month', ReceiptDetail.rental_date) == datetime.now().month).group_by(TypeRoom.id,
+        extract('month', ReceiptDetail.receive_day) == datetime.now().month).group_by(TypeRoom.id,
                                                                                       TypeRoom.type_room_name)
     return query.all()
 
@@ -104,7 +106,7 @@ def cart_stats(cart):
     if cart:
         for p in cart.values():
             total_quantity += p["quantity"]
-            total_amount += p["quantity"] * p["price"]
+            total_amount = p["price"]
 
     return total_quantity, total_amount
 
@@ -133,11 +135,12 @@ def total_room_by_receiptId(receipt_id):
     return ReceiptDetail.query.all()
 
 
-def get_list_receipt_detail(receipt_id):
+def get_list_receipt_detail():
     # list=ReceiptDetail.query.filter(ReceiptDetail.receipt_id.__eq__(receipt_id))
     query = db.session.query(Room.image, ReceiptDetail.room_name, ReceiptDetail.id, ReceiptDetail.pay_day,
                              ReceiptDetail.price, ReceiptDetail.quantity, ReceiptDetail.receive_day,
-                             ReceiptDetail.person_amount).filter(Room.id == ReceiptDetail.room_id)
+                             ReceiptDetail.person_amount, Room.id).filter(Room.id == ReceiptDetail.room_id)
+    print('query default', query)
     return query.all()
 
 
@@ -286,4 +289,24 @@ def get_info_payer(id):
 
 def delete_all_receipt_detail():
     query = db.session.query(ReceiptDetail).delete()
+    db.session.commit()
+
+
+def add_booking_room(room_id,
+                     room_name,
+                     price,
+                     image,
+                     receive_day,
+                     pay_day,
+                     person_amount,
+                     rental_voucher_detail_id):
+    booking_room = BookingRoom(room_id=room_id,
+                               room_name=room_name,
+                               price=price,
+                               image=image,
+                               receive_day=receive_day,
+                               pay_day=pay_day,
+                               person_amount=person_amount,
+                               rental_voucher_detail_id=rental_voucher_detail_id)
+    db.session.add(booking_room)
     db.session.commit()
