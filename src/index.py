@@ -336,6 +336,14 @@ def payment_success_page():
     return render_template("payment-success.html")
 
 
+@app.route('/history')
+def history():
+    id_new = utils.get_new_record_rental_voucher_detai()
+
+    info_payer = utils.get_info_payer(id_new.id)
+
+    return render_template("history-payments.html", info_payer=info_payer)
+
 if __name__ == "__main__":
     from src.admin import *
 

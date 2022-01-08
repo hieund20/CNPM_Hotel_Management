@@ -279,6 +279,10 @@ def get_new_record_rental_voucher_detai():
     query = db.session.query(RentalVoucherDetail.id).order_by(RentalVoucherDetail.id.desc())
     return query.first()
 
+def get_info_payer(id):
+    query = db.session.query(RentalVoucherDetail.visit_name, RentalVoucherDetail.phone_number,
+                             RentalVoucherDetail.email,RentalVoucherDetail.nation).filter(RentalVoucherDetail.id == id)
+    return query.first()
 
 def delete_all_receipt_detail():
     query = db.session.query(ReceiptDetail).delete()

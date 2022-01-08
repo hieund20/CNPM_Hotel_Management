@@ -1,0 +1,23 @@
+{% extends 'layout/base.html' %}
+
+{% block title %}Lịch sử thanh toán{% endblock %}
+
+{% block content %}
+    <div class="container border-history">
+        <h3 class="title-history">LỊCH SỬ THANH TOÁN</h3>
+        <div class="row">
+            <div class="col-lg-6">
+                <input type="text" class="search-cart" onkeyup="" placeholder="Nhập tên phòng..."
+                       title="Tìm kiếm theo tên">
+            </div>
+            <div class="col-lg-5 border-if">
+                <h4 >Thông tin người thanh toán</h4>
+                <div><span>Tên: </span>&emsp;&emsp;&emsp;&emsp;&ensp;&ensp;&ensp;{{info_payer.visit_name}}</div>
+                <div><span>Số điện thoại: </span>&emsp;{{info_payer.phone_number}}</div>
+                <div><span>Email: </span>&emsp;&emsp;&emsp;&emsp;&nbsp;&nbsp;{{info_payer.email}}</div>
+                <div><span>Quốc tịch:</span>&nbsp;&nbsp;&nbsp;&emsp;&emsp;{{info_payer.nation}}</div>
+            </div>
+        </div>
+
+    </div>
+{% endblock %}
