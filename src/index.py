@@ -360,20 +360,21 @@ def payment_success_page():
     return render_template("payment-success.html")
 
 
-<<<<<<< HEAD
+
 @app.route('/history')
 def history():
     id_new = utils.get_new_record_rental_voucher_detai()
 
     info_payer = utils.get_info_payer(id_new.id)
 
-    return render_template("history-payments.html", info_payer=info_payer)
-=======
+    list_booking_room = utils.get_info_booking_room()
+    return render_template("history-payments.html", info_payer=info_payer, list_booking_room=list_booking_room)
+
 @app.route('/gallery')
 def gallery_image_page():
     return render_template('gallery.html')
 
->>>>>>> develop
+
 
 if __name__ == "__main__":
     from src.admin import *

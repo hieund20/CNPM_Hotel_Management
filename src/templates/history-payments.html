@@ -5,10 +5,37 @@
 {% block content %}
     <div class="container border-history">
         <h3 class="title-history">LỊCH SỬ THANH TOÁN</h3>
-        <div class="row">
+        <div class="row history-payments">
             <div class="col-lg-6">
-                <input type="text" class="search-cart" onkeyup="" placeholder="Nhập tên phòng..."
-                       title="Tìm kiếm theo tên">
+                <div class="row list-cart" id="list-room">
+                    <input type="text" class="search-cart" onkeyup="searchCart(this)"  placeholder="Tìm kiếm theo tên..."
+                           title="Tìm kiếm theo tên">
+                    {% for i in list_booking_room %}
+                    <div class="row col-lg-12 lc  room-cart">
+
+                        <div class="col-lg-3">
+                            <img src="{{i.image}}">
+                        </div>
+
+                        <div class="col-lg-6">
+                            <div class="name-room">
+                                <span id="name-cart">{{i.room_name}}</span>
+                                <span class="person-amount">{{i.person_amount}} người</span>
+                            </div>
+                            <div class="date-order">
+                                <div>Ngày nhận: <span class="color-gray">{{i.pay_day}}</span></div>
+                                <span>Ngày trả: <span class="color-gray">{{i.receive_day}}</span></span>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-2 color-money">
+                            {{i.price}}$
+                        </div>
+
+
+                    </div>
+                    {% endfor %}
+                </div>
             </div>
             <div class="col-lg-5 border-if">
                 <h4 >Thông tin người thanh toán</h4>

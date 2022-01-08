@@ -9,6 +9,11 @@
     margin: 15px 0 35px 15px;
 }
 
+.history-payments input{
+    margin: 0 5% 0 5%;
+    width: 89%;
+}
+
 /* info */
 
 .border-if{

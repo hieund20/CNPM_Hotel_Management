@@ -13,8 +13,8 @@ from src.models import Room, TypeRoom, ReceiptDetail, User, Receipt, RentalVouch
 mydb = mysql.connector.connect(
     host="localhost",
     user="root",
-    passwd="Duchieu200301",
-    database="hotel_management_db"
+    passwd="12345678",
+    database="hotel"
 )
 
 
@@ -310,3 +310,6 @@ def add_booking_room(room_id,
                                rental_voucher_detail_id=rental_voucher_detail_id)
     db.session.add(booking_room)
     db.session.commit()
+
+def get_info_booking_room():
+    return BookingRoom.query.all()
