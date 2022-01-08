@@ -60,12 +60,6 @@
       <li class="nav-item">
         <a class="nav-link" href="/admin"> Quản trị </a>
       </li>
-      <li class="nav-item">
-        <a class="nav-link" href="#">Liên hệ</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="#">Về chúng tôi</a>
-      </li>
       {% endif %}
       {% if current_user.is_authenticated and current_user.user_role.value == 2 %}
       <li class="nav-item">
@@ -74,7 +68,11 @@
       <li class="nav-item">
         <a class="nav-link" href="{{ url_for('cart')}} "> Phòng của tôi <span class="badge badge-info" style="padding-bottom: 1px; padding-top: 2px; font-size: 13px;" id="countCart">{{ cart}}</span></a>
       </li>
+<<<<<<< HEAD
+      {% endif %}
+=======
 
+>>>>>>> develop
       <li class="nav-item">
         <a class="nav-link" href="{{ url_for('contact_page') }}">Liên hệ</a>
 
@@ -82,7 +80,6 @@
       <li class="nav-item">
         <a class="nav-link" href="#">Về chúng tôi</a>
       </li>
-      {% endif %}
     </ul>
   </nav>
 
