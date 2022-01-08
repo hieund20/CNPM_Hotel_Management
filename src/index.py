@@ -239,15 +239,9 @@ def payment_page():
         offline_payment = request.form.get('offline-payment')
         online_payment = request.form.get('online-payment')
 
-    # print('online', online_payment)
-    # print('ofline', offline_payment)
-
-    # Validate fullname (thêm dâu cách và Tiếng việt thì check sai)
+    # Validate fullname
     if fullname == "":
         fullname_validate = "Hãy nhập họ và tên!"
-    else:
-        if re.match(r'[a-zA-Z\s]+$', fullname) is None:
-            fullname_validate = "Họ tên không hợp lệ!"
 
     # Validate email
     if email == "":
@@ -256,12 +250,9 @@ def payment_page():
         if re.match(r'\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b', email) is None and email != "default":
             email_validate = "Email không hợp lệ!"
 
-    # Validate nation (thêm dâu cách và Tiếng việt thì check sai)
+    # Validate nation
     if nation == "":
         nation_validate = "Hãy nhập tên quốc gia/khu vực!"
-    else:
-        if re.match(r'[a-zA-Z\s]+$', nation) is None:
-            nation_validate = "Tên quốc gia/khu vực không hợp lệ!"
 
     # Validate identify
     if identify == "":
@@ -331,29 +322,25 @@ def payment_page():
 @app.route('/payment/success')
 def payment_success_page():
     booking_room_backup = utils.get_list_receipt_detail()
-    booking_room_backup_converter = []
 
-    for row in booking_room_backup[0]:
-        booking_room_backup_converter.append(row)
-    print('booking_room_array ', booking_room_backup_converter)
+    for row in booking_room_backup:
+        booking_room_id = row[8]
+        booking_room_name = row[1]
+        booking_room_image = row[0]
+        booking_room_receive_day = row[6]
+        booking_room_pay_day = row[3]
+        booking_room_price = row[4]
+        booking_room_person_amount = row[7]
 
-    booking_room_id = booking_room_backup_converter[8]
-    booking_room_name = booking_room_backup_converter[1]
-    booking_room_image = booking_room_backup_converter[0]
-    booking_room_receive_day = booking_room_backup_converter[6]
-    booking_room_pay_day = booking_room_backup_converter[3]
-    booking_room_price = booking_room_backup_converter[4]
-    booking_room_person_amount = booking_room_backup_converter[7]
-
-    # Backup data receipt detail to booking room before delete receipt detail
-    utils.add_booking_room(room_id=booking_room_id,
-                           room_name=booking_room_name,
-                           price=booking_room_price,
-                           image=booking_room_image,
-                           receive_day=booking_room_receive_day,
-                           pay_day=booking_room_pay_day,
-                           person_amount=booking_room_person_amount,
-                           rental_voucher_detail_id=1)
+        # Backup data receipt detail to booking room before delete receipt detail
+        utils.add_booking_room(room_id=booking_room_id,
+                               room_name=booking_room_name,
+                               price=booking_room_price,
+                               image=booking_room_image,
+                               receive_day=booking_room_receive_day,
+                               pay_day=booking_room_pay_day,
+                               person_amount=booking_room_person_amount,
+                               rental_voucher_detail_id=1)
 
     # Delete all receipt detail when payment success
     utils.delete_all_receipt_detail()
