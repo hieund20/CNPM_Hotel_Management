@@ -313,3 +313,16 @@ def add_booking_room(room_id,
 
 def get_info_booking_room():
     return BookingRoom.query.all()
+
+def total_money_booking_room():
+    b = BookingRoom.query.all()
+    total = 0
+    for i in b:
+        total += i.price
+    return total
+
+def delete_Receipt_detail():
+    mycursor = mydb.cursor()
+    sql = "DELETE FROM booking_room"
+    mycursor.execute(sql)
+    mydb.commit()

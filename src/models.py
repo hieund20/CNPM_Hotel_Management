@@ -17,6 +17,7 @@ class BaseModel(db.Model):
 class UserRole(UserEnum):
     ADMIN = 1
     USER = 2
+    EMPLOYEE = 3
 
 class User(BaseModel, UserMixin):
     username = Column(String(50), nullable=False, unique=True)
