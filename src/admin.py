@@ -16,16 +16,11 @@ class AuthenticatedModelView(ModelView):
     def is_accessible(self):
         return current_user.is_authenticated and current_user.user_role == UserRole.ADMIN
 
+
 class MyAdminIndexView(AdminIndexView):
     @expose('/')
     def index(self):
         return self.render('admin/index.html')
-
-
-# class Home_page(BaseView):
-#     @expose('/')
-#     def index(self):
-#         return self.render('index.html')
 
 
 class RoomView(ModelView):
@@ -63,6 +58,7 @@ class TypeRoomView(ModelView):
         'type_room_name': 'Tên loại phòng'
     }
 
+
 class UserView(ModelView):
     column_display_pk = True
     can_view_details = True
@@ -80,6 +76,7 @@ class UserView(ModelView):
         'user_role': 'Quyền',
     }
     form_excluded_columns = ['comments']
+
 
 class ChangePolicyNumberView(ModelView):
     column_display_pk = True
@@ -101,6 +98,7 @@ class ChangePolicyNumberView(ModelView):
         'amount_extra' : 'Số tiền thêm'
     }
 
+
 class StatsView(BaseView):
     @expose('/')
     def index(self):
@@ -112,7 +110,6 @@ class StatsView(BaseView):
 
 
 admin = Admin(app=app, name='Lotus hotel', template_mode='bootstrap4', index_view=MyAdminIndexView())
-# admin.add_view(Home_page(name='Trang chủ'))
 admin.add_view(UserView(User, db.session, name='Người dùng'))
 admin.add_view(RoomView(Room, db.session, name='Phòng'))
 admin.add_view(TypeRoomView(TypeRoom, db.session, name='Loại phòng'))

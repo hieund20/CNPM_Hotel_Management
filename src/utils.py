@@ -17,6 +17,7 @@ mydb = mysql.connector.connect(
     database="hotel_management_db"
 )
 
+
 def get_all_type_rooms():
     return TypeRoom.query.all()
 
@@ -25,7 +26,7 @@ def get_all_type_rooms():
 def get_used_quantity_type_room_in_month():
     query = db.session.query(TypeRoom.id, TypeRoom.type_room_name, func.count(TypeRoom.id), ).filter(
         Room.type_room_id == TypeRoom.id).filter(Room.id == ReceiptDetail.room_id).filter(
-        extract('month', ReceiptDetail.rental_date) == datetime.now().month).group_by(TypeRoom.id,
+        extract('month', ReceiptDetail.receive_day) == datetime.now().month).group_by(TypeRoom.id,
                                                                                       TypeRoom.type_room_name)
     return query.all()
 
@@ -105,7 +106,7 @@ def cart_stats(cart):
     if cart:
         for p in cart.values():
             total_quantity += p["quantity"]
-            total_amount += p["quantity"] * p["price"]
+            total_amount = p["price"]
 
     return total_quantity, total_amount
 

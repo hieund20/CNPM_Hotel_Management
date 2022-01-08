@@ -58,6 +58,11 @@
      color: white;
 }
 
+.header > .navbar.navbar-expand-sm > .navbar-nav.top-nav-left > .nav-item.dropdown {
+     display: flex;
+     align-items: center;
+}
+
 .header > .navbar.navbar-expand-sm > .navbar-nav.bottom-nav {
     margin-left: auto;
     margin-right: 3rem;
@@ -74,6 +79,42 @@
 
 .header > .navbar.navbar-expand-sm > .navbar-nav.bottom-nav > .nav-item > .nav-link {
      color: white;
+}
+
+
+.header > .navbar.navbar-expand-sm > .navbar-nav.bottom-nav > .nav-item.dropdown > a{
+     display:flex;
+     align-items: center;
+}
+
+.header > .navbar.navbar-expand-sm > .navbar-nav.bottom-nav > .nav-item.dropdown > a > span{
+     display:flex;
+     align-items: center;
+     font-size: 15px;
+}
+
+.header > .navbar.navbar-expand-sm > .navbar-nav.bottom-nav > .nav-item.dropdown > .dropdown-menu{
+    min-width: 15px !important;
+}
+
+.header > .navbar.navbar-expand-sm > .navbar-nav.bottom-nav > .nav-item.dropdown > .dropdown-menu > .dropdown-item {
+    height: 20px;
+    display: flex;
+    align-items: center;
+    width: 100%;
+}
+
+.header > .navbar.navbar-expand-sm > .navbar-nav.bottom-nav > .nav-item.dropdown > .dropdown-menu > .dropdown-item:hover {
+    background-color: #e4c491;
+}
+
+.header > .navbar.navbar-expand-sm > .navbar-nav.bottom-nav > .nav-item.dropdown > .dropdown-menu .dropdown-item > div {
+    width: 20px;
+    width:20px;
+}
+
+.header > .navbar.navbar-expand-sm > .navbar-nav.bottom-nav > .nav-item.dropdown > .dropdown-menu > .dropdown-item > div > img{
+    width: 100%;
 }
 
 .header .dropdown-menu{
@@ -762,6 +803,42 @@
     color: #6c6868;
 }
 
+
+/*GALLERY PAGE*/
+.gallery{
+    margin-top: 56px;
+}
+
+.gallery .gallery-title{
+    font-size: 35px;
+    font-weight: bold;
+    font-family: 'Poppins', sans-serif;
+    margin-bottom: 48px;
+    display:block;
+}
+
+.gallery > .container:nth-child(2) > .row{
+    margin-bottom: 16px;
+    justify-content: space-between;
+}
+
+.gallery > .container:nth-child(2){
+    margin-bottom: 100px;
+}
+
+.gallery > .container:nth-child(2) > .row{
+    margin-bottom: 16px;
+}
+
+.gallery > .container:nth-child(1) > .row .col img{
+    width: 100%;
+    border-radius: 8px;
+}
+
+.gallery > .container:nth-child(2) > .row .col img{
+    width: 100%;
+    border-radius: 8px;
+}
 
 /* back to top */
 #back-to-top{
