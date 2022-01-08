@@ -438,8 +438,13 @@
 }
 
 /* giỏ hàng */
+
+
 .myCart{
-    margin: 30px 0 80px 0;
+    font-family: 'Poppins', sans-serif;
+    margin: 30px 0 80px 10%;
+    color: black;
+    font-weight: 550;
 }
 
 .cart-hr{
@@ -450,7 +455,6 @@
 }
 .cart-h3{
     color: #333;
-    font-family: 'Font Awesome 5 Brands';
     margin-left:10%;
 }
 
@@ -489,6 +493,10 @@
     font-size: 19px;
 }
 
+.room-cart img{
+    border-radius:7%;
+}
+
 .person-amount{
     background-color: #929292
     margin-left : auto;
@@ -513,7 +521,21 @@
 
 .color-orange{
     color: #ee4d2d;
+}
+
+.color-money{
+    color: #a7783e;
     font-size: 20px;
+}
+
+.btn-del{
+    background-color: #212529;
+    color: white;
+}
+
+.btn-del:hover{
+    background-color: #d7b784;
+    color: #212529;
 }
 
 #pay{
@@ -527,7 +549,6 @@
 }
 
 #pay > h3{
-    font-family: 'Font Awesome 5 Brands';
     margin-top: 15px;
 }
 
@@ -540,7 +561,7 @@
 }
 #pay >div > span{
     font-size: 20px;
-    color: red;
+    color: #1a1a1a;
     margin-left: 140px;
 }
 
@@ -604,7 +625,6 @@
 
 
 /* Payment page */
-
 .payment > .container > .row:nth-child(1) > .col:nth-child(1) .form-check {
     border: 1px solid #d9d9d9;
     display: flex;
@@ -619,11 +639,6 @@
     gap: 100px;
 }
 
-.payment > .container > .row:nth-child(1) > .col:nth-child(1)  .form-check:hover {
-    border: 1px solid black;
-    cursor: pointer;
-}
-
 .payment > .container > .row:nth-child(1) > .col:nth-child(1) p{
     font-size: 20px;
     font-weight: bold;
@@ -631,11 +646,11 @@
     margin-bottom: 32px;
 }
 
-.payment > .container > .row:nth-child(1) > .col:nth-child(1) .payment-mode{
+.payment > .container > .row:nth-child(1) > .col:nth-child(1) .payment-mode-title{
     font-size: 20px;
     font-weight: bold;
     font-family: 'Poppins', sans-serif;
-    margin-bottom: 32px;
+    margin-bottom: 8px;
     margin-top: 48px;
 }
 
@@ -668,6 +683,17 @@
 .payment > .container >  .row:nth-child(1) > .col:nth-child(1) .button-payment > button:hover{
     background-color: #e4c491 !important;
     color: black;
+}
+
+.payment > .container >  .row:nth-child(1) > .col:nth-child(1) .payment-mode > .form-check{
+    border: none;
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 1.5;
+    color: #212529;
+    text-align: left;
+    height: 35px;
+    padding-left: 25px;
 }
 
 .payment > .container > .row:nth-child(1) > .col:nth-child(2) > p {

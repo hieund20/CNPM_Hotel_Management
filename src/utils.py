@@ -1,19 +1,20 @@
-from flask import request
-from sqlalchemy import text, func, extract
-from src import app, db
-from src.models import Room, TypeRoom, ReceiptDetail, User, Receipt, ChangePolicyNumber, RentalVoucher, \
-    RentalVoucherDetail, TypeVisit
-from sqlalchemy import desc, asc
-from datetime import datetime
+from sqlalchemy import func, extract
 import hashlib
-import pymysql.cursors
+from datetime import datetime
+
 import mysql.connector
+from sqlalchemy import desc, asc
+from sqlalchemy import func, extract
+
+from src import app, db
+from src.models import Room, TypeRoom, ReceiptDetail, User, Receipt, RentalVoucher, \
+    RentalVoucherDetail
 
 mydb = mysql.connector.connect(
         host="localhost",
         user="root",
-        passwd="123456789",
-        database="hotel5"
+        passwd="12345678",
+        database="hotel"
     )
 def get_all_type_rooms():
     return TypeRoom.query.all()
@@ -212,8 +213,8 @@ def filters_room(type_room_id, quantity_bed, price_order_by, page):
     if (type_room_id == '' and quantity_bed == '' and price_order_by == '') or \
             (type_room_id is None and quantity_bed is None and price_order_by is None):
         query = db.session.query(Room.id, Room.quantity_bed, Room.price, Room.status, Room.type_room_id, Room.image,
-                                     Room.descriptions, TypeRoom.type_room_name).filter(
-                Room.type_room_id == TypeRoom.id).order_by(asc(Room.price))
+                                 Room.descriptions, TypeRoom.type_room_name).filter(
+            Room.type_room_id == TypeRoom.id).order_by(asc(Room.price))
     if price_order_by == 'asc':
         if quantity_bed == '' and type_room_id == '':
             query = db.session.query(Room.id, Room.quantity_bed, Room.price, Room.status, Room.type_room_id, Room.image,
@@ -261,6 +262,7 @@ def add_rental_voucher(booking_date):
     db.session.commit()
 
 
+# Payment
 def add_rental_voucher_detail(visit_name, type_visit_id, phone_number, rental_voucher_id, email, visit_name_id, nation):
     rental_voucher_detail = RentalVoucherDetail(visit_name=visit_name,
                                                 type_visit_id=type_visit_id,
@@ -271,6 +273,11 @@ def add_rental_voucher_detail(visit_name, type_visit_id, phone_number, rental_vo
                                                 nation=nation)
     db.session.add(rental_voucher_detail)
     db.session.commit()
+
+
+def get_new_record_rental_voucher_detai():
+    query = db.session.query(RentalVoucherDetail.id).order_by(RentalVoucherDetail.id.desc())
+    return query.first()
 
 
 def delete_all_receipt_detail():
