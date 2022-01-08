@@ -239,15 +239,9 @@ def payment_page():
         offline_payment = request.form.get('offline-payment')
         online_payment = request.form.get('online-payment')
 
-    # print('online', online_payment)
-    # print('ofline', offline_payment)
-
-    # Validate fullname (thêm dâu cách và Tiếng việt thì check sai)
+    # Validate fullname
     if fullname == "":
         fullname_validate = "Hãy nhập họ và tên!"
-    else:
-        if re.match(r'[a-zA-Z\s]+$', fullname) is None:
-            fullname_validate = "Họ tên không hợp lệ!"
 
     # Validate email
     if email == "":
@@ -256,12 +250,9 @@ def payment_page():
         if re.match(r'\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b', email) is None and email != "default":
             email_validate = "Email không hợp lệ!"
 
-    # Validate nation (thêm dâu cách và Tiếng việt thì check sai)
+    # Validate nation
     if nation == "":
         nation_validate = "Hãy nhập tên quốc gia/khu vực!"
-    else:
-        if re.match(r'[a-zA-Z\s]+$', nation) is None:
-            nation_validate = "Tên quốc gia/khu vực không hợp lệ!"
 
     # Validate identify
     if identify == "":
