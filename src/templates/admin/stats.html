@@ -63,16 +63,13 @@
             </tr>
           </thead>
           <tbody>
-            {% for el in used_type_room_counter %}
+            {% for el in type_rooms_list %}
             <tr>
               <th>{{ el.id }}</th>
               <td>{{ el.type_room_name }}</td>
-              <td>{{ el[2] }}</td>
+<!--              <td>{{ el[2] }}</td>-->
             </tr>
             {% endfor %}
-<!--            {% for u in used_type_room_counter %}-->
-<!--            <span>{{ u[0] }}</span>-->
-<!--            {% endfor %}-->
           </tbody>
         </table>
 
@@ -103,7 +100,7 @@
                     labels: type_rooms_labels,
                     datasets: [{
                         label: 'Thống kê tần suất sử dụng phòng trong một tháng',
-                        data: used_type_room_counter_data,
+                        data: [20, 30, 40, 50],
                         backgroundColor: [
                             '#809fff',
                             '#ffb3d9',

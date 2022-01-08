@@ -61,9 +61,6 @@ def about_us_page():
     return render_template('about-us.html')
 
 
-def admin_stats_page():
-    pass
-
 
 @app.route('/register', methods=['post', 'get'])
 def user_register():
@@ -170,6 +167,7 @@ def add_to_cart():
     id = str(data.get("id"))
     name = data.get("name")
     price = data.get("price", 0)
+    quantity = 1
 
     receive_day = data.get("receive-day")
     pay_day = data.get("pay-day")
@@ -195,7 +193,6 @@ def add_to_cart():
         "person_amount": person_amount
     }
 
-    quantity, price = utils.cart_stats(cart)
     utils.add_receipt_detail(room_id=int(id),
                              room_name=name,
                              price=float(price),
@@ -361,6 +358,11 @@ def payment_success_page():
     # Delete all receipt detail when payment success
     utils.delete_all_receipt_detail()
     return render_template("payment-success.html")
+
+
+@app.route('/gallery')
+def gallery_image_page():
+    return render_template('gallery.html')
 
 
 if __name__ == "__main__":

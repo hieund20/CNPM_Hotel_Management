@@ -38,22 +38,16 @@
 
     <!-- Links -->
     <ul class="navbar-nav bottom-nav">
-      <!-- Dropdown -->
       <li class="nav-item">
-        <a class="nav-link" href="#">
-          Phòng Suite
-        </a>
+        <a class="nav-link" href="#">Nhà hàng & Quầy bar</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="#">Phòng Deluxe</a>
+        <a class="nav-link" href="#">Trải nghiệm</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="#">Phòng Superior</a>
+        <a class="nav-link" href="{{ url_for('gallery_image_page')}}">Thư viện ảnh</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="#">Phòng Standard</a>
-      </li>
-         <li class="nav-item">
         <a class="nav-link"> | </a>
       </li>
       {% if current_user.is_authenticated and current_user.user_role.value == 1 %}
@@ -63,14 +57,40 @@
       {% endif %}
       {% if current_user.is_authenticated and current_user.user_role.value == 2 %}
       <li class="nav-item">
-        <a class="nav-link" href="{{ url_for('cart')}} "> Phòng của tôi <span class="badge badge-info" style="padding-bottom: 1px; padding-top: 2px; font-size: 13px;" id="countCart">{{ cart}}</span></a>
+        <a class="nav-link" href="{{ url_for('cart')}} "> Phòng của tôi <span class="badge badge-info"
+                                                                              style="padding-bottom: 1px; padding-top: 2px; font-size: 13px;"
+                                                                              id="countCart">{{ cart}}</span></a>
       </li>
       {% endif %}
       <li class="nav-item">
         <a class="nav-link" href="{{ url_for('contact_page') }}">Liên hệ</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="#">Về chúng tôi</a>
+        <a class="nav-link" href="{{ url_for('about_us_page') }}">Về chúng tôi</a>
+      </li>
+      <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle"
+           href="#"
+           id="navbardrop"
+           data-toggle="dropdown">
+          <span class="material-icons">
+            public
+          </span>
+        </a>
+        <div class="dropdown-menu">
+          <a class="dropdown-item" href="#">
+            <div>
+              <img src="https://res.cloudinary.com/dwgjmgf6o/image/upload/v1641626611/icons/vietnam-flag-icon_lbnujo.png"
+                   alt="vietnam-flag-icon"/>
+            </div>
+          </a>
+          <a class="dropdown-item" href="#">
+            <div>
+              <img src="https://res.cloudinary.com/dwgjmgf6o/image/upload/v1641626611/icons/united-states-flag-icon_yshv3m.png"
+                   alt="usa-flag-icon"/>
+            </div>
+          </a>
+        </div>
       </li>
     </ul>
   </nav>
