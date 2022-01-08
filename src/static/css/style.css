@@ -438,8 +438,13 @@
 }
 
 /* giỏ hàng */
+
+
 .myCart{
-    margin: 30px 0 80px 0;
+    font-family: 'Poppins', sans-serif;
+    margin: 30px 0 80px 10%;
+    color: black;
+    font-weight: 550;
 }
 
 .cart-hr{
@@ -450,7 +455,6 @@
 }
 .cart-h3{
     color: #333;
-    font-family: 'Font Awesome 5 Brands';
     margin-left:10%;
 }
 
@@ -489,6 +493,10 @@
     font-size: 19px;
 }
 
+.room-cart img{
+    border-radius:7%;
+}
+
 .person-amount{
     background-color: #929292
     margin-left : auto;
@@ -513,7 +521,21 @@
 
 .color-orange{
     color: #ee4d2d;
+}
+
+.color-money{
+    color: #a7783e;
     font-size: 20px;
+}
+
+.btn-del{
+    background-color: #212529;
+    color: white;
+}
+
+.btn-del:hover{
+    background-color: #d7b784;
+    color: #212529;
 }
 
 #pay{
@@ -527,7 +549,6 @@
 }
 
 #pay > h3{
-    font-family: 'Font Awesome 5 Brands';
     margin-top: 15px;
 }
 
@@ -540,7 +561,7 @@
 }
 #pay >div > span{
     font-size: 20px;
-    color: red;
+    color: #1a1a1a;
     margin-left: 140px;
 }
 

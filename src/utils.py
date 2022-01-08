@@ -17,7 +17,6 @@ mydb = mysql.connector.connect(
     database="hotel_management_db"
 )
 
-
 def get_all_type_rooms():
     return TypeRoom.query.all()
 
