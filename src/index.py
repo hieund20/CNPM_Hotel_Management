@@ -369,10 +369,20 @@ def check_in():
         flag = False
     return jsonify(flag)
 
+<<<<<<< HEAD
 @app.route('/gallery')
 def gallery_image_page():
     return render_template('gallery.html')
 
+=======
+@app.route('/history')
+def history():
+    id_new = utils.get_new_record_rental_voucher_detai()
+
+    info_payer = utils.get_info_payer(id_new.id)
+
+    return render_template("history-payments.html", info_payer=info_payer)
+>>>>>>> d4eed1c (a)
 
 
 if __name__ == "__main__":
