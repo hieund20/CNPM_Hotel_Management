@@ -126,8 +126,10 @@ def contact_page():
 @app.route('/my-room')
 def cart():
     err = ""
+    cart=[]
+    total_money=0
     try:
-        cart = utils.get_list_receipt_detail(0)
+        cart = utils.get_list_receipt_detail()
         total_money = utils.total_money(user_id=0)
     except:
         err = "Trang web lỗi! Vui lòng thử lại sau"
@@ -208,7 +210,7 @@ def add_to_cart():
 
 @app.route('/payment', methods=['post', 'get'])
 def payment_page():
-    list_booking_room = utils.get_list_receipt_detail(0)
+    list_booking_room = utils.get_list_receipt_detail()
     total_price = utils.total_money(user_id=0)
 
     # Default variable
@@ -331,6 +333,31 @@ def payment_page():
 
 @app.route('/payment/success')
 def payment_success_page():
+    booking_room_backup = utils.get_list_receipt_detail()
+    booking_room_backup_converter = []
+
+    for row in booking_room_backup[0]:
+        booking_room_backup_converter.append(row)
+    print('booking_room_array ', booking_room_backup_converter)
+
+    booking_room_id = booking_room_backup_converter[8]
+    booking_room_name = booking_room_backup_converter[1]
+    booking_room_image = booking_room_backup_converter[0]
+    booking_room_receive_day = booking_room_backup_converter[6]
+    booking_room_pay_day = booking_room_backup_converter[3]
+    booking_room_price = booking_room_backup_converter[4]
+    booking_room_person_amount = booking_room_backup_converter[7]
+
+    # Backup data receipt detail to booking room before delete receipt detail
+    utils.add_booking_room(room_id=booking_room_id,
+                           room_name=booking_room_name,
+                           price=booking_room_price,
+                           image=booking_room_image,
+                           receive_day=booking_room_receive_day,
+                           pay_day=booking_room_pay_day,
+                           person_amount=booking_room_person_amount,
+                           rental_voucher_detail_id=1)
+
     # Delete all receipt detail when payment success
     utils.delete_all_receipt_detail()
     return render_template("payment-success.html")
