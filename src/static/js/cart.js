@@ -100,7 +100,6 @@ function deleteCart(element){
             console.log(err);
         }
     );
-
 }
 
 
@@ -115,7 +114,6 @@ function hideRoomDeleted(element){
             listRoom[i].style.display = "none";
         }
     }
-
 }
 
 
