@@ -352,6 +352,11 @@ def gallery_image_page():
     return render_template('gallery.html')
 
 
+@app.route('/utilities')
+def utilities_page():
+    return render_template('utilities.html')
+
+
 if __name__ == "__main__":
     from src.admin import *
 

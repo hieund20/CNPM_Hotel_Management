@@ -840,6 +840,31 @@
     border-radius: 8px;
 }
 
+
+/* UTILITIES PAGE */
+.utilities{
+    margin-top: 56px;
+}
+
+.utilities .utilities-title{
+    font-size: 35px;
+    font-weight: bold;
+    font-family: 'Poppins', sans-serif;
+    margin-bottom: 48px;
+    display:block;
+}
+
+.utilities > .container:nth-child(2) > .row{
+    margin-bottom: 32px;
+}
+
+.utilities > .container:nth-child(2) > .row > .card{
+    width: 100%;
+    border: none;
+}
+
+
+
 /* back to top */
 #back-to-top{
     position: fixed;
