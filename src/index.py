@@ -322,29 +322,25 @@ def payment_page():
 @app.route('/payment/success')
 def payment_success_page():
     booking_room_backup = utils.get_list_receipt_detail()
-    booking_room_backup_converter = []
 
-    for row in booking_room_backup[0]:
-        booking_room_backup_converter.append(row)
-    print('booking_room_array ', booking_room_backup_converter)
+    for row in booking_room_backup:
+        booking_room_id = row[8]
+        booking_room_name = row[1]
+        booking_room_image = row[0]
+        booking_room_receive_day = row[6]
+        booking_room_pay_day = row[3]
+        booking_room_price = row[4]
+        booking_room_person_amount = row[7]
 
-    booking_room_id = booking_room_backup_converter[8]
-    booking_room_name = booking_room_backup_converter[1]
-    booking_room_image = booking_room_backup_converter[0]
-    booking_room_receive_day = booking_room_backup_converter[6]
-    booking_room_pay_day = booking_room_backup_converter[3]
-    booking_room_price = booking_room_backup_converter[4]
-    booking_room_person_amount = booking_room_backup_converter[7]
-
-    # Backup data receipt detail to booking room before delete receipt detail
-    utils.add_booking_room(room_id=booking_room_id,
-                           room_name=booking_room_name,
-                           price=booking_room_price,
-                           image=booking_room_image,
-                           receive_day=booking_room_receive_day,
-                           pay_day=booking_room_pay_day,
-                           person_amount=booking_room_person_amount,
-                           rental_voucher_detail_id=1)
+        # Backup data receipt detail to booking room before delete receipt detail
+        utils.add_booking_room(room_id=booking_room_id,
+                               room_name=booking_room_name,
+                               price=booking_room_price,
+                               image=booking_room_image,
+                               receive_day=booking_room_receive_day,
+                               pay_day=booking_room_pay_day,
+                               person_amount=booking_room_person_amount,
+                               rental_voucher_detail_id=1)
 
     # Delete all receipt detail when payment success
     utils.delete_all_receipt_detail()
