@@ -7,6 +7,7 @@
     </a>
 {% endblock %}
 
+
 {% block head_css %}
   {{ super() }}
   <link rel="stylesheet" href="{{ url_for('static', filename='css/my_flask_admin.css') }}">
@@ -15,7 +16,9 @@
 {% block body %}
     {{ super() }}
     <link href="{{ url_for('static', filename='css/style.css')}}" rel="stylesheet"/>
-    <h1>nội dung admin home chỗ này</h1>
+    <div class="container">
+
+    </div>
     <footer class="footer" style="position: fixed; bottom: 0; width: 100%">
         <div class="footer-created">
           <div class="container">

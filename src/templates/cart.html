@@ -1,62 +1,111 @@
 {% extends 'layout/base.html' %}
 
-{% block title %}Giỏ hàng{% endblock %}
+{% block title %}Phòng của tôi{% endblock %}
 
 {% block content %}
-    <h1 class="text-center myCart">Phòng của tôi</h1>
-    {% if err:%}
-    <h1 class="text-center alert alert-danger">{{err}}</h1>
-    {% endif %}
-    <h3 class="cart-h3">Danh sách phòng đã đặt:</h3>
-    <hr class="cart-hr">
-    {% if list_cart %}
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-7" >
-                <div class="row list-cart" id="list-room">
-                    <input type="text"  class="search-cart" onkeyup="searchCart(this)" placeholder="Nhập từ khóa..."  title="Tìm kiếm theo tên">
-                    {% for i in list_cart %}
-                    <div class="row col-lg-12 lc  room-cart">
+<h1 class="myCart">PHÒNG CỦA TÔI</h1>
 
-                        <div class="col-lg-3">
-                                <img src="{{i.image}}">
+{% if err:%}
+<h1 class="text-center alert alert-danger">{{err}}</h1>
+{% endif %}
+{% if list_cart %}
+<h3 class="cart-h3">Danh sách phòng đã đặt:</h3>
+<hr class="cart-hr">
+<div class="container">
+    <div class="row">
+        <div class="col-lg-7">
+            <div class="row list-cart" id="list-room">
+                <input type="text" class="search-cart" onkeyup="searchCart(this)" placeholder="Nhập từ khóa..."
+                       title="Tìm kiếm theo tên">
+                {% for i in list_cart %}
+                <div class="row col-lg-12 lc  room-cart">
+
+                    <div class="col-lg-3">
+                        <img src="{{i.image}}">
+                    </div>
+
+                    <div class="col-lg-6">
+                        <div class="name-room">
+                            <span id="name-cart">{{i.room_name}}</span>
+                            <span class="person-amount">{{i.person_amount}} người</span>
                         </div>
-
-                        <div class="col-lg-6">
-                            <div class="name-room">
-                                <span id="name-cart">{{i.room_name}}</span>
-                                <span class="person-amount">{{i.person_amount}} người</span>
-                            </div>
-                            <div class="date-order">
-                                <div>Ngày nhận: <span class="color-gray">{{i.pay_day}}</span></div>
-                                <span>Ngày trả: <span class="color-gray">{{i.receive_day}}</span></span>
-                            </div>
-                        </div>
-
-                        <div class="col-lg-2 color-orange">
-                            {{i.price}}$
-                        </div>
-
-                        <div class="col-lg-1">
-                            <input type="button" name="{{i.id}}" class="btn btn-danger" value="xóa" onclick="confirmDelete(this)">
+                        <div class="date-order">
+                            <div>Ngày nhận: <span class="color-gray">{{i.pay_day}}</span></div>
+                            <span>Ngày trả: <span class="color-gray">{{i.receive_day}}</span></span>
                         </div>
                     </div>
-                    {% endfor %}
+
+                    <div class="col-lg-2 color-money">
+                        {{i.price}}$
+                    </div>
+
+                    <div class="col-lg-1">
+                        <input type="button" name="{{i[2]}}" class="btn btn-del" value="xóa"
+                               onclick="deleteCart(this)" data-bs-toggle="modal"
+                               data-bs-target="#exampleModal">
+                    </div>
+
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+        <div class="col-lg-4" id="pay">
+            <h3>Thông tin đặt phòng</h3>
+            <div>Tổng tiền: <span id="total_money">{{total_money}}$</span></div>
+            <div class="voucher">
+                <input type="text" placeholder="Nhập mã giảm giá" name="">
+                <input type="button" value="Áp dụng" class="btn btn-voucher">
+            </div>
+            <a href="/payment" class="btn btn-payment"><span>Thanh toán</span></a>
+        </div>
+    </div>
+</div>
+{% else %}
+<div class="text-center" style="margin-bottom: 17px">Vui lòng đặt phòng!!!</div>
+<div class="text-center">Cảm ơn bạn đã lựa chọn dịch vụ của Lotus Hotel !</div>
+{% endif %}
+<br><br><br><br>
+<!-- Modal -->
+<script>
+                            $(document).ready(function () {
+                                var is_open_modal = '{{ is_open_modal }}'
+                                console.log('is open modal', is_open_modal)
+                                if (is_open_modal === 'True'){
+                                    $('#exampleModal').modal('show');
+                                }
+                            });
+
+
+</script>
+<div class="modal fade" id="exampleModal" style="z-index: 90000000000" tabindex="9" aria-labelledby="exampleModalLabel"
+     aria-hidden="true" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Trạng thái</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div style="display: flex; align-items:center">
+                    <div class="icon-payment-success" style="width: 50px; height: 50px">
+                        <img src="https://res.cloudinary.com/dwgjmgf6o/image/upload/v1641224187/icons/success-icon_bmd0a4.png"
+                             alt="icon-payment"
+                             style="width: 100%"/>
+                    </div>
+                    <div style="display:flex; align-items:center; margin-left: 16px;">
+                        <p style="margin: 8px auto;">Xóa thành công !</p>
+                    </div>
                 </div>
             </div>
-            <div class="col-lg-4" id="pay">
-                <h3>Thông tin đặt phòng</h3>
-                <div>Tổng tiền: <span>{{total_money}}$</span></div>
-                <div class="voucher">
-                    <input type="text" placeholder="Nhập mã giảm giá" name="">
-                    <input type="button" value="Áp dụng" class="btn btn-voucher">
-                </div>
-                <a href="/payment" class="btn btn-payment"><span>Thanh toán</span></a>
+            <div class="modal-footer">
+                <button type="button"
+                        class="btn btn-secondary"
+                        data-bs-dismiss="modal"
+                >Đóng
+                </button>
             </div>
         </div>
     </div>
-    {% else %}
-    <h3><i>Vui lòng đặt phòng!!!</i></h3>
-    {% endif %}
-    <br><br><br>,<br>
+</div>
+
 {% endblock %}

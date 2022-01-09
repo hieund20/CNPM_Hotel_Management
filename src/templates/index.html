@@ -172,6 +172,7 @@
                     </div>
                     <div class="card-body">
                         <h5 class="card-title">{{ room.type_room_name }}</h5>
+<<<<<<< HEAD
                         <span class="card-text" style="display: block;">
                             Để xem mô tả bấm vào CHI TIẾT
                         </span>
@@ -181,10 +182,23 @@
                             <div style="margin-top: 8px; margin-bottom: 10px;">
                                 <span class="card-text-price">{{ room.price }}$</span>
                                 <span>/days</span>
+=======
+                        <div style="overflow: hidden; text-overflow: ellipsis; margin-bottom: 16px; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical;">
+                             <span class="card-text" >
+                                {{ room.descriptions }}
+                            </span>
+                        </div>
+
+                        <div class="btn-box"
+                             style="display: block;">
+                            <div style="margin-top: 8px; margin-bottom: 8px;">
+                                <span class="card-text-price">{{ "{:,.0f}".format(room.price) }} VNĐ</span>
+                                <span>/đêm</span>
+>>>>>>> develop
                             </div>
                             <a href="{{ url_for('room_detail_page', room_id=room.id) }}"
                                class="btn btn-primary"
-                               style="width: 52%">CHI TIẾT</a>
+                               style="width: 100%">CHI TIẾT</a>
                         </div>
                     </div>
                 </div>
@@ -211,8 +225,8 @@
                         <div class="btn-box"
                              style="display: flex; justify-content: space-between; ">
                             <div style="margin-top: 8px; margin-bottom: 8px;">
-                                <span class="card-text-price">{{ room.price }}$</span>
-                                <span>/days</span>
+                                <span class="card-text-price">{{ room.price }} VNĐ</span>
+                                <span>/đêm</span>
                             </div>
                             <a href="{{ url_for('room_detail_page', room_id=room.id) }}"
                                class="btn btn-primary"
@@ -235,7 +249,10 @@
     <div class="container" id="home-grid-1">
         <div class="row">
             <div class="col">
-                <img src="{{ url_for('static', filename='images/img-1.jpg') }}" class="card-img-top" alt="...">
+                <img src="{{ url_for('static', filename='images/img-1.jpg') }}"
+                     class="card-img-top"
+                     style="border-radius: 10px;"
+                     alt="...">
             </div>
             <div class="col">
                 <span class="title">VỀ CHÚNG TÔI</span>
@@ -270,7 +287,8 @@
                     <div class="row align-items-start">
                         <div class="col">
                             <div class="img-box">
-                                <img src="{{ url_for('static', filename='images/icon-3.png') }}" class="card-img-top"
+                                <img src="{{ url_for('static', filename='images/icon-3.png') }}"
+                                     class="card-img-top"
                                      alt="...">
                             </div>
                             <span>
@@ -310,7 +328,10 @@
                 </div>
             </div>
             <div class="col">
-                <img src="{{ url_for('static', filename='images/img-2.jpg') }}" class="card-img-top" alt="...">
+                <img src="{{ url_for('static', filename='images/img-2.jpg') }}"
+                     class="card-img-top"
+                     style="border-radius: 10px;"
+                     alt="...">
             </div>
         </div>
     </div>
