@@ -1,39 +1,22 @@
-from flask import request
-from sqlalchemy import text, func, extract
-from src import app, db
-
-
-from src.models import Room, TypeRoom, ReceiptDetail, User, Receipt, ChangePolicyNumber, RentalVoucher, RentalVoucherDetail, TypeVisit, Comment
-from sqlalchemy.orm import Session
-from flask_login import current_user
-
-
-from src.models import Room, TypeRoom, ReceiptDetail, User, Receipt, ChangePolicyNumber, RentalVoucher, \
-    RentalVoucherDetail, TypeVisit
-
-from sqlalchemy import desc, asc
-
-from datetime import datetime
-from sqlalchemy import func, extract
-
 import hashlib
 from datetime import datetime
 
 import mysql.connector
+from flask_login import current_user
 from sqlalchemy import desc, asc
 from sqlalchemy import func, extract
 
 from src import app, db
+from src.models import Comment
 from src.models import Room, TypeRoom, ReceiptDetail, User, Receipt, RentalVoucher, \
     RentalVoucherDetail, BookingRoom
 
 mydb = mysql.connector.connect(
-        host="localhost",
-        user="root",
-        password="phuc12345",
-        database="newdata"
-
-    )
+    host="localhost",
+    user="root",
+    password="Duchieu200301",
+    database="hotel_management_db"
+)
 
 
 def get_all_type_rooms():
@@ -129,7 +112,6 @@ def cart_stats(cart):
     return total_quantity, total_amount
 
 
-
 def add_comment(content, room_id):
     c = Comment(content=content, room_id=room_id, user=current_user)
 
@@ -141,15 +123,14 @@ def add_comment(content, room_id):
 
 def get_comments(room_id, page=1):
     page_size = app.config['COMMENT_SIZE']
-    start = (page-1) * page_size
+    start = (page - 1) * page_size
 
-    return Comment.query.filter(Comment.room_id.__eq__(room_id)).\
+    return Comment.query.filter(Comment.room_id.__eq__(room_id)). \
         order_by(-Comment.id).slice(start, start + page_size).all()
 
 
 def count_comment(room_id):
     return Comment.query.filter(Comment.room_id.__eq__(room_id)).count()
-
 
 
 def add_receipt_detail(room_id, room_name, price, quantity, receive_day, pay_day, person_amount):

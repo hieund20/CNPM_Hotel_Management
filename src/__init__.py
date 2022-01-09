@@ -9,8 +9,8 @@ app = Flask(__name__)
 app.secret_key = 'sfsjfffehr4$#$@$@$%^^^$^%@$GG'
 
 
-app.config["SQLALCHEMY_DATABASE_URI"] = "mysql+pymysql://root:phuc12345@localhost/newdata?charset=utf8mb4"
 app.config['COMMENT_SIZE'] = 4
+app.config["SQLALCHEMY_DATABASE_URI"] = "mysql+pymysql://root:phuc12345@localhost/newdata?charset=utf8mb4"
 
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = True
 app.config["PAGE_SIZE"] = 6
@@ -18,6 +18,7 @@ app.config["PAGE_SIZE"] = 6
 db = SQLAlchemy(app=app)
 migrate = Migrate(app, db)
 babel = Babel(app=app)
+
 
 
 @babel.localeselector

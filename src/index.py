@@ -1,22 +1,16 @@
-import hashlib
-import hmac
+import json
 import json
 import math
-
-import os
 import re
 import smtplib
-import urllib
-import uuid
 from datetime import datetime
 
 import utils
-from urllib.request import urlopen, Request
-from flask import Flask, render_template, request, url_for, redirect, session, jsonify, make_response
-from flask_login import login_user, logout_user, current_user, login_required
-from src import app, login
+from flask import render_template, url_for, redirect, session, jsonify
+from flask_login import login_user, login_required, current_user
+
+from src import login
 from src.admin import *
-import requests
 
 
 @app.context_processor
@@ -90,11 +84,17 @@ def user_register():
         # validate username
         if username == "":
             username_validate = "Tên đăng nhập không được để trống"
+
         else:
             if re.match("^[a-zA-Z0-9_.-]+$", username):
                 pass
             else:
                 username_validate = "Tên đăng nhập này không hợp lệ!"
+
+        # else:
+        #     if re.match("^[a-zA-Z0-9_.-]+$", username):
+        #         username_validate = "Tên đăng nhập này không hợp lệ!"
+
 
         if len(username) < 7:
             username_validate = "Tên đăng nhập quá ngắn(Tối thiểu phải có 7 ký tự)!!!"
@@ -483,6 +483,20 @@ def gallery_image_page():
 @app.route('/utilities')
 def utilities_page():
     return render_template('utilities.html')
+
+
+@app.route('/user-information')
+def user_information_page():
+    current_user_login_id = current_user.id
+    current_user_information = utils.get_user_by_id(current_user_login_id)
+
+    return render_template('user-information.html',
+                           current_user_information=current_user_information)
+
+
+@app.route('/event')
+def event_page():
+    return render_template('event.html')
 
 
 if __name__ == "__main__":
