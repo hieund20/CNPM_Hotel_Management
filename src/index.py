@@ -61,7 +61,6 @@ def about_us_page():
     return render_template('about-us.html')
 
 
-
 @app.route('/register', methods=['post', 'get'])
 def user_register():
     err_msg = ""
@@ -113,18 +112,16 @@ def user_load(user_id):
     return utils.get_user_by_id(user_id=user_id)
 
 
-
 @app.route('/contact-page')
 def contact_page():
     return render_template("contactPage.html")
 
 
-
 @app.route('/my-room')
 def cart():
     err = ""
-    cart=[]
-    total_money=0
+    cart = []
+    total_money = 0
     try:
         cart = utils.get_list_receipt_detail()
         total_money = utils.total_money(user_id=0)
@@ -139,14 +136,13 @@ def delete_cart():
     id = str(data.get("id"))
     tb = True
     try:
-        utils.delete_Receipt_detail(id=id)
+        utils.delete_Receipt_detail_by_id(id=id)
     except:
-        tb =False
+        tb = False
 
     total_money = utils.total_money(user_id=0)
 
     return jsonify(tb, len(utils.total_room_by_receiptId(0)), total_money)
-
 
 
 @app.route("/rooms/<int:room_id>")
@@ -285,7 +281,8 @@ def payment_page():
 
         rental_voucher_detail_id = utils.get_new_record_rental_voucher_detai()[0]
         print('check rental voucher id', rental_voucher_detail_id)
-        message = 'XÁC NHẬN ĐẶT PHÒNG THÀNH CÔNG\n\nChúng tôi xin trân trọng gửi đến quý khách thư xác nhận rằng quý khách đã thực hiện thao tác đặt phòng thành công.\nCảm ơn quý khách đã sử dụng dich vụ của Lotus Hotel.\nMã đặt phòng của quý khách là: ' + str(rental_voucher_detail_id) + ' \nĐể nhận phòng, quý khách vui lòng trình diện mã đặt phòng cho lễ tân tại sảnh chính khách sạn.\nXin trân trọng cảm ơn.\n\n\nLIÊN HỆ\nEmail: hotel.lotus371@gmail.com\nTổng đài: 1-548-854-8898\nĐịa chỉ: 371 Nguyễn Kiệm, quận Gò Vấp, TP. Hồ Chí Minh'
+        message = 'XÁC NHẬN ĐẶT PHÒNG THÀNH CÔNG\n\nChúng tôi xin trân trọng gửi đến quý khách thư xác nhận rằng quý khách đã thực hiện thao tác đặt phòng thành công.\nCảm ơn quý khách đã sử dụng dich vụ của Lotus Hotel.\nMã đặt phòng của quý khách là: ' + str(
+            rental_voucher_detail_id) + ' \nĐể nhận phòng, quý khách vui lòng trình diện mã đặt phòng cho lễ tân tại sảnh chính khách sạn.\nXin trân trọng cảm ơn.\n\n\nLIÊN HỆ\nEmail: hotel.lotus371@gmail.com\nTổng đài: 1-548-854-8898\nĐịa chỉ: 371 Nguyễn Kiệm, quận Gò Vấp, TP. Hồ Chí Minh'
 
         server = smtplib.SMTP("smtp.gmail.com", 587)
         server.starttls()
@@ -357,7 +354,8 @@ def history():
 
     total_money = utils.total_money_booking_room()
 
-    return render_template("history-payments.html", info_payer=info_payer, list_booking_room=list_booking_room,total_money=total_money)
+    return render_template("history-payments.html", info_payer=info_payer, list_booking_room=list_booking_room,
+                           total_money=total_money)
 
 
 @app.route('/check-in', methods=['post'])
@@ -375,20 +373,9 @@ def gallery_image_page():
     return render_template('gallery.html')
 
 
-
-@app.route('/history')
-def history():
-    id_new = utils.get_new_record_rental_voucher_detai()
-
-    info_payer = utils.get_info_payer(id_new.id)
-
-    return render_template("history-payments.html", info_payer=info_payer)
-
-
 @app.route('/utilities')
 def utilities_page():
     return render_template('utilities.html')
-
 
 
 if __name__ == "__main__":

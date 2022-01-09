@@ -7,7 +7,6 @@ from enum import Enum as UserEnum
 from flask_login import UserMixin
 
 
-
 class BaseModel(db.Model):
     __abstract__ = True
 
@@ -19,6 +18,7 @@ class UserRole(UserEnum):
     USER = 2
     EMPLOYEE = 3
 
+
 class User(BaseModel, UserMixin):
     username = Column(String(50), nullable=False, unique=True)
     password = Column(String(50), nullable=False)
@@ -27,6 +27,7 @@ class User(BaseModel, UserMixin):
     joined_date = Column(DateTime, default=datetime.now())
     user_role = Column(Enum(UserRole), default=UserRole.USER)
     comments = relationship('Comment', backref='user', lazy=True)
+
 
 class ChangePolicyNumber(BaseModel):
     foreign_visitor_number = Column(Float, nullable=True)
@@ -37,10 +38,12 @@ class ChangePolicyNumber(BaseModel):
     number_price = Column(Float, nullable=True)
     amount_extra = Column(Float, nullable=True)
 
+
 class TypeVisit(BaseModel):
-    type_visit_name = Column(String(50), nullable= False)
+    type_visit_name = Column(String(50), nullable=False)
 
     rentalVoucherDetails = relationship('RentalVoucherDetail', backref='typeVisit', lazy=False)
+
 
 class RentalVoucher(BaseModel):
     booking_date = Column(DateTime, default=datetime.now())
@@ -65,6 +68,7 @@ class TypeRoom(BaseModel):
     def __str__(self):
         return self.type_room_name
 
+
 class Room(BaseModel):
     quantity_bed = Column(Integer, nullable=False)
     price = Column(Float, nullable=False)
@@ -77,11 +81,13 @@ class Room(BaseModel):
 
     receiptDetails = relationship('ReceiptDetail', backref='room', lazy=True)
 
+
 class Receipt(BaseModel):
     visitor_name = Column(String(50), nullable=False)
     address = Column(String(100))
     price = Column(Float, default=0)
-    user_id = Column(Integer, nullable = False)
+    user_id = Column(Integer, nullable=False)
+
 
 class ReceiptDetail(db.Model):
     id = Column(Integer, primary_key=True, nullable=False, autoincrement=True)
@@ -115,8 +121,6 @@ class Comment(BaseModel):
 
     def __str__(self):
         return self.content
-
-
 
 
 if __name__ == '__main__':
