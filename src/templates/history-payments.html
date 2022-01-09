@@ -61,6 +61,7 @@
 
     <!-- Modal -->
     <script>
+<<<<<<< HEAD
             $(document).ready(function () {
                var is_open_modal = '{{ is_open_modal }}'
                console.log('is open modal', is_open_modal)
@@ -68,6 +69,15 @@
                   $('#exampleModal').modal('show');
                }
             });
+=======
+         $(document).ready(function () {
+         var is_open_modal = '{{ is_open_modal }}'
+         console.log('is open modal', is_open_modal)
+         if (is_open_modal === 'True'){
+                $('#exampleModal').modal('show');
+                }
+                });
+>>>>>>> develop
 
 
     </script>

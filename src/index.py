@@ -347,7 +347,6 @@ def payment_success_page():
     return render_template("payment-success.html")
 
 
-
 @app.route('/history')
 def history():
     id_new = utils.get_new_record_rental_voucher_detai()
@@ -359,6 +358,7 @@ def history():
     total_money = utils.total_money_booking_room()
 
     return render_template("history-payments.html", info_payer=info_payer, list_booking_room=list_booking_room,total_money=total_money)
+
 
 @app.route('/check-in', methods=['post'])
 def check_in():
@@ -375,6 +375,7 @@ def gallery_image_page():
     return render_template('gallery.html')
 
 
+
 @app.route('/history')
 def history():
     id_new = utils.get_new_record_rental_voucher_detai()
@@ -382,6 +383,11 @@ def history():
     info_payer = utils.get_info_payer(id_new.id)
 
     return render_template("history-payments.html", info_payer=info_payer)
+
+
+@app.route('/utilities')
+def utilities_page():
+    return render_template('utilities.html')
 
 
 
