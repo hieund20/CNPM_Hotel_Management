@@ -56,11 +56,20 @@
         {% else %}
         <div class="checked text-center">Cảm ơn bạn đã lựa chọn dịch vụ của Lotus Hotel!</div>
         {% endif %}
-        <h3 id="tb-his" class="checked text-center" style="display:none">Đã thanh toán thành công!!!</h3>
+        <h3 id="tb-his" class="checked text-center" style="display:none">Thanh toán thành công!!!</h3>
     </div>
 
     <!-- Modal -->
     <script>
+<<<<<<< HEAD
+            $(document).ready(function () {
+               var is_open_modal = '{{ is_open_modal }}'
+               console.log('is open modal', is_open_modal)
+               if (is_open_modal === 'True'){
+                  $('#exampleModal').modal('show');
+               }
+            });
+=======
          $(document).ready(function () {
          var is_open_modal = '{{ is_open_modal }}'
          console.log('is open modal', is_open_modal)
@@ -68,6 +77,7 @@
                 $('#exampleModal').modal('show');
                 }
                 });
+>>>>>>> develop
 
 
     </script>
