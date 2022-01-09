@@ -60,7 +60,7 @@
                         </div>
                     </div>
                     <div>
-                        {% if current_user.is_authenticated and current_user.user_role.value == 2 %}
+                        {% if current_user.is_authenticated and current_user.user_role.value == 2 or current_user.user_role.value == 3 %}
                         <div class="col-12">
                             <input class="btn btn-primary"
                                    style="background-color: black; border: 1px solid black; margin-top:8px;"
