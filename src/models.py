@@ -6,7 +6,23 @@ from datetime import datetime
 from enum import Enum as UserEnum
 from flask_login import UserMixin
 
+#Cách cập nhật database từ models (Không cần xóa database)
+#- cd src
+#- set FLASK_APP=index.py
+#- $env:FLASK_APP = "index.py"
+#- flask run (không cần chạy nếu đang cập nhật database mới)
 
+#Cập nhật database:
+#- pip install Flask-Migrate (cài 1 lần)
+
+#- Xóa các file trong migrations/versions
+#- flask db init
+#- flask db migrate -m "Initial migration."
+#- flask db upgrade
+
+#$ flask db stamp head
+#$ flask db migrate
+#$ flask db upgrade
 
 class BaseModel(db.Model):
     __abstract__ = True

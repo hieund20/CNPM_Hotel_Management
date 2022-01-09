@@ -70,28 +70,104 @@ def admin_stats_page():
 @app.route('/register', methods=['post', 'get'])
 def user_register():
     err_msg = ""
+    SpecialSym = ['$', '@', '#', '%']
+
+    # Default variable
+    username = "default"  # username khác rỗng, co ky tu so, phải có ít nhất 7 ký tự #
+    email = "default"     # email như payment_page() #
+    password = "default"  # password khác rỗng, có ký tự số, co ky tu dac biet, co chu hoa, phải có ít nhất 5 ký tự #
+    confirm = "default"   # confirm khác rỗng #
+
+    #pass: Qualoa@123
+
+    # Validate variable
+    username_validate = ""
+    email_validate = ""
+    password_validate = ""
+    confirm_validate = ""
+
+
     if request.method.__eq__('POST'):
         username = request.form.get('username')
         password = request.form.get('password')
         confirm = request.form.get('confirm')
         email = request.form.get('email')
 
+        # validate username
+        if username == "":
+            username_validate = "Tên đăng nhập không được để trống"
+        else:
+            if re.match("^[a-zA-Z0-9_.-]+$", username):
+                username_validate = "Tên đăng nhập này không hợp lệ!"
+
+
+        if len(username) < 7:
+            username_validate = "Tên đăng nhập quá ngắn(Tối thiểu phải có 7 ký tự)!!!"
+        if not any(char.islower() for char in username):
+            username_validate = "Tên đăng nhập phải có ít nhất 1 ký tự in thường"
+
+
+        # validate email
+        if email == "":
+            email_validate = "Hãy nhập email!"
+        else:
+            if re.match(r'\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b', email) is None and email != "default":
+                email_validate = "Email không hợp lệ!"
+
+        # validate password
+        if password == "":
+            password_validate = "Mật khẩu không được để trống"
+        else:
+            if re.fullmatch(r'[A-Za-z0-9@#$%^&+=]{5,}', password):
+                pass
+            else:
+                password_validate = "Mật khẩu này không hợp lệ!"
+
+        if len(password) < 5:
+            password_validate = "Mật khẩu quá ngắn(Tối thiểu phải có 5 ký tự)!"
+        if not any(char.isdigit() for char in password):
+                password_validate = "Mật khẩu phải có ít nhất 1 ký tự số!"
+        if not any(char in SpecialSym for char in password):
+            password_validate = "Tên đăng nhập phải có ít nhất 1 ký tự đặc biệt trong 4 ký tự sau: '$', '@', '#', '%' "
+        if not any(char.isupper() for char in username):
+            username_validate = "Tên đăng nhập phải có ít nhất 1 ký tự in hoa"
+
+
+        # validate confirm
+        if confirm == "":
+            confirm_validate = "Xác nhận mật khẩu không được để trống"
+
+
 
         try:
             if password.strip().__eq__(confirm.strip()):
-                #Nhớ KT password
 
+                # Check data before add to database
+                if (username != "default" and username != "" and username_validate == "" and \
+                        email != "default" and email != "" and email_validate == "" and \
+                        password != "default" and password != "" and password_validate == "" and \
+                        confirm != "default" and confirm != "" and confirm_validate == ""):
 
-
-                utils.add_user(username=username,
+                    utils.add_user(username=username,
                                password=password, email=email)
-                return redirect(url_for('user_signin'))
+                    err_msg = "Thêm đc tài khoản"
+                    render_template('register.html', err_msg=err_msg)
+                else:
+                    err_msg = "Không thêm được tài khoản"
+
+                redirect(url_for('user_register', err_msg=err_msg,
+                                        username_validate=username_validate, email_validate=email_validate,
+                                        password_validate=password_validate, confirm_validate=confirm_validate
+                                        ))
             else:
                 err_msg = "Xác nhận mật khẩu không trùng khớp với Mật khẩu !!! "
         except Exception as ex:
             err_msg = "Có lỗi xảy ra rồi !! " + str(ex)
 
-    return render_template('register.html', err_msg=err_msg)
+    return render_template('register.html', err_msg=err_msg,
+                           username_validate=username_validate, email_validate=email_validate,
+                           password_validate=password_validate, confirm_validate=confirm_validate
+                           )
 
 
 @app.route('/user-login', methods=['post', 'get'])

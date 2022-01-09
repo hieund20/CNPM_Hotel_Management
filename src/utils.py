@@ -1,16 +1,16 @@
 from flask import request
 from sqlalchemy import text, func, extract
 from src import app, db
-<<<<<<< HEAD
+
 
 from src.models import Room, TypeRoom, ReceiptDetail, User, Receipt, ChangePolicyNumber, RentalVoucher, RentalVoucherDetail, TypeVisit, Comment
 from sqlalchemy.orm import Session
 from flask_login import current_user
 
-=======
+
 from src.models import Room, TypeRoom, ReceiptDetail, User, Receipt, ChangePolicyNumber, RentalVoucher, \
     RentalVoucherDetail, TypeVisit
->>>>>>> develop
+
 from sqlalchemy import desc, asc
 
 from datetime import datetime
@@ -21,13 +21,9 @@ import mysql.connector
 mydb = mysql.connector.connect(
         host="localhost",
         user="root",
-<<<<<<< HEAD
-        passwd="phuc12345",
+        password="phuc12345",
         database="newdata"
-=======
-        passwd="123456789",
-        database="hotel5"
->>>>>>> develop
+
     )
 def get_all_type_rooms():
     return TypeRoom.query.all()
@@ -122,7 +118,7 @@ def cart_stats(cart):
     return total_quantity, total_amount
 
 
-<<<<<<< HEAD
+
 def add_comment(content, room_id):
     c = Comment(content=content, room_id=room_id, user=current_user)
 
@@ -145,10 +141,7 @@ def count_comment(room_id):
 
 
 
-def add_receipt_detail(room_id, room_name, price, quantity, receive_day, pay_day, person_amount ):
-=======
 def add_receipt_detail(room_id, room_name, price, quantity, receive_day, pay_day, person_amount):
->>>>>>> develop
     receipt_detail = ReceiptDetail(room_id=room_id,
                                    room_name=room_name,
                                    price=price,
