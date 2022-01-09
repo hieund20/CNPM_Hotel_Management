@@ -488,6 +488,7 @@ def user_information_page():
 def event_page():
     return render_template('event.html')
 
+
 if __name__ == "__main__":
     from src.admin import *
 
