@@ -92,12 +92,16 @@ def user_register():
             username_validate = "Tên đăng nhập không được để trống"
         else:
             if re.match("^[a-zA-Z0-9_.-]+$", username):
+                pass
+            else:
                 username_validate = "Tên đăng nhập này không hợp lệ!"
 
         if len(username) < 7:
             username_validate = "Tên đăng nhập quá ngắn(Tối thiểu phải có 7 ký tự)!!!"
         if not any(char.islower() for char in username):
             username_validate = "Tên đăng nhập phải có ít nhất 1 ký tự in thường"
+        if not any(char.isupper() for char in username):
+            username_validate = "Tên đăng nhập phải có ít nhất 1 ký tự in hoa"
 
         # validate email
         if email == "":
@@ -121,8 +125,8 @@ def user_register():
             password_validate = "Mật khẩu phải có ít nhất 1 ký tự số!"
         if not any(char in SpecialSym for char in password):
             password_validate = "Tên đăng nhập phải có ít nhất 1 ký tự đặc biệt trong 4 ký tự sau: '$', '@', '#', '%' "
-        if not any(char.isupper() for char in username):
-            username_validate = "Tên đăng nhập phải có ít nhất 1 ký tự in hoa"
+        if not any(char.isupper() for char in password):
+            password_validate = "Tên đăng nhập phải có ít nhất 1 ký tự in hoa"
 
         # validate confirm
         if confirm == "":
