@@ -484,6 +484,10 @@ def user_information_page():
                            current_user_information=current_user_information)
 
 
+@app.route('/event')
+def event_page():
+    return render_template('event.html')
+
 if __name__ == "__main__":
     from src.admin import *
 

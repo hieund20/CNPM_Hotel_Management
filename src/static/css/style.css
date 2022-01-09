@@ -913,6 +913,28 @@ div.cmt {
     border: none;
 }
 
+/* EVENT PAGE */
+.event{
+    margin-top: 56px;
+}
+
+.event .event-title{
+    font-size: 35px;
+    font-weight: bold;
+    font-family: 'Poppins', sans-serif;
+    margin-bottom: 48px;
+    display:block;
+}
+
+.event > .container:nth-child(2) > .row{
+    margin-bottom: 32px;
+}
+
+.event > .container:nth-child(2) > .row > .card{
+    width: 100%;
+    border: none;
+}
+
 
 /* USER INFORMATION PAGE */
 .user {
