@@ -11,8 +11,17 @@
     <ul class="navbar-nav top-nav-left">
       {% if current_user.is_authenticated %}
       <li class="nav-item ">
-        <a class="nav-link" href="{{ url_for('home_page') }}">
-          {{ current_user.username }}
+        <a class="nav-link" href="{{ url_for('user_information_page') }}">
+          <div class="user-login-container" style="display: flex;">
+            <div style="width: 20px; height: 20px; margin-right: 5px;">
+              <img src="{{current_user.avatar}}"
+                 alt="avatar-user"
+                 style="width: 100%; border-radius: 10px;"/>
+            </div>
+            <div>
+               {{ current_user.username }}
+            </div>
+          </div>
         </a>
       </li>
       <li class="nav-item ">

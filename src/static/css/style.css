@@ -914,6 +914,21 @@ div.cmt {
 }
 
 
+/* USER INFORMATION PAGE */
+.user {
+    margin-top: 56px;
+}
+
+.user .user-title{
+    font-size: 30px;
+    font-weight: bold;
+    font-family: 'Poppins', sans-serif;
+    margin-bottom: 48px;
+    display:block;
+    color: #a7783e;
+}
+
+
 /* back to top */
 #back-to-top{
     position: fixed;
