@@ -347,6 +347,29 @@ def payment_success_page():
     return render_template("payment-success.html")
 
 
+@app.route('/history')
+def history():
+    id_new = utils.get_new_record_rental_voucher_detai()
+
+    info_payer = utils.get_info_payer(id_new.id)
+
+    list_booking_room = utils.get_info_booking_room()
+
+    total_money = utils.total_money_booking_room()
+
+    return render_template("history-payments.html", info_payer=info_payer, list_booking_room=list_booking_room,total_money=total_money)
+
+
+@app.route('/check-in', methods=['post'])
+def check_in():
+    flag = True
+    try:
+        utils.delete_Receipt_detail()
+    except:
+        flag = False
+    return jsonify(flag)
+
+
 @app.route('/gallery')
 def gallery_image_page():
     return render_template('gallery.html')

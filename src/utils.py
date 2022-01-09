@@ -282,6 +282,10 @@ def get_new_record_rental_voucher_detai():
     query = db.session.query(RentalVoucherDetail.id).order_by(RentalVoucherDetail.id.desc())
     return query.first()
 
+def get_info_payer(id):
+    query = db.session.query(RentalVoucherDetail.visit_name, RentalVoucherDetail.phone_number,
+                             RentalVoucherDetail.email,RentalVoucherDetail.nation).filter(RentalVoucherDetail.id == id)
+    return query.first()
 
 def delete_all_receipt_detail():
     query = db.session.query(ReceiptDetail).delete()
@@ -306,3 +310,19 @@ def add_booking_room(room_id,
                                rental_voucher_detail_id=rental_voucher_detail_id)
     db.session.add(booking_room)
     db.session.commit()
+
+def get_info_booking_room():
+    return BookingRoom.query.all()
+
+def total_money_booking_room():
+    b = BookingRoom.query.all()
+    total = 0
+    for i in b:
+        total += i.price
+    return total
+
+def delete_Receipt_detail():
+    mycursor = mydb.cursor()
+    sql = "DELETE FROM booking_room"
+    mycursor.execute(sql)
+    mydb.commit()
