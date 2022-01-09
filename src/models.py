@@ -6,6 +6,24 @@ from datetime import datetime
 from enum import Enum as UserEnum
 from flask_login import UserMixin
 
+#Cách cập nhật database từ models (Không cần xóa database)
+#- cd src
+#- set FLASK_APP=index.py
+#- $env:FLASK_APP = "index.py"
+#- flask run (không cần chạy nếu đang cập nhật database mới)
+
+#Cập nhật database:
+#- pip install Flask-Migrate (cài 1 lần)
+
+#- Xóa các file trong migrations/versions
+#- flask db init
+#- flask db migrate -m "Initial migration."
+#- flask db upgrade
+
+#$ flask db stamp head
+#$ flask db migrate
+#$ flask db upgrade
+
 
 class BaseModel(db.Model):
     __abstract__ = True
@@ -76,7 +94,9 @@ class Room(BaseModel):
     type_room_id = Column(Integer, ForeignKey(TypeRoom.id), nullable=False)
     rental_voucher = Column(Integer, ForeignKey(RentalVoucher.id), default=0)
     image = Column(String(150), nullable=False)
-    descriptions = Column(String(20000), nullable=False)
+
+    descriptions = Column(String(20000), nullable=False)  #description-datatype:varchar(200)->varchar(20000)
+
     comments = relationship('Comment', backref='room', lazy=True)
 
     receiptDetails = relationship('ReceiptDetail', backref='room', lazy=True)

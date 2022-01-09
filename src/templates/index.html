@@ -172,6 +172,17 @@
                     </div>
                     <div class="card-body">
                         <h5 class="card-title">{{ room.type_room_name }}</h5>
+<<<<<<< HEAD
+                        <span class="card-text" style="display: block;">
+                            Để xem mô tả bấm vào CHI TIẾT
+                        </span>
+
+                        <div class="btn-box"
+                             style="display: flex; justify-content: space-between; ">
+                            <div style="margin-top: 8px; margin-bottom: 10px;">
+                                <span class="card-text-price">{{ room.price }}$</span>
+                                <span>/days</span>
+=======
                         <div style="overflow: hidden; text-overflow: ellipsis; margin-bottom: 16px; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical;">
                              <span class="card-text" >
                                 {{ room.descriptions }}
@@ -183,6 +194,7 @@
                             <div style="margin-top: 8px; margin-bottom: 8px;">
                                 <span class="card-text-price">{{ "{:,.0f}".format(room.price) }} VNĐ</span>
                                 <span>/đêm</span>
+>>>>>>> develop
                             </div>
                             <a href="{{ url_for('room_detail_page', room_id=room.id) }}"
                                class="btn btn-primary"
@@ -206,8 +218,8 @@
                     </div>
                     <div class="card-body">
                         <h5 class="card-title">{{ room.type_room_name }}</h5>
-                        <span class="card-text" style="display: block;">
-                            {{ room.descriptions }}
+                        <span class="card-text" style="display: block; padding-bottom:70px;">
+                            <!--{{ room.descriptions }}-->Để xem mô tả bấm vào CHI TIẾT
                         </span>
 
                         <div class="btn-box"

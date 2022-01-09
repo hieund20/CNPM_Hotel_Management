@@ -63,7 +63,7 @@
                         {% if current_user.is_authenticated and current_user.user_role.value == 2 %}
                         <div class="col-12">
                             <input class="btn btn-primary"
-                                   style="background-color: #b58955; border: 1px solid #b58955; margin-top:8px;"
+                                   style="background-color: black; border: 1px solid black; margin-top:8px;"
                                    type="submit"
                                    value="ĐẶT PHÒNG"
                                    onclick="addToCart({{ room.id }}, '{{ type_room[0].type_room_name }}', {{ room.price }}, document.getElementById('receive-day').value,  document.getElementById('pay-day').value, document.getElementsByName('person-amount')[0].value)"/>
@@ -85,14 +85,6 @@
         </div>
     </div>
 
-    <div class="row">
-        <div class="col">
-
-        </div>
-        <div class="col">
-
-        </div>
-    </div>
     <script>
         $(function() {
           $('input[name="receive-day"]').daterangepicker({
@@ -118,6 +110,56 @@
 
     </script>
 
+
+
+        {% if current_user.is_authenticated %}
+        <div class="cmt">
+            <div class="form-group">
+                <textarea class="form-control" id="commentId" placeholder="Nhập nội dung bình luận ..."></textarea>
+            </div>
+            <input type="button" onclick="addComment({{ room.id }})" class="btn btn-primary" value="Gửi bình luận" />
+        </div>
+        {% else %}
+        <div class="cmt">
+        <p>Chỉ được bình luận khi đã đăng nhập.<a href="{{ url_for('user_signin') }}">Đăng nhập tại đây</a></p>
+        </div>
+        {% endif %}
+
+    <div id="commentArea">
+        <!--thử comment---> {% for c in comments %}
+        <div class="cmt comment">
+            <div class="col-md-1 col-xs-4 flex distance">
+                <p>
+                    {% if c.user.avatar and c.user.avatar.startswith('https') %}
+                    <img src="{{ c.user.avatar }}" width="30" class="rounded-circle" />
+                    {% else %}
+                    <img src="https://res.cloudinary.com/dwgjmgf6o/image/upload/v1641091873/user_image/images_yjunll.jpg" width="30" class="rounded-circle" />
+                    {% endif %}
+                </p>
+                <p><b>{{ c.user.username }}</b></p>
+            </div>
+
+            <div class="col-md-11 col-xs-8">
+                <p>{{ c.content }}</p>
+                <p style="font-size: 10px;"><em>{{ c.created_date }}</em></p>
+            </div>
+        </div>
+        <!--thử comment --->{% endfor %}
+    </div>
+
+
+    {% if pages > 1 %}
+    <ul class="pagination">
+        {% for idx in range(1, pages + 1) %}
+        <li class="page-item">
+            <a class="page-link" href="{{ url_for('room_detail_page', room_id=room.id, page=idx) }}">{{ idx }}</a>
+        </li>
+        {% endfor %}
+    </ul>
+    {% endif %}
+    <!-- color: #a5763e; -->
+
+
     <div id="toast-message">
         <div class="toast-body">
             <span class="material-icons">
@@ -126,5 +168,6 @@
             <span>Đặt phòng thành công</span>
         </div>
     </div>
+
 </div>
 {% endblock %}
