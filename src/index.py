@@ -1,22 +1,16 @@
-import hashlib
-import hmac
+import json
 import json
 import math
-
-import os
 import re
 import smtplib
-import urllib
-import uuid
 from datetime import datetime
 
 import utils
-from urllib.request import urlopen, Request
-from flask import Flask, render_template, request, url_for, redirect, session, jsonify, make_response
-from flask_login import login_user, logout_user, current_user, login_required
-from src import app, login
+from flask import render_template, url_for, redirect, session, jsonify
+from flask_login import login_user, login_required
+
+from src import login
 from src.admin import *
-import requests
 
 
 @app.context_processor
