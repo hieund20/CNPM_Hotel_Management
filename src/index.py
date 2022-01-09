@@ -7,12 +7,12 @@ from flask_login import login_user, logout_user, current_user, login_required
 from src import app, login
 from src.admin import *
 
+
 @app.context_processor
 def repos():
     return {
-        "cart": len(utils. total_room_by_receiptId(0))
+        "cart": len(utils.total_room_by_receiptId(0))
     }
-
 
 
 @app.route('/', methods=['post', 'get'])
@@ -50,12 +50,9 @@ def user_register():
         confirm = request.form.get('confirm')
         email = request.form.get('email')
 
-
         try:
             if password.strip().__eq__(confirm.strip()):
-                #Nhớ KT password
-
-
+                # Nhớ KT password
 
                 utils.add_user(username=username,
                                password=password, email=email)
@@ -66,7 +63,6 @@ def user_register():
             err_msg = "Có lỗi xảy ra rồi !! " + str(ex)
 
     return render_template('register.html', err_msg=err_msg)
-
 
 
 @app.route('/user-login', methods=['post', 'get'])
@@ -98,11 +94,9 @@ def user_load(user_id):
     return utils.get_user_by_id(user_id=user_id)
 
 
-
-
 @app.route('/my-room')
 def cart():
-    err =""
+    err = ""
     try:
         cart = utils.get_list_receipt_detail(0)
         total_money = utils.total_money(user_id=0)
@@ -115,24 +109,22 @@ def cart():
 def delete_cart():
     data = json.loads(request.data)
     id = str(data.get("id"))
-    tb ="Đã xóa thành công"
+    tb = "Đã xóa thành công"
     try:
-       utils.delete_Receipt_detail(id = id)
+        utils.delete_Receipt_detail(id=id)
     except:
-        tb="Lỗi databasse! Vui lòng thử lại sau!"
+        tb = "Lỗi databasse! Vui lòng thử lại sau!"
 
     # update cart
 
-    return jsonify(tb, len(utils. total_room_by_receiptId(0)))
-
+    return jsonify(tb, len(utils.total_room_by_receiptId(0)))
 
 
 @app.route("/rooms/<int:room_id>")
 def room_detail_page(room_id):
     room = utils.get_room_by_id(room_id)
     type_room = utils.get_type_room_by_room_id(room_id)
-    comments = utils.get_comments(room_id=room_id, page=int(request.args.get('page', 1)) )
-
+    comments = utils.get_comments(room_id=room_id, page=int(request.args.get('page', 1)))
 
     return render_template('room-detail.html', room=room, type_room=type_room,
                            comments=comments,
@@ -185,9 +177,7 @@ def add_to_cart():
                              person_amount=int(person_amount))
     print('person_amount', person_amount)
 
-
-
-    return jsonify(utils.cart_stats(cart), cart, booking_infor, len(utils. total_room_by_receiptId(0)))
+    return jsonify(utils.cart_stats(cart), cart, booking_infor, len(utils.total_room_by_receiptId(0)))
 
 
 @app.route('/api/comments', methods=['post'])
@@ -200,7 +190,7 @@ def add_comments():
     try:
         c = utils.add_comment(content=content, room_id=room_id)
     except:
-        return {'status': 404, 'err_msg': 'Lỗi' }
+        return {'status': 404, 'err_msg': 'Lỗi'}
 
     return {'status': 201, 'comment': {
         'id': c.id,
@@ -210,7 +200,7 @@ def add_comments():
             'username': current_user.username,
             'avatar': current_user.avatar
         }
-    } }
+    }}
 
 
 if __name__ == "__main__":
