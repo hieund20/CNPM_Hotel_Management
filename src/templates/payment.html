@@ -188,7 +188,7 @@
                             <div class="col-md-7">
                                 <div class="card-body">
                                     <h5 class="card-title">{{ booking_room.room_name }}</h5>
-                                    <p class="card-text">{{ booking_room.price }}$</p>
+                                    <p class="card-text">{{ "{:,.0f}".format(booking_room.price) }} VNĐ</p>
                                     <p class="card-text">{{ booking_room.receive_day }} - {{ booking_room.pay_day }}</p>
                                     <p class="card-text"><small class="text-muted">{{ booking_room.person_amount }}
                                         người</small></p>
@@ -199,7 +199,7 @@
                     {% endfor %}
                 </div>
                 <div class="total-price">
-                    <p>Tổng tiền: {{ total_price }}$</p>
+                    <p>Tổng tiền: {{ "{:,.0f}".format(total_price) }} VNĐ</p>
                 </div>
             </div>
         </div>
