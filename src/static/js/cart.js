@@ -59,13 +59,26 @@ function searchCart(element){
             listRoom[i].style.display = "none";
         }
     }
-
 }
 function confirmDelete(element){
-    var result = confirm("Bạn có muốn xóa phòng này?");
-        if (result == true) {
-            deleteCart(element);
-        }
+//    var result = confirm("Bạn có muốn xóa phòng này?");
+//        if (result == true) {
+//            deleteCart(element);
+//        }
+    swal({
+      title: "Bạn có chắc chắn muốn xóa phòng này?",
+      icon: "warning",
+      buttons: true,
+      dangerMode: true,
+    })
+    .then((willDelete) => {
+      if (willDelete) {
+        deleteCart(element);
+
+      } else {
+        swal("Hủy xóa !!!");
+      }
+    });
 }
 
 function deleteCart(element){
@@ -91,16 +104,28 @@ function deleteCart(element){
         }
     }
     ).then(data => {
-            alert(data[0]);
+//            if (data[0] == true){
+//                swal("Đã xóa thành công!!!", {
+//                  icon: "success",
+//                });
+//            }
+//            else{
+//                 swal("Hệ thống đang bảo trì! Vui lòng quay lại sau!", {
+//                  icon: "error",
+//                });
+//            }
+//            alert(data[0]);
             total_quantity = document.getElementById("countCart");
             total_quantity.innerHTML = data[1];
+
+            total_money = document.getElementById("total_money");
+            total_money.innerHTML = (data[2].toFixed(1)) + "$";
             hideRoomDeleted(element);
         }
     ).catch(err => {
             console.log(err);
         }
     );
-
 }
 
 
@@ -115,7 +140,6 @@ function hideRoomDeleted(element){
             listRoom[i].style.display = "none";
         }
     }
-
 }
 
 

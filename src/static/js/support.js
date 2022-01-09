@@ -1,8 +1,7 @@
 window.onscroll = function() {
                                 scrollFunction();
                                 header_fixed();
-                                scrollIndicator();
-                                pay()};
+                                scrollIndicator()};
 
 function scrollFunction() {
     if (document.body.scrollTop > 100 || document.documentElement.scrollTop > 100) {
@@ -35,25 +34,45 @@ function scrollIndicator() {
       var height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
       var scrolled = (winScroll / height) * 100;
       document.getElementById("myBar").style.width = scrolled + "%";
-      if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
-        document.getElementById("scrollIndicator").style.top = "13.2%" ;
-        document.getElementById("scrollIndicator").style.position = "fixed";
-        document.getElementById("scrollIndicator").style.zIndex = "10000";
+      if (document.body.scrollTop > 45 || document.documentElement.scrollTop > 45) {
+        document.getElementById("header-top").style.display = "none";
       }else {
-        document.getElementById("scrollIndicator").style.position = "initial";
+        document.getElementById("header-top").style.display = "";
     }
 }
 
-function pay(){
-    if (document.body.scrollTop > 160 || document.documentElement.scrollTop > 160) {
-        document.getElementById("pay").style.position = "fixed"
-        document.getElementById("pay").style.zIndex = "10000"
-        document.getElementById("pay").style.top = "5%"
-        document.getElementById("pay").style.left = "57%"
-        document.getElementById("pay").style.width = "380px"
 
-    } else {
-        document.getElementById("pay").style.position = "initial";
+function deleteBookingRoom(){
+    event.preventDefault();
+    fetch('/check-in', {
+        method: 'post',
+        body: JSON.stringify({
+        }),
+        headers: {
+            'Context-Type': 'application/json'
+        }
+    }).then(
+    res => {
+        if (res) {
+            if (res?.status !== 500) {
+                console.log("Thao tác thành công")
+                return res.json()
+            }
+            else {
+                console.log("Thao tác thất bại", res?.statusText)
+            }
+        }
     }
+    ).then(data => {
+        if(data == true){
+            document.getElementById("border-history").style.display = "none"
+            document.getElementById("tb-his").style.display = ""
+        }
+    }
+    ).catch(err => {
+            console.log(err);
+        }
+    );
 }
+
 

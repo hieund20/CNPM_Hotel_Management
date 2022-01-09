@@ -1,20 +1,23 @@
-from flask import request
-from sqlalchemy import text, func, extract
-from src import app, db
-from src.models import Room, TypeRoom, ReceiptDetail, User, Receipt, ChangePolicyNumber, RentalVoucher, \
-    RentalVoucherDetail, TypeVisit
-from sqlalchemy import desc, asc
-from datetime import datetime
+from sqlalchemy import func, extract
 import hashlib
-import pymysql.cursors
+from datetime import datetime
+
 import mysql.connector
+from sqlalchemy import desc, asc
+from sqlalchemy import func, extract
+
+from src import app, db
+from src.models import Room, TypeRoom, ReceiptDetail, User, Receipt, RentalVoucher, \
+    RentalVoucherDetail, BookingRoom
 
 mydb = mysql.connector.connect(
-        host="localhost",
-        user="root",
-        passwd="123456789",
-        database="hotel5"
-    )
+    host="localhost",
+    user="root",
+    passwd="Duchieu200301",
+    database="hotel_management_db"
+)
+
+
 def get_all_type_rooms():
     return TypeRoom.query.all()
 
@@ -23,7 +26,7 @@ def get_all_type_rooms():
 def get_used_quantity_type_room_in_month():
     query = db.session.query(TypeRoom.id, TypeRoom.type_room_name, func.count(TypeRoom.id), ).filter(
         Room.type_room_id == TypeRoom.id).filter(Room.id == ReceiptDetail.room_id).filter(
-        extract('month', ReceiptDetail.rental_date) == datetime.now().month).group_by(TypeRoom.id,
+        extract('month', ReceiptDetail.receive_day) == datetime.now().month).group_by(TypeRoom.id,
                                                                                       TypeRoom.type_room_name)
     return query.all()
 
@@ -103,7 +106,7 @@ def cart_stats(cart):
     if cart:
         for p in cart.values():
             total_quantity += p["quantity"]
-            total_amount += p["quantity"] * p["price"]
+            total_amount = p["price"]
 
     return total_quantity, total_amount
 
@@ -132,11 +135,12 @@ def total_room_by_receiptId(receipt_id):
     return ReceiptDetail.query.all()
 
 
-def get_list_receipt_detail(receipt_id):
+def get_list_receipt_detail():
     # list=ReceiptDetail.query.filter(ReceiptDetail.receipt_id.__eq__(receipt_id))
     query = db.session.query(Room.image, ReceiptDetail.room_name, ReceiptDetail.id, ReceiptDetail.pay_day,
                              ReceiptDetail.price, ReceiptDetail.quantity, ReceiptDetail.receive_day,
-                             ReceiptDetail.person_amount).filter(Room.id == ReceiptDetail.room_id)
+                             ReceiptDetail.person_amount, Room.id).filter(Room.id == ReceiptDetail.room_id)
+    print('query default', query)
     return query.all()
 
 
@@ -212,8 +216,8 @@ def filters_room(type_room_id, quantity_bed, price_order_by, page):
     if (type_room_id == '' and quantity_bed == '' and price_order_by == '') or \
             (type_room_id is None and quantity_bed is None and price_order_by is None):
         query = db.session.query(Room.id, Room.quantity_bed, Room.price, Room.status, Room.type_room_id, Room.image,
-                                     Room.descriptions, TypeRoom.type_room_name).filter(
-                Room.type_room_id == TypeRoom.id).order_by(asc(Room.price))
+                                 Room.descriptions, TypeRoom.type_room_name).filter(
+            Room.type_room_id == TypeRoom.id).order_by(asc(Room.price))
     if price_order_by == 'asc':
         if quantity_bed == '' and type_room_id == '':
             query = db.session.query(Room.id, Room.quantity_bed, Room.price, Room.status, Room.type_room_id, Room.image,
@@ -261,6 +265,7 @@ def add_rental_voucher(booking_date):
     db.session.commit()
 
 
+# Payment
 def add_rental_voucher_detail(visit_name, type_visit_id, phone_number, rental_voucher_id, email, visit_name_id, nation):
     rental_voucher_detail = RentalVoucherDetail(visit_name=visit_name,
                                                 type_visit_id=type_visit_id,
@@ -273,6 +278,63 @@ def add_rental_voucher_detail(visit_name, type_visit_id, phone_number, rental_vo
     db.session.commit()
 
 
+def get_new_record_rental_voucher_detai():
+    query = db.session.query(RentalVoucherDetail.id).order_by(RentalVoucherDetail.id.desc())
+    return query.first()
+
+
+def get_info_payer(id):
+    query = db.session.query(RentalVoucherDetail.visit_name, RentalVoucherDetail.phone_number,
+                             RentalVoucherDetail.email, RentalVoucherDetail.nation).filter(RentalVoucherDetail.id == id)
+    return query.first()
+
+
 def delete_all_receipt_detail():
     query = db.session.query(ReceiptDetail).delete()
     db.session.commit()
+
+
+def add_booking_room(room_id,
+                     room_name,
+                     price,
+                     image,
+                     receive_day,
+                     pay_day,
+                     person_amount,
+                     rental_voucher_detail_id):
+    booking_room = BookingRoom(room_id=room_id,
+                               room_name=room_name,
+                               price=price,
+                               image=image,
+                               receive_day=receive_day,
+                               pay_day=pay_day,
+                               person_amount=person_amount,
+                               rental_voucher_detail_id=rental_voucher_detail_id)
+    db.session.add(booking_room)
+    db.session.commit()
+
+
+def get_info_booking_room():
+    return BookingRoom.query.all()
+
+
+def total_money_booking_room():
+    b = BookingRoom.query.all()
+    total = 0
+    for i in b:
+        total += i.price
+    return total
+
+
+def delete_Receipt_detail():
+    mycursor = mydb.cursor()
+    sql = "DELETE FROM booking_room"
+    mycursor.execute(sql)
+    mydb.commit()
+
+
+def delete_Receipt_detail_by_id(id):
+    mycursor = mydb.cursor()
+    sql = "DELETE FROM receipt_detail WHERE id = " + id
+    mycursor.execute(sql)
+    mydb.commit()
