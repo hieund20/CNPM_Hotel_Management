@@ -1,12 +1,11 @@
 .border-history{
-    border: 1px solid #aba5a5;
     margin-top: 48px;
     margin-bottom: 48px;
 }
 
 .title-history{
     color: #a7783e;
-    margin: 35px 0 45px 20px;
+    margin: 35px 0 45px 0px;
 }
 
 .history-payments #list-room input{
@@ -34,7 +33,7 @@
 }
 
 .total-money-his{
-    margin: 15px 0 15px 10%;
+    margin: 15px 0 70px 10%;
     font-size: 23px;
 }
 
@@ -44,8 +43,7 @@
 }
 
 .btn-check-in{
-    margin: 1% 1% 35px 1%;
-    width: 100%;
+    margin-top: 25px !important;
     font-size: 16x;
     background-color: #d9bb8b;
     transition: 0.7s;
@@ -54,10 +52,4 @@
 .btn-check-in:hover{
     background-color: black;
     color: white;
-}
-
-.checked{
-    margin: 70px auto;
-    color: black;
-    font-style: oblique;
 }
