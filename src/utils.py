@@ -1,19 +1,20 @@
-from sqlalchemy import func, extract
 import hashlib
 from datetime import datetime
 
 import mysql.connector
+from flask_login import current_user
 from sqlalchemy import desc, asc
 from sqlalchemy import func, extract
 
 from src import app, db
+from src.models import Comment
 from src.models import Room, TypeRoom, ReceiptDetail, User, Receipt, RentalVoucher, \
     RentalVoucherDetail, BookingRoom
 
 mydb = mysql.connector.connect(
     host="localhost",
     user="root",
-    passwd="12345678",
+    password="12345678",
     database="hotel"
 )
 
@@ -109,6 +110,27 @@ def cart_stats(cart):
             total_amount = p["price"]
 
     return total_quantity, total_amount
+
+
+def add_comment(content, room_id):
+    c = Comment(content=content, room_id=room_id, user=current_user)
+
+    db.session.add(c)
+    db.session.commit()
+
+    return c
+
+
+def get_comments(room_id, page=1):
+    page_size = app.config['COMMENT_SIZE']
+    start = (page - 1) * page_size
+
+    return Comment.query.filter(Comment.room_id.__eq__(room_id)). \
+        order_by(-Comment.id).slice(start, start + page_size).all()
+
+
+def count_comment(room_id):
+    return Comment.query.filter(Comment.room_id.__eq__(room_id)).count()
 
 
 def add_receipt_detail(room_id, room_name, price, quantity, receive_day, pay_day, person_amount):
@@ -282,10 +304,12 @@ def get_new_record_rental_voucher_detai():
     query = db.session.query(RentalVoucherDetail.id).order_by(RentalVoucherDetail.id.desc())
     return query.first()
 
+
 def get_info_payer(id):
     query = db.session.query(RentalVoucherDetail.visit_name, RentalVoucherDetail.phone_number,
-                             RentalVoucherDetail.email,RentalVoucherDetail.nation).filter(RentalVoucherDetail.id == id)
+                             RentalVoucherDetail.email, RentalVoucherDetail.nation).filter(RentalVoucherDetail.id == id)
     return query.first()
+
 
 def delete_all_receipt_detail():
     query = db.session.query(ReceiptDetail).delete()
@@ -311,8 +335,10 @@ def add_booking_room(room_id,
     db.session.add(booking_room)
     db.session.commit()
 
+
 def get_info_booking_room():
     return BookingRoom.query.all()
+
 
 def total_money_booking_room():
     b = BookingRoom.query.all()
@@ -320,6 +346,7 @@ def total_money_booking_room():
     for i in b:
         total += i.price
     return total
+
 
 def get_rental_voucher_detail_id(id):
     query = db.session.query(BookingRoom.rental_voucher_detail_id).filter(BookingRoom.id == id)
@@ -345,5 +372,12 @@ def get_total_money_history(id):
 def delete_booking_room_by_id(id):
     mycursor = mydb.cursor()
     sql = "DELETE FROM booking_room WHERE id = " + id
+    mycursor.execute(sql)
+    mydb.commit()
+
+
+def delete_Receipt_detail_by_id(id):
+    mycursor = mydb.cursor()
+    sql = "DELETE FROM receipt_detail WHERE id = " + id
     mycursor.execute(sql)
     mydb.commit()

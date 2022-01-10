@@ -2,6 +2,56 @@
     font-family: 'Poppins', sans-serif;
 }
 
+div.container > ul.pagination > li.page-item > a {
+    background-color: white;
+    color: black;
+    border: 1px solid black;
+}
+
+div.container > ul.pagination > li.page-item > a:hover {
+    background-color: #a5763e;
+    color: black;
+    border: 1px solid #a5763e;
+}
+
+div.container > div.row > div.col:last-child > div.container > form.row > div:last-child > div.col-12 > input.btn-primary:hover {
+    background-color: #a5763e !important;
+    color: white !important;
+    border: 1px solid #a5763e !important;
+}
+
+a.nextbtn {
+    background-color:red;
+    border: 1px solid red;
+    width: 500px;
+    height: 30px;
+}
+
+div.cmt > input.btn {
+    background-color: black;
+    color: white;
+    border: 1px solid black;
+}
+
+div.cmt > input.btn:hover {
+    background-color: #a5763e;
+    color: white;
+    border: 1px solid #a5763e;
+}
+
+#commentArea > .comment > div.flex {
+    display: flex;
+}
+
+#commentArea > .comment > div.distance > p {
+    margin: 10px;
+}
+
+div.cmt {
+    padding-top: 100px;
+    padding-bottom: 0px;
+}
+
 .block {
     width: 60%;
     padding: auto;
@@ -843,6 +893,67 @@
     border-radius: 8px;
 }
 
+
+/* UTILITIES PAGE */
+.utilities{
+    margin-top: 56px;
+}
+
+.utilities .utilities-title{
+    font-size: 35px;
+    font-weight: bold;
+    font-family: 'Poppins', sans-serif;
+    margin-bottom: 48px;
+    display:block;
+}
+
+.utilities > .container:nth-child(2) > .row{
+    margin-bottom: 32px;
+}
+
+.utilities > .container:nth-child(2) > .row > .card{
+    width: 100%;
+    border: none;
+}
+
+/* EVENT PAGE */
+.event{
+    margin-top: 56px;
+}
+
+.event .event-title{
+    font-size: 35px;
+    font-weight: bold;
+    font-family: 'Poppins', sans-serif;
+    margin-bottom: 48px;
+    display:block;
+}
+
+.event > .container:nth-child(2) > .row{
+    margin-bottom: 32px;
+}
+
+.event > .container:nth-child(2) > .row > .card{
+    width: 100%;
+    border: none;
+}
+
+
+/* USER INFORMATION PAGE */
+.user {
+    margin-top: 56px;
+}
+
+.user .user-title{
+    font-size: 30px;
+    font-weight: bold;
+    font-family: 'Poppins', sans-serif;
+    margin-bottom: 48px;
+    display:block;
+    color: #a7783e;
+}
+
+
 /* back to top */
 #back-to-top{
     position: fixed;
@@ -914,4 +1025,25 @@
 
 #toast-message.show {
   visibility: visible;
+}
+
+/* CUSTOM SCROLL BAR */
+/* width */
+::-webkit-scrollbar {
+  width: 5px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background:#333;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
 }

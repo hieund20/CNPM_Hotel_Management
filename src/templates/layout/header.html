@@ -11,8 +11,17 @@
     <ul class="navbar-nav top-nav-left">
       {% if current_user.is_authenticated %}
       <li class="nav-item ">
-        <a class="nav-link" href="{{ url_for('home_page') }}">
-          {{ current_user.username }}
+        <a class="nav-link" href="{{ url_for('user_information_page') }}">
+          <div class="user-login-container" style="display: flex;">
+            <div style="width: 20px; height: 20px; margin-right: 5px;">
+              <img src="{{current_user.avatar}}"
+                 alt="avatar-user"
+                 style="width: 100%; border-radius: 10px;"/>
+            </div>
+            <div>
+               {{ current_user.username }}
+            </div>
+          </div>
         </a>
       </li>
       <li class="nav-item ">
@@ -33,19 +42,19 @@
   <nav class="navbar navbar-expand-sm" >
     <!-- Brand -->
     <a class="navbar-brand" href="/">
-      <img src="{{ url_for('static', filename='images/logo-header.png')}}" alt="Logo">
+      <img src="{{ url_for('static', filename='images/logo-header.png') }}" alt="Logo">
     </a>
 
     <!-- Links -->
     <ul class="navbar-nav bottom-nav">
       <li class="nav-item">
-        <a class="nav-link" href="#">Nhà hàng & Quầy bar</a>
+        <a class="nav-link" href="{{ url_for('event_page') }}">Sự kiện</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="#">Trải nghiệm</a>
+        <a class="nav-link" href="{{ url_for('utilities_page') }}">Tiện ích</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="{{ url_for('gallery_image_page')}}">Thư viện ảnh</a>
+        <a class="nav-link" href="{{ url_for('gallery_image_page') }}">Thư viện ảnh</a>
       </li>
       <li class="nav-item">
         <a class="nav-link"> | </a>
@@ -56,12 +65,8 @@
       </li>
       {% endif %}
       {% if current_user.is_authenticated and current_user.user_role.value == 2 %}
-
       <li class="nav-item">
-        <a class="nav-link" href="{{ url_for('cart')}} "> Phòng của tôi <span class="badge badge-info" style="padding-bottom: 1px; padding-top: 2px; font-size: 13px;" id="countCart">{{ cart}}</span></a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link disabled" href="#"> | </a>
+        <a class="nav-link" href="{{ url_for('cart') }} "> Phòng của tôi <span class="badge badge-info" style="padding-bottom: 1px; padding-top: 2px; font-size: 13px;" id="countCart">{{ cart}}</span></a>
       </li>
       <li class="nav-item">
         <a class="nav-link" href="{{ url_for('history') }}">Lịch sử</a>

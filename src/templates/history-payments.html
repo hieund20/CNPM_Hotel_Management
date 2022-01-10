@@ -33,7 +33,7 @@
                         </div>
 
                         <div class="col-lg-4 color-money" style="font-size: 18px">
-                            {{'{:20,.0f}'.format(i.price)}} VNĐ<span style="color: black; font-size: 15px">/đêm</span>
+                            {{'{:20,.0f}'.format(i.price)}} VNĐ<span style=" font-size: 15px">/đêm</span>
                         </div>
 
 
@@ -81,15 +81,13 @@
     </div>
     <!-- Modal -->
     <script>
-            $(document).ready(function () {
-               var is_open_modal = '{{ is_open_modal }}'
-               console.log('is open modal', is_open_modal)
-               if (is_open_modal === 'True'){
-                  $('#exampleModal').modal('show');
-               }
-            });
-
-
+         $(document).ready(function () {
+         var is_open_modal = '{{ is_open_modal }}'
+         console.log('is open modal', is_open_modal)
+         if (is_open_modal === 'True'){
+                $('#exampleModal').modal('show');
+                }
+                });
     </script>
     <div class="modal fade" id="exampleModal" style="z-index: 90000000000" tabindex="9" aria-labelledby="exampleModalLabel"
      aria-hidden="true" role="dialog">

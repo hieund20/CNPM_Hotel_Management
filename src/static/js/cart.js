@@ -46,6 +46,7 @@ const handleShowToast = () => {
     setTimeout(() => { toastEl.className = toastEl.className.replace("show", ""); }, 3000);
 }
 
+
 function searchCart(element){
     text = element.value.toUpperCase();
     l = document.getElementById("list-room");
@@ -145,8 +146,10 @@ function hideRoomDeleted(element){
     }
 }
 
+
 function format(n, currency) {
   return  n.toFixed(0).replace(/./g, function(c, i, a) {
     return i > 0 && c !== "." && (a.length - i) % 3 === 0 ? "," + c : c;
   }) + " " + currency;
 }
+
