@@ -332,6 +332,9 @@ def payment_success_page():
         booking_room_price = row[4]
         booking_room_person_amount = row[7]
 
+        # update
+        id_new = utils.get_new_record_rental_voucher_detai()
+
         # Backup data receipt detail to booking room before delete receipt detail
         utils.add_booking_room(room_id=booking_room_id,
                                room_name=booking_room_name,
@@ -340,7 +343,7 @@ def payment_success_page():
                                receive_day=booking_room_receive_day,
                                pay_day=booking_room_pay_day,
                                person_amount=booking_room_person_amount,
-                               rental_voucher_detail_id=1)
+                               rental_voucher_detail_id=id_new.id)
 
     # Delete all receipt detail when payment success
     utils.delete_all_receipt_detail()
@@ -350,39 +353,44 @@ def payment_success_page():
 
 @app.route('/history')
 def history():
-    id_new = utils.get_new_record_rental_voucher_detai()
-
-    info_payer = utils.get_info_payer(id_new.id)
+    # id_new = utils.get_new_record_rental_voucher_detai()
 
     list_booking_room = utils.get_info_booking_room()
 
     total_money = utils.total_money_booking_room()
 
-    return render_template("history-payments.html", info_payer=info_payer, list_booking_room=list_booking_room,total_money=total_money)
+    return render_template("history-payments.html",  list_booking_room=list_booking_room,total_money=total_money)
+
+@app.route('/info-payer', methods=['post'])
+def info_payer():
+    flag = True
+    total_money =0
+    data = json.loads(request.data)
+    id = data.get('id')
+    try:
+        info = utils.get_rental_voucher_detail(id)
+        total_money = utils.get_total_money_history(id)
+    except:
+        flag = False
+    return jsonify(flag, info.visit_name, info.phone_number, info.email, info.nation, total_money)
+
 
 @app.route('/check-in', methods=['post'])
 def check_in():
     flag = True
+    data = json.loads(request.data)
+    id = data.get("id")
     try:
-        utils.delete_Receipt_detail()
+        utils.delete_booking_room_by_id(id)
     except:
         flag = False
     return jsonify(flag)
 
-<<<<<<< HEAD
+
 @app.route('/gallery')
 def gallery_image_page():
     return render_template('gallery.html')
 
-=======
-@app.route('/history')
-def history():
-    id_new = utils.get_new_record_rental_voucher_detai()
-
-    info_payer = utils.get_info_payer(id_new.id)
-
-    return render_template("history-payments.html", info_payer=info_payer)
->>>>>>> d4eed1c (a)
 
 
 if __name__ == "__main__":

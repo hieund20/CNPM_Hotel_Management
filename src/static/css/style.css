@@ -483,27 +483,25 @@
 
 .myCart{
     font-family: 'Poppins', sans-serif;
-    margin: 30px 0 80px 10%;
+    margin: 30px 0 80px 0;
     color: black;
     font-weight: 550;
 }
 
 .cart-hr{
-    width:90%;
-    margin:auto;
+    width:100%;
     color: #b2b3b2;
     margin-bottom: 20px;
 }
 .cart-h3{
     color: #333;
-    margin-left:10%;
 }
 
 .search-cart{
     background-image: url('/static/images/searchicon.png');
     background-position: 10px 12px;
     background-repeat: no-repeat;
-    width: 100%;
+    width: 98%;
     font-size: 16px;
     padding: 12px 20px 12px 40px;
     border: 1px solid #ddd;
@@ -532,6 +530,11 @@
     margin-bottom: 5px;
     font-style: oblique;
     font-size: 19px;
+}
+
+.room-cart{
+    padding-left:0;
+    padding-right:10px;
 }
 
 .room-cart img{
@@ -566,7 +569,8 @@
 
 .color-money{
     color: #a7783e;
-    font-size: 20px;
+    font-size: 19px;
+    padding-left: 0px;
 }
 
 .btn-del{
@@ -585,7 +589,7 @@
     height: 250px;
     border-radius: 3px;
     margin-top: 80px;
-    margin-left: 85px;
+    margin-left: auto;
     padding-left: 24px;
 }
 
@@ -603,7 +607,6 @@
 #pay >div > span{
     font-size: 20px;
     color: #1a1a1a;
-    margin-left: 140px;
 }
 
 
