@@ -14,8 +14,8 @@ from src.models import Room, TypeRoom, ReceiptDetail, User, Receipt, RentalVouch
 mydb = mysql.connector.connect(
     host="localhost",
     user="root",
-    password="Duchieu200301",
-    database="hotel_management_db"
+    password="phuc12345",
+    database="newdata"
 )
 
 

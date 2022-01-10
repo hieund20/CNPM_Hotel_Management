@@ -143,10 +143,10 @@ def user_register():
 
                     utils.add_user(username=username,
                                    password=password, email=email)
-                    err_msg = "Thêm đc tài khoản"
+                    err_msg = "Tạo tài khoản thành công"
                     render_template('register.html', err_msg=err_msg)
                 else:
-                    err_msg = "Không thêm được tài khoản"
+                    err_msg = "Tạo tài khoản thất bại"
 
                 redirect(url_for('user_register', err_msg=err_msg,
                                  username_validate=username_validate, email_validate=email_validate,

@@ -27,7 +27,19 @@ a.nextbtn {
     height: 30px;
 }
 
-div.cmt > input.btn {
+form > input.btn { /*Bên register*/
+    background-color: black;
+    color: white;
+    border: 1px solid black;
+}
+
+form > input.btn:hover {
+    background-color: #a5763e;
+    color: white;
+    border: 1px solid #a5763e;
+}
+
+div.cmt > input.btn { /*Bên login*/
     background-color: black;
     color: white;
     border: 1px solid black;
