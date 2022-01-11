@@ -11,12 +11,12 @@ from src.models import Comment
 from src.models import Room, TypeRoom, ReceiptDetail, User, Receipt, RentalVoucher, \
     RentalVoucherDetail, BookingRoom
 
-# mydb = mysql.connector.connect(
-#     host="localhost",
-#     user="root",
-#     passwd="Duchieu203001",
-#     database="hotel_management_db"
-# )
+mydb = mysql.connector.connect(
+    host="localhost",
+    user="root",
+    passwd="Duchieu200301",
+    database="hotel_management_db"
+)
 
 
 def get_all_type_rooms():
