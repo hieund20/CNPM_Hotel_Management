@@ -1,18 +1,27 @@
-<header class="header">
+<header class="header" id="header-fixed">
   <!-- Header-Top -->
-  <nav class="navbar navbar-expand-sm">
+  <nav class="navbar navbar-expand-sm" id="header-top">
     <!-- Links -->
     <ul class="navbar-nav top-nav-right">
       <li class="nav-item">
-<!--        <span>371 Nguyen Kiem, Go Vap district</span>-->
+<!--        <span>371 Nguyen Kiem, Go Vap district</span  >-->
       </li>
     </ul>
 
     <ul class="navbar-nav top-nav-left">
       {% if current_user.is_authenticated %}
       <li class="nav-item ">
-        <a class="nav-link" href="{{ url_for('home_page') }}">
-          {{ current_user.username }}
+        <a class="nav-link" href="{{ url_for('user_information_page') }}">
+          <div class="user-login-container" style="display: flex;">
+            <div style="width: 20px; height: 20px; margin-right: 5px;">
+              <img src="{{current_user.avatar}}"
+                 alt="avatar-user"
+                 style="width: 100%; border-radius: 10px;"/>
+            </div>
+            <div>
+               {{ current_user.username }}
+            </div>
+          </div>
         </a>
       </li>
       <li class="nav-item ">
@@ -30,53 +39,75 @@
   </nav>
 
   <!-- Header-Nav -->
-  <nav class="navbar navbar-expand-sm" id="header-fixed">
+  <nav class="navbar navbar-expand-sm" >
     <!-- Brand -->
     <a class="navbar-brand" href="/">
-      <img src="{{ url_for('static', filename='images/logo-header.png')}}" alt="Logo">
+      <img src="{{ url_for('static', filename='images/logo-header.png') }}" alt="Logo">
     </a>
 
     <!-- Links -->
     <ul class="navbar-nav bottom-nav">
-      <!-- Dropdown -->
-      <li class="nav-item dropdown">
-        <a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">
-          Phòng Suite
-        </a>
-        <div class="dropdown-menu">
-          <a class="dropdown-item" href="#">Junior Suite</a>
-          <a class="dropdown-item" href="#">Executive Suite</a>
-        </div>
+      <li class="nav-item">
+        <a class="nav-link" href="{{ url_for('event_page') }}">Sự kiện</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="#">Phòng Deluxe</a>
+        <a class="nav-link" href="{{ url_for('utilities_page') }}">Tiện ích</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="#">Phòng Superior</a>
+        <a class="nav-link" href="{{ url_for('gallery_image_page') }}">Thư viện ảnh</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="#">Phòng Standard</a>
+        <a class="nav-link"> | </a>
       </li>
-      {% if current_user.is_authenticated %}
+      {% if current_user.is_authenticated and current_user.user_role.value == 1 %}
       <li class="nav-item">
-        <a class="nav-link disabled" href="#"> | </a>
+        <a class="nav-link" href="/admin"> Quản trị </a>
+      </li>
+      {% endif %}
+      {% if current_user.is_authenticated and current_user.user_role.value == 2 %}
+      <li class="nav-item">
+        <a class="nav-link" href="{{ url_for('cart') }} "> Phòng của tôi <span class="badge badge-info" style="padding-bottom: 1px; padding-top: 2px; font-size: 13px;" id="countCart">{{ cart}}</span></a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="{{ url_for('cart')}} "> Phòng của tôi <span class="badge badge-info" id="countCart">{{ cart}}</span></a>
+        <a class="nav-link" href="{{ url_for('history') }}">Lịch sử</a>
       </li>
-
+      {% endif %}
+      {% if current_user.is_authenticated and current_user.user_role.value == 3 %}
+      <li class="nav-item">
+        <a class="nav-link" href="{{ url_for('history') }}">Lịch sử</a>
+      </li>
       {% endif %}
       <li class="nav-item">
-        <a class="nav-link disabled" href="#"> | </a>
+        <a class="nav-link" href="{{ url_for('contact_page') }}">Liên hệ</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="#">Liên hệ</a>
+        <a class="nav-link" href="{{ url_for('about_us_page') }}">Về chúng tôi</a>
       </li>
-      <li class="nav-item">
-        <a class="nav-link" href="#">Về chúng tôi</a>
+      <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle"
+           href="#"
+           id="navbardrop"
+           data-toggle="dropdown">
+          <span class="material-icons">
+            public
+          </span>
+        </a>
+        <div class="dropdown-menu">
+          <a class="dropdown-item" href="#">
+            <div>
+              <img src="https://res.cloudinary.com/dwgjmgf6o/image/upload/v1641626611/icons/vietnam-flag-icon_lbnujo.png"
+                   alt="vietnam-flag-icon"/>
+            </div>
+          </a>
+          <a class="dropdown-item" href="#">
+            <div>
+              <img src="https://res.cloudinary.com/dwgjmgf6o/image/upload/v1641626611/icons/united-states-flag-icon_yshv3m.png"
+                   alt="usa-flag-icon"/>
+            </div>
+          </a>
+        </div>
       </li>
     </ul>
-
   </nav>
 
     <!--  Scroll -->

@@ -1,0 +1,39 @@
+Index: src/templates/layout/header.html
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><header class=\"header\" id=\"header-fixed\">\r\n  <!-- Header-Top -->\r\n  <nav class=\"navbar navbar-expand-sm\" id=\"header-top\">\r\n    <!-- Links -->\r\n    <ul class=\"navbar-nav top-nav-right\">\r\n      <li class=\"nav-item\">\r\n<!--        <span>371 Nguyen Kiem, Go Vap district</span  >-->\r\n      </li>\r\n    </ul>\r\n\r\n    <ul class=\"navbar-nav top-nav-left\">\r\n      {% if current_user.is_authenticated %}\r\n      <li class=\"nav-item \">\r\n        <a class=\"nav-link\" href=\"{{ url_for('home_page') }}\">\r\n          {{ current_user.username }}\r\n        </a>\r\n      </li>\r\n      <li class=\"nav-item \">\r\n        <a class=\"nav-link\" href=\"{{ url_for('user_signout') }}\">Đăng xuất</a>\r\n      </li>\r\n      {% else %}\r\n      <li class=\"nav-item\">\r\n        <a class=\"nav-link\" href=\"{{ url_for('user_signin') }}\">Đăng nhập</a>\r\n      </li>\r\n      <li class=\"nav-item\">\r\n        <a class=\"nav-link\" href=\"{{ url_for('user_register') }}\">Đăng ký</a>\r\n      </li>\r\n      {% endif %}\r\n    </ul>\r\n  </nav>\r\n\r\n  <!-- Header-Nav -->\r\n  <nav class=\"navbar navbar-expand-sm\" >\r\n    <!-- Brand -->\r\n    <a class=\"navbar-brand\" href=\"/\">\r\n      <img src=\"{{ url_for('static', filename='images/logo-header.png')}}\" alt=\"Logo\">\r\n    </a>\r\n\r\n    <!-- Links -->\r\n    <ul class=\"navbar-nav bottom-nav\">\r\n      <li class=\"nav-item\">\r\n        <a class=\"nav-link\" href=\"#\">Nhà hàng & Quầy bar</a>\r\n      </li>\r\n      <li class=\"nav-item\">\r\n        <a class=\"nav-link\" href=\"#\">Trải nghiệm</a>\r\n      </li>\r\n      <li class=\"nav-item\">\r\n        <a class=\"nav-link\" href=\"{{ url_for('gallery_image_page')}}\">Thư viện ảnh</a>\r\n      </li>\r\n      <li class=\"nav-item\">\r\n        <a class=\"nav-link\"> | </a>\r\n      </li>\r\n      {% if current_user.is_authenticated and current_user.user_role.value == 1 %}\r\n      <li class=\"nav-item\">\r\n        <a class=\"nav-link\" href=\"/admin\"> Quản trị </a>\r\n      </li>\r\n      {% endif %}\r\n      {% if current_user.is_authenticated and current_user.user_role.value == 2 %}\r\n      <li class=\"nav-item\">\r\n        <a class=\"nav-link\" href=\"{{ url_for('cart')}} \"> Phòng của tôi <span class=\"badge badge-info\"\r\n                                                                              style=\"padding-bottom: 1px; padding-top: 2px; font-size: 13px;\"\r\n                                                                              id=\"countCart\">{{ cart}}</span></a>\r\n      </li>\r\n      {% endif %}\r\n      <li class=\"nav-item\">\r\n        <a class=\"nav-link\" href=\"{{ url_for('contact_page') }}\">Liên hệ</a>\r\n      </li>\r\n      <li class=\"nav-item\">\r\n        <a class=\"nav-link\" href=\"{{ url_for('about_us_page') }}\">Về chúng tôi</a>\r\n      </li>\r\n      <li class=\"nav-item dropdown\">\r\n        <a class=\"nav-link dropdown-toggle\"\r\n           href=\"#\"\r\n           id=\"navbardrop\"\r\n           data-toggle=\"dropdown\">\r\n          <span class=\"material-icons\">\r\n            public\r\n          </span>\r\n        </a>\r\n        <div class=\"dropdown-menu\">\r\n          <a class=\"dropdown-item\" href=\"#\">\r\n            <div>\r\n              <img src=\"https://res.cloudinary.com/dwgjmgf6o/image/upload/v1641626611/icons/vietnam-flag-icon_lbnujo.png\"\r\n                   alt=\"vietnam-flag-icon\"/>\r\n            </div>\r\n          </a>\r\n          <a class=\"dropdown-item\" href=\"#\">\r\n            <div>\r\n              <img src=\"https://res.cloudinary.com/dwgjmgf6o/image/upload/v1641626611/icons/united-states-flag-icon_yshv3m.png\"\r\n                   alt=\"usa-flag-icon\"/>\r\n            </div>\r\n          </a>\r\n        </div>\r\n      </li>\r\n    </ul>\r\n  </nav>\r\n\r\n    <!--  Scroll -->\r\n  <div class=\"progress-container\" id=\"scrollIndicator\">\r\n    <div class=\"progress-bar\" id=\"myBar\"></div>\r\n  </div>\r\n\r\n</header>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/templates/layout/header.html b/src/templates/layout/header.html
+--- a/src/templates/layout/header.html	
++++ b/src/templates/layout/header.html	
+@@ -57,9 +57,28 @@
+       {% endif %}
+       {% if current_user.is_authenticated and current_user.user_role.value == 2 %}
+       <li class="nav-item">
++<<<<<<< HEAD
+         <a class="nav-link" href="{{ url_for('cart')}} "> Phòng của tôi <span class="badge badge-info"
+                                                                               style="padding-bottom: 1px; padding-top: 2px; font-size: 13px;"
+                                                                               id="countCart">{{ cart}}</span></a>
++=======
++        <a class="nav-link disabled" href="#"> | </a>
++      </li>
++      <li class="nav-item">
++        <a class="nav-link" href="{{ url_for('cart')}} "> Phòng của tôi <span class="badge badge-info" style="padding-bottom: 1px; padding-top: 2px; font-size: 13px;" id="countCart">{{ cart}}</span></a>
++      </li>
++      <li class="nav-item">
++        <a class="nav-link disabled" href="#"> | </a>
++      </li>
++      <li class="nav-item">
++        <a class="nav-link" href="{{ url_for('history') }}">Lịch sử</a>
++      </li>
++      <li class="nav-item">
++        <a class="nav-link" href="{{ url_for('contact_page') }}">Liên hệ</a>
++      </li>
++      <li class="nav-item">
++        <a class="nav-link" href="#">Về chúng tôi</a>
++>>>>>>> d4eed1c (a)
+       </li>
+       {% endif %}
+       <li class="nav-item">

@@ -1,0 +1,71 @@
+{% extends 'layout/base.html' %}
+
+{% block title %}Liên hệ{% endblock %}
+
+{% block content %}
+<link href="{{url_for('static' , filename= 'css/contact.css')}}" rel="stylesheet" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<header class="contact">
+    <h2 style="font-size:25px">LIÊN HỆ VỚI CHÚNG TÔI</h2>
+    <p style="font-size:20px"> ĐỂ TRẢI NGHIỆM MỘT KỲ NGHỈ DƯỠNG THOẢI MÁI NHẤT </p>
+</header>
+<section class="contact-main" style="margin-top: 48px;">
+    <div class="col40">
+        <ul>
+            <b><h1 style="color: #a7783e; font-weight: 500;">LIÊN HỆ</h1></b>
+            <br/>
+            <h5 style="font-size: 1rem;"> Lotus Hotel với đội ngũ nhân viên chuyên nghiệp, dịch vụ chăm sóc khách hàng
+                tận tình, cơ sở vật chất
+                hiện đại phù hợp với mọi đối tượng khách hàng. Khách hàng sẽ tận hưởng một kì nghỉ thoải mái nhất khi
+                nghỉ dưỡng tại khách sạn Lotus Hotel </h5>
+            <br/>
+            <li style="font-size: 1rem;"><i aria-hidden="true" class="fa fa-map-marker" style="color:#ccad7a;"></i>&nbsp;371
+                Nguyễn Kiệm, Phường
+                3, Gò vấp, Thành phố Hồ Chí Minh
+            </li>
+            <br/>
+            <li style="font-size: 1rem;"><i aria-hidden="true" class="fa fa-phone" style="color:#ccad7a"></i>&nbsp;+61 2
+                6854 8496
+            </li>
+            <br/>
+            <li style="font-size: 1rem;"><i class="icon fa fa-envelope-o" style="color:#ccad7a"></i> &nbsp;lotushotel@gmail.com
+            </li>
+            <hr style="width:100%; color:black"/>
+            <br/>
+            <h2 style="margin-top: 120px;">VỊ TRÍ</h2>
+        </ul>
+    </div>
+    <div class="col60" style="margin-top: 52px;">
+        <table class="msg">
+            <tr class="msg1">
+                <td style=" margin-right: 16px;"><input type="text"
+                           placeholder="Họ và tên"
+                           style="font-size: 15px; "></td>
+                <td><input type="text"
+                           placeholder="Địa chỉ Email"
+                           width="200%"
+                           style="font-size: 15px;"></td>
+            </tr>
+            <tr>
+                <td><input type="text"
+                           placeholder="Tiêu đề"
+                           style="font-size: 15px;"></td>
+            </tr>
+            <tr>
+                <td><textarea placeholder="Bạn mong muốn điều gì ở Lotus Hotel?"
+                    style="font-size: 15px;"></textarea></td>
+            </tr>
+            <tr>
+                <td class="hover" > <a href="#"> <input type="submit" value="Gửi "></a> </td>
+            </tr>
+        </table>
+    </div>
+</section>
+<footer>
+    <div class="contain-map" style="height: 300px; border-radius: 8px;">
+        <iframe style="height: 300px; border-radius: 8px;"
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3918.9352724656715!2d106.6756238146229!3d10.816265492294526!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x317528e195f816b7%3A0xfb5c0101490d8870!2zMzcxIE5ndXnhu4VuIEtp4buHbSwgUGjGsOG7nW5nIDMsIEfDsiBW4bqlcCwgVGjDoG5oIHBo4buRIEjhu5MgQ2jDrSBNaW5oLCBWaeG7h3QgTmFt!5e0!3m2!1svi!2s!4v1641407576874!5m2!1svi!2s" width="80.5%" height="520" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+    </div>
+</footer>
+
+{% endblock %}

@@ -1,0 +1,215 @@
+{% extends 'layout/base.html' %}
+
+{% block title %}Thanh toán{% endblock %}
+
+
+{% block content %}
+<div class="payment">
+    <div class="container" style="margin-top: 48px; margin-bottom: 48px;">
+        <div class="row">
+            <div class="col">
+                <p>Thông tin thanh toán</p>
+                <form class="row g-3 needs-validation" method="post" action="{{ url_for('payment_page') }}"
+                      enctype="multipart/form-data">
+                    <div class="col-md-12">
+                        <label for="validationCustom01" class="form-label">Họ và tên</label>
+                        <input type="text"
+                               class="form-control"
+                               id="validationCustom01"
+                               value="{{ request.form['payment-fullname'] }}"
+                               name="payment-fullname">
+                        {% if fullname_validate != "" %}
+                        <div class="invalid-feedback" style="display: block">
+                            {{ fullname_validate }}
+                        </div>
+                        {% endif %}
+                    </div>
+                    <div class="col-md-12">
+                        <label for="validationCustomUsername" class="form-label">Email</label>
+                        <div class="input-group has-validation">
+                            <span class="input-group-text" id="inputGroupPrepend">@</span>
+                            <input type="text"
+                                   class="form-control"
+                                   id="validationCustomUsername"
+                                   aria-describedby="inputGroupPrepend"
+                                   name="payment-email"
+                                   value="{{ request.form['payment-email'] }}">
+                            {% if email_validate != "" %}
+                            <div class="invalid-feedback" style="display: block">
+                                {{ email_validate }}
+                            </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <label for="validationCustom02" class="form-label">Quốc gia/khu vực</label>
+                        <input type="text"
+                               class="form-control"
+                               id="validationCustom02"
+                               value="{{ request.form['payment-nation'] }}"
+                               name="payment-nation">
+                        {% if nation_validate != "" %}
+                        <div class="invalid-feedback" style="display: block">
+                            {{ nation_validate }}
+                        </div>
+                        {% endif %}
+                    </div>
+                    <div class="col-md-12">
+                        <label for="validationCustom03" class="form-label">Số CMND/Passport</label>
+                        <input type="text"
+                               class="form-control"
+                               id="validationCustom03"
+                               name="payment-identify"
+                               value="{{ request.form['payment-identify'] }}">
+                        {% if identify_validate != "" %}
+                        <div class="invalid-feedback" style="display: block">
+                            {{ identify_validate }}
+                        </div>
+                        {% endif %}
+                    </div>
+                    <div class="col-md-12">
+                        <label for="validationCustom05" class="form-label">Số điện thoại</label>
+                        <input type="text"
+                               class="form-control"
+                               id="validationCustom05"
+                               name="payment-phone-number"
+                               value="{{ request.form['payment-phone-number'] }}">
+                        {% if phone_number_validate != "" %}
+                        <div class="invalid-feedback" style="display: block">
+                            {{ phone_number_validate }}
+                        </div>
+                        {% endif %}
+                    </div>
+
+                    <p class="payment-mode-title">Hình thức thanh toán</p>
+                    <div class="payment-mode">
+                        <div class="form-check">
+                            <input class="form-check-input"
+                                   type="radio"
+                                   name="payment-radio-group"
+                                   id="offline-payment"
+                                   style="cursor: pointer;"
+                                   onclick="offlineRadioCheck()"
+                                   checked>
+                            <label class="form-check-label" for="offline-payment">
+                                Thanh toán trực tiếp (Thanh toán khi nhận phòng)
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input"
+                                   type="radio"
+                                   name="payment-radio-group"
+                                   id="online-payment"
+                                   style="cursor: pointer;"
+                                   onclick="onlineRadioCheck()">
+                            <label class="form-check-label" for="online-payment">
+                                Thanh toán trực tuyến
+                            </label>
+                        </div>
+                    </div>
+                    <div class="form-check">
+                        <div class="icon-payment">
+                            <img src="https://res.cloudinary.com/dwgjmgf6o/image/upload/v1641123552/icons/momo-icon_scvrtm.png"
+                                 alt="icon-payment">
+                        </div>
+                        <input class="form-check-input"
+                               type="radio"
+                               name="flexRadioDefault"
+                               id="momo-button"
+                               style="cursor: pointer;">
+                        <label class="form-check-label" for="momo-button">
+                            Ví điện tử MOMO
+                        </label>
+                    </div>
+                    <div class="form-check">
+                        <div class="icon-payment">
+                            <img src="https://res.cloudinary.com/dwgjmgf6o/image/upload/v1641213611/icons/zalopay-icon_ticilq.png"
+                                 alt="icon-payment">
+                        </div>
+                        <input class="form-check-input"
+                               type="radio"
+                               name="flexRadioDefault"
+                               id="zalo-button"
+                               style="cursor: pointer;">
+                        <label class="form-check-label" for="zalo-button">
+                            Ví điện tử ZaloPay
+                        </label>
+                    </div>
+                    <div class="form-check">
+                        <div class="icon-payment">
+                            <img src="https://res.cloudinary.com/dwgjmgf6o/image/upload/v1641213899/icons/paypal-icon_cxlf8r.png"
+                                 alt="icon-payment">
+                        </div>
+                        <input class="form-check-input"
+                               type="radio"
+                               name="flexRadioDefault"
+                               id="paypal-button"
+                               style="cursor: pointer;">
+                        <label class="form-check-label" for="paypal-button">
+                            Paypal
+                        </label>
+                    </div>
+                    <div class="button-payment">
+                        <button type="submit"
+                                data-bs-toggle="modal"
+                                data-bs-target="#exampleModal">Thanh toán</button>
+                    </div>
+                </form>
+                <script>
+                    (function () {
+                      'use strict'
+                      // Fetch all the forms we want to apply custom Bootstrap validation styles to
+                      var forms = document.querySelectorAll('.needs-validation')
+
+                      // Loop over them and prevent submission
+                      Array.prototype.slice.call(forms)
+                        .forEach(function (form) {
+                          form.addEventListener('submit', function (event) {
+                            if (!form.checkValidity()) {
+                              event.preventDefault()
+                              event.stopPropagation()
+                            }
+
+                            form.classList.add('was-validated')
+                          }, false)
+                        })
+                    })()
+                </script>
+            </div>
+            <div class="col">
+                <p>Danh sách phòng đã đặt</p>
+                <div class="container-scroll">
+                    {% for booking_room in list_booking_room %}
+                    <div class="card mb-3" style="max-width: 540px;">
+                        <div class="row g-0">
+                            <div class="col-md-5">
+                                <img src="{{ booking_room.image }}" class="img-fluid rounded-start" alt="...">
+                            </div>
+                            <div class="col-md-7">
+                                <div class="card-body">
+                                    <h5 class="card-title">{{ booking_room.room_name }}</h5>
+                                    <p class="card-text">{{ "{:,.0f}".format(booking_room.price) }} VNĐ</p>
+                                    <p class="card-text">{{ booking_room.receive_day }} - {{ booking_room.pay_day }}</p>
+                                    <p class="card-text"><small class="text-muted">{{ booking_room.person_amount }}
+                                        người</small></p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+                <div class="total-price">
+                    <p>Tổng tiền: {{ "{:,.0f}".format(total_price) }} VNĐ</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Modal -->
+    <script>
+        const is_sendmail_success = '{{is_sendmail_success}}'
+        if (is_sendmail_success === 'True'){
+            payment_success()
+        }
+    </script>
+</div>
+{% endblock %}
