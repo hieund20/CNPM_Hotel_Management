@@ -3,28 +3,29 @@
 {% block title %}Phòng của tôi{% endblock %}
 
 {% block content %}
-<h1 class="myCart">PHÒNG CỦA TÔI</h1>
 
 {% if err:%}
 <h1 class="text-center alert alert-danger">{{err}}</h1>
 {% endif %}
 {% if list_cart %}
-<h3 class="cart-h3">Danh sách phòng đã đặt:</h3>
-<hr class="cart-hr">
+
 <div class="container">
-    <div class="row">
-        <div class="col-lg-7">
+    <h1 class="myCart">PHÒNG CỦA TÔI</h1>
+    <h3 class="cart-h3">Danh sách phòng đã đặt:</h3>
+    <hr class="cart-hr">
+    <div class="row" style="margin-left:0">
+        <div class="col-lg-8" style="padding-right:35px">
             <div class="row list-cart" id="list-room">
                 <input type="text" class="search-cart" onkeyup="searchCart(this)" placeholder="Nhập từ khóa..."
                        title="Tìm kiếm theo tên">
                 {% for i in list_cart %}
                 <div class="row col-lg-12 lc  room-cart">
 
-                    <div class="col-lg-3">
+                    <div class="col-lg-3" >
                         <img src="{{i.image}}">
                     </div>
 
-                    <div class="col-lg-6">
+                    <div class="col-lg-5">
                         <div class="name-room">
                             <span id="name-cart">{{i.room_name}}</span>
                             <span class="person-amount">{{i.person_amount}} người</span>
@@ -35,8 +36,8 @@
                         </div>
                     </div>
 
-                    <div class="col-lg-2 color-money">
-                        {{i.price}}$
+                    <div class="col-lg-3 color-money">
+                        {{'{:20,.0f}'.format(i.price)}} <span style="font-size:11px; color:black">VNĐ/đêm</span>
                     </div>
 
                     <div class="col-lg-1">
@@ -49,9 +50,10 @@
                 {% endfor %}
             </div>
         </div>
-        <div class="col-lg-4" id="pay">
+        <div class="col-lg-4" id="pay" >
             <h3>Thông tin đặt phòng</h3>
-            <div>Tổng tiền: <span id="total_money">{{total_money}}$</span></div>
+            <div>Tổng tiền: &ensp;<span id="total_money">{{'{:20,.0f}'.format(total_money)}} VNĐ</span>
+                <span style="font-size:14px; margin-left: -4px;color:#846135">/đêm</span></div>
             <div class="voucher">
                 <input type="text" placeholder="Nhập mã giảm giá" name="">
                 <input type="button" value="Áp dụng" class="btn btn-voucher">
@@ -61,6 +63,7 @@
     </div>
 </div>
 {% else %}
+<h1 class="myCart" style="margin-left:10%">PHÒNG CỦA TÔI</h1>
 <div class="text-center" style="margin-bottom: 17px">Vui lòng đặt phòng!!!</div>
 <div class="text-center">Cảm ơn bạn đã lựa chọn dịch vụ của Lotus Hotel !</div>
 {% endif %}
@@ -107,5 +110,6 @@
         </div>
     </div>
 </div>
+
 
 {% endblock %}

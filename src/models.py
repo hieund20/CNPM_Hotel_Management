@@ -95,11 +95,8 @@ class Room(BaseModel):
     type_room_id = Column(Integer, ForeignKey(TypeRoom.id), nullable=False)
     rental_voucher = Column(Integer, ForeignKey(RentalVoucher.id), default=0)
     image = Column(String(150), nullable=False)
-
     descriptions = Column(String(20000), nullable=False)  # description-datatype:varchar(200)->varchar(20000)
-
     comments = relationship('Comment', backref='room', lazy=True)
-
     receiptDetails = relationship('ReceiptDetail', backref='room', lazy=True)
 
 

@@ -42,37 +42,4 @@ function scrollIndicator() {
 }
 
 
-function deleteBookingRoom(){
-    event.preventDefault();
-    fetch('/check-in', {
-        method: 'post',
-        body: JSON.stringify({
-        }),
-        headers: {
-            'Context-Type': 'application/json'
-        }
-    }).then(
-    res => {
-        if (res) {
-            if (res?.status !== 500) {
-                console.log("Thao tác thành công")
-                return res.json()
-            }
-            else {
-                console.log("Thao tác thất bại", res?.statusText)
-            }
-        }
-    }
-    ).then(data => {
-        if(data == true){
-            document.getElementById("border-history").style.display = "none"
-            document.getElementById("tb-his").style.display = ""
-        }
-    }
-    ).catch(err => {
-            console.log(err);
-        }
-    );
-}
-
 
