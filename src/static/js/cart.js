@@ -119,8 +119,11 @@ function deleteCart(element){
             total_quantity = document.getElementById("countCart");
             total_quantity.innerHTML = data[1];
 
+            if(data[1] == 0){
+                location.reload();
+            }
             total_money = document.getElementById("total_money");
-            total_money.innerHTML = (data[2].toFixed(1)) + "$";
+            total_money.innerHTML = format(data[2],"VNĐ");
             hideRoomDeleted(element);
         }
     ).catch(err => {
@@ -142,3 +145,11 @@ function hideRoomDeleted(element){
         }
     }
 }
+
+
+function format(n, currency) {
+  return  n.toFixed(0).replace(/./g, function(c, i, a) {
+    return i > 0 && c !== "." && (a.length - i) % 3 === 0 ? "," + c : c;
+  }) + " " + currency;
+}
+

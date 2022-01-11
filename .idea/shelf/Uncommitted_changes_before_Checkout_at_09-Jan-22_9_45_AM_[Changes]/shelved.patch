@@ -1,0 +1,331 @@
+Index: src/index.py
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>import json\r\nimport math\r\n\r\nimport utils\r\nfrom flask import Flask, render_template, request, url_for, redirect, session, jsonify, make_response\r\nfrom flask_login import login_user, logout_user, current_user, login_required\r\nfrom src import app, login\r\nfrom src.admin import *\r\n\r\n@app.context_processor\r\ndef repos():\r\n    return {\r\n        \"cart\": len(utils. total_room_by_receiptId(0))\r\n    }\r\n\r\n\r\n\r\n@app.route('/', methods=['post', 'get'])\r\ndef home_page():\r\n    filter_room_list = None\r\n    if request.method.__eq__('POST'):\r\n        type_room_id = request.form.get('type-room-id')\r\n        quantity_bed = request.form.get('quantity-bed')\r\n        price_sort = request.form.get('price-sort')\r\n        filter_room_list = utils.filters_room(type_room_id=type_room_id,\r\n                                              quantity_bed=quantity_bed,\r\n                                              price_order_by=price_sort)\r\n\r\n    room_list = utils.get_all_rooms()\r\n\r\n    return render_template('index.html', room_list=room_list,\r\n                           filter_room_list=filter_room_list)\r\n\r\n\r\n@app.route('/about')\r\ndef about_us_page():\r\n    return render_template('about-us.html')\r\n\r\n\r\ndef admin_stats_page():\r\n    pass\r\n\r\n\r\n@app.route('/register', methods=['post', 'get'])\r\ndef user_register():\r\n    err_msg = \"\"\r\n    if request.method.__eq__('POST'):\r\n        username = request.form.get('username')\r\n        password = request.form.get('password')\r\n        confirm = request.form.get('confirm')\r\n        email = request.form.get('email')\r\n\r\n\r\n        try:\r\n            if password.strip().__eq__(confirm.strip()):\r\n                #Nhớ KT password\r\n\r\n\r\n\r\n                utils.add_user(username=username,\r\n                               password=password, email=email)\r\n                return redirect(url_for('user_signin'))\r\n            else:\r\n                err_msg = \"Xác nhận mật khẩu không trùng khớp với Mật khẩu !!! \"\r\n        except Exception as ex:\r\n            err_msg = \"Có lỗi xảy ra rồi !! \" + str(ex)\r\n\r\n    return render_template('register.html', err_msg=err_msg)\r\n\r\n\r\n\r\n@app.route('/user-login', methods=['post', 'get'])\r\ndef user_signin():\r\n    err_msg = ''\r\n\r\n    if request.method.__eq__('POST'):\r\n        username = request.form.get('username')\r\n        password = request.form.get('password')\r\n\r\n        user = utils.check_login(username=username, password=password)\r\n        if user:\r\n            login_user(user=user)\r\n            return redirect(url_for('home_page'))\r\n        else:\r\n            err_msg = 'Username hay password không đúng, vui lòng kiểm tra lại'\r\n\r\n    return render_template('login.html', err_msg=err_msg)\r\n\r\n\r\n@app.route('/user-logout')\r\ndef user_signout():\r\n    logout_user()\r\n    return redirect(url_for('home_page'))\r\n\r\n\r\n@login.user_loader\r\ndef user_load(user_id):\r\n    return utils.get_user_by_id(user_id=user_id)\r\n\r\n\r\n\r\n\r\n@app.route('/my-room')\r\ndef cart():\r\n    err =\"\"\r\n    try:\r\n        cart = utils.get_list_receipt_detail(0)\r\n        total_money = utils.total_money(user_id=0)\r\n    except:\r\n        err = \"Trang web lỗi! Vui lòng thử lại sau\"\r\n    return render_template('cart.html', list_cart=cart, total_money=total_money, err=err)\r\n\r\n\r\n@app.route('/delete-cart', methods=['post'])\r\ndef delete_cart():\r\n    data = json.loads(request.data)\r\n    id = str(data.get(\"id\"))\r\n    tb =\"Đã xóa thành công\"\r\n    try:\r\n       utils.delete_Receipt_detail(id = id)\r\n    except:\r\n        tb=\"Lỗi databasse! Vui lòng thử lại sau!\"\r\n\r\n    # update cart\r\n\r\n    return jsonify(tb, len(utils. total_room_by_receiptId(0)))\r\n\r\n\r\n\r\n@app.route(\"/rooms/<int:room_id>\")\r\ndef room_detail_page(room_id):\r\n    room = utils.get_room_by_id(room_id)\r\n    type_room = utils.get_type_room_by_room_id(room_id)\r\n    comments = utils.get_comments(room_id=room_id, page=int(request.args.get('page', 1)) )\r\n\r\n\r\n    return render_template('room-detail.html', room=room, type_room=type_room,\r\n                           comments=comments,\r\n                           pages=math.ceil(utils.count_comment(room_id=room_id) / app.config['COMMENT_SIZE']))\r\n\r\n\r\n@app.route('/api/cart', methods=['post'])\r\ndef add_to_cart():\r\n    if 'cart' not in session:\r\n        session['cart'] = {}\r\n\r\n    cart = session['cart']\r\n\r\n    data = json.loads(request.data)\r\n    id = str(data.get(\"id\"))\r\n    name = data.get(\"name\")\r\n    price = data.get(\"price\", 0)\r\n\r\n    receive_day = data.get(\"receive-day\")\r\n    pay_day = data.get(\"pay-day\")\r\n    person_amount = str(data.get(\"person-amount\"))\r\n\r\n    cart = session.get('cart')\r\n\r\n    if id in cart:\r\n        cart[id]['quantity'] = cart[id]['quantity'] + 1\r\n    else:\r\n        cart[id] = {\r\n            \"id\": id,\r\n            \"name\": name,\r\n            \"price\": price,\r\n            \"quantity\": 1,\r\n        }\r\n\r\n    session['cart'] = cart\r\n\r\n    booking_infor = {\r\n        \"receive_day\": receive_day,\r\n        \"pay_day\": pay_day,\r\n        \"person_amount\": person_amount\r\n    }\r\n\r\n    quantity, price = utils.cart_stats(cart)\r\n    utils.add_receipt_detail(room_id=int(id),\r\n                             room_name=name,\r\n                             price=float(price),\r\n                             quantity=float(quantity),\r\n                             receive_day=receive_day,\r\n                             pay_day=pay_day,\r\n                             person_amount=int(person_amount))\r\n    print('person_amount', person_amount)\r\n\r\n\r\n\r\n    return jsonify(utils.cart_stats(cart), cart, booking_infor, len(utils. total_room_by_receiptId(0)))\r\n\r\n\r\n@app.route('/api/comments', methods=['post'])\r\n@login_required\r\ndef add_comments():\r\n    data = request.json\r\n    content = data.get('content')\r\n    room_id = data.get('room_id')\r\n\r\n    try:\r\n        c = utils.add_comment(content=content, room_id=room_id)\r\n    except:\r\n        return {'status': 404, 'err_msg': 'Lỗi' }\r\n\r\n    return {'status': 201, 'comment': {\r\n        'id': c.id,\r\n        'content': c.content,\r\n        'created_date': c.created_date,\r\n        'user': {\r\n            'username': current_user.username,\r\n            'avatar': current_user.avatar\r\n        }\r\n    } }\r\n\r\n\r\nif __name__ == \"__main__\":\r\n    from src.admin import *\r\n\r\n    app.run(debug=True)\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/index.py b/src/index.py
+--- a/src/index.py	(revision a6888c6648aa3c404e443b0193320390cc22512c)
++++ b/src/index.py	(date 1641696245863)
+@@ -7,14 +7,14 @@
+ from src import app, login
+ from src.admin import *
+ 
++
+ @app.context_processor
+ def repos():
+     return {
+-        "cart": len(utils. total_room_by_receiptId(0))
++        "cart": len(utils.total_room_by_receiptId(0))
+     }
+ 
+ 
+-
+ @app.route('/', methods=['post', 'get'])
+ def home_page():
+     filter_room_list = None
+@@ -50,13 +50,10 @@
+         confirm = request.form.get('confirm')
+         email = request.form.get('email')
+ 
+-
+         try:
+             if password.strip().__eq__(confirm.strip()):
+-                #Nhớ KT password
++                # Nhớ KT password
+ 
+-
+-
+                 utils.add_user(username=username,
+                                password=password, email=email)
+                 return redirect(url_for('user_signin'))
+@@ -68,7 +65,6 @@
+     return render_template('register.html', err_msg=err_msg)
+ 
+ 
+-
+ @app.route('/user-login', methods=['post', 'get'])
+ def user_signin():
+     err_msg = ''
+@@ -98,11 +94,9 @@
+     return utils.get_user_by_id(user_id=user_id)
+ 
+ 
+-
+-
+ @app.route('/my-room')
+ def cart():
+-    err =""
++    err = ""
+     try:
+         cart = utils.get_list_receipt_detail(0)
+         total_money = utils.total_money(user_id=0)
+@@ -115,25 +109,23 @@
+ def delete_cart():
+     data = json.loads(request.data)
+     id = str(data.get("id"))
+-    tb ="Đã xóa thành công"
++    tb = "Đã xóa thành công"
+     try:
+-       utils.delete_Receipt_detail(id = id)
++        utils.delete_Receipt_detail(id=id)
+     except:
+-        tb="Lỗi databasse! Vui lòng thử lại sau!"
++        tb = "Lỗi databasse! Vui lòng thử lại sau!"
+ 
+     # update cart
+ 
+-    return jsonify(tb, len(utils. total_room_by_receiptId(0)))
++    return jsonify(tb, len(utils.total_room_by_receiptId(0)))
+ 
+ 
+-
+ @app.route("/rooms/<int:room_id>")
+ def room_detail_page(room_id):
+     room = utils.get_room_by_id(room_id)
+     type_room = utils.get_type_room_by_room_id(room_id)
+-    comments = utils.get_comments(room_id=room_id, page=int(request.args.get('page', 1)) )
++    comments = utils.get_comments(room_id=room_id, page=int(request.args.get('page', 1)))
+ 
+-
+     return render_template('room-detail.html', room=room, type_room=type_room,
+                            comments=comments,
+                            pages=math.ceil(utils.count_comment(room_id=room_id) / app.config['COMMENT_SIZE']))
+@@ -185,9 +177,7 @@
+                              person_amount=int(person_amount))
+     print('person_amount', person_amount)
+ 
+-
+-
+-    return jsonify(utils.cart_stats(cart), cart, booking_infor, len(utils. total_room_by_receiptId(0)))
++    return jsonify(utils.cart_stats(cart), cart, booking_infor, len(utils.total_room_by_receiptId(0)))
+ 
+ 
+ @app.route('/api/comments', methods=['post'])
+@@ -200,7 +190,7 @@
+     try:
+         c = utils.add_comment(content=content, room_id=room_id)
+     except:
+-        return {'status': 404, 'err_msg': 'Lỗi' }
++        return {'status': 404, 'err_msg': 'Lỗi'}
+ 
+     return {'status': 201, 'comment': {
+         'id': c.id,
+@@ -210,7 +200,7 @@
+             'username': current_user.username,
+             'avatar': current_user.avatar
+         }
+-    } }
++    }}
+ 
+ 
+ if __name__ == "__main__":
+Index: src/models.py
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>from jinja2 import meta\r\nfrom sqlalchemy import Column, Integer, String, Float, Boolean, Enum, DateTime, ForeignKey\r\nfrom sqlalchemy.orm import relationship\r\nfrom src import db\r\nfrom datetime import datetime\r\nfrom enum import Enum as UserEnum\r\nfrom flask_login import UserMixin\r\n\r\n\r\n\r\nclass BaseModel(db.Model):\r\n    __abstract__ = True\r\n\r\n    id = Column(Integer, primary_key=True, autoincrement=True)\r\n\r\n\r\nclass UserRole(UserEnum):\r\n    ADMIN = 1\r\n    USER = 2\r\n\r\nclass User(BaseModel, UserMixin):\r\n    username = Column(String(50), nullable=False, unique=True)\r\n    password = Column(String(50), nullable=False)\r\n    email = Column(String(50), nullable=False)\r\n    avatar = Column(String(200), default='')\r\n    joined_date = Column(DateTime, default=datetime.now())\r\n    user_role = Column(Enum(UserRole), default=UserRole.USER)\r\n    comments = relationship('Comment', backref='user', lazy=True)\r\n\r\nclass ChangePolicyNumber(BaseModel):\r\n    foreign_visitor_number = Column(Float, nullable=True)\r\n    domestic_visitor_number = Column(Float, nullable=True)\r\n    quantity_types_visitors = Column(Integer, nullable=True)\r\n    quantity_types_rooms = Column(Integer, nullable=True)\r\n    max_visitors_in_a_room = Column(Integer, nullable=True)\r\n    number_price = Column(Float, nullable=True)\r\n    amount_extra = Column(Float, nullable=True)\r\n\r\nclass TypeVisit(BaseModel):\r\n    type_visit_name = Column(String(50), nullable= False)\r\n\r\n    rentalVoucherDetails = relationship('RentalVoucherDetail', backref='typeVisit', lazy=False)\r\n\r\nclass RentalVoucher(BaseModel):\r\n    start_date = Column(DateTime, default=datetime.now())\r\n\r\n    rooms = relationship('Room', backref='rentalVoucher', lazy=False)\r\n    # def __str__(self):\r\n    #     return self.id\r\n\r\nclass RentalVoucherDetail(BaseModel):\r\n    visit_name = Column(String(50), nullable=True)\r\n    type_visit_id = Column(Integer, ForeignKey(TypeVisit.id), primary_key=True, nullable=False)\r\n    cart_id = Column(Integer, nullable=True)\r\n    address = Column(String(100), nullable=True)\r\n    phone_number = Column(Integer, nullable=True)\r\n    rental_voucher_id = Column(Integer, ForeignKey(RentalVoucher.id), primary_key=True, nullable=False)\r\n\r\n\r\nclass TypeRoom(BaseModel):\r\n    type_room_name = Column(String(50), nullable=False)\r\n\r\n    rooms = relationship('Room', backref='typeRoom', lazy=False)\r\n\r\n    def __str__(self):\r\n        return self.type_room_name\r\n\r\nclass Room(BaseModel):\r\n    quantity_bed = Column(Integer, nullable=False)\r\n    price = Column(Float, nullable=False)\r\n    status = Column(String(50), default=\"GOOD\")\r\n    type_room_id = Column(Integer, ForeignKey(TypeRoom.id), nullable=False)\r\n    rental_voucher = Column(Integer, ForeignKey(RentalVoucher.id), default=0)\r\n    image = Column(String(150), nullable=False)\r\n    descriptions = Column(String(5000), nullable=False)   #description-datatype:varchar(200)->varchar(20000)\r\n    comments = relationship('Comment', backref='room', lazy=True)\r\n\r\n    receiptDetails = relationship('ReceiptDetail', backref='room', lazy=True)\r\n\r\nclass Receipt(BaseModel):\r\n    visitor_name = Column(String(50), nullable=False)\r\n    address = Column(String(100))\r\n    price = Column(Float, default=0)\r\n\r\n    receiptDetails = relationship('ReceiptDetail', backref='receipt', lazy=False)\r\n\r\n\r\n    user_id = Column(Integer, nullable = False)\r\n\r\nclass ReceiptDetail(db.Model):\r\n    id = Column(Integer, ForeignKey(Receipt.id), primary_key=True, nullable=False, autoincrement=True)\r\n    room_id = Column(Integer, ForeignKey(Room.id), primary_key=True, nullable=False)\r\n    room_name = Column(String(100), nullable=False)\r\n    price = Column(Float, default=0)\r\n    quantity = Column(Integer, default=0)\r\n    receive_day = Column(String(50), default=datetime.now())\r\n    pay_day = Column(String(50), default=datetime.now())\r\n    person_amount = Column(Integer)\r\n\r\n\r\nclass Comment(BaseModel):\r\n    content = Column(String(255), nullable=False)\r\n    room_id = Column(Integer, ForeignKey(Room.id), nullable=False)\r\n    user_id = Column(Integer, ForeignKey(User.id), nullable=False)\r\n    created_date = Column(DateTime, default=datetime.now())\r\n\r\n    def __str__(self):\r\n        return self.content\r\n\r\n\r\nif __name__ == '__main__':\r\n    db.create_all()\r\n    # rooms = [\r\n    #     {\r\n    #         \"quantity_bed\": 2,\r\n    #         \"price\": 70,\r\n    #         \"status\": \"Trống\",\r\n    #         \"type_room_id\": 1,\r\n    #         \"rental_voucher\": 2\r\n    #     },\r\n    #     {\r\n    #         \"quantity_bed\": 2,\r\n    #         \"price\": 50,\r\n    #         \"status\": \"Trống\",\r\n    #         \"type_room_id\": 2,\r\n    #         \"rental_voucher\": 1\r\n    #     },\r\n    #     {\r\n    #         \"quantity_bed\": 3,\r\n    #         \"price\": 70,\r\n    #         \"status\": \"Trống\",\r\n    #         \"type_room_id\": 3,\r\n    #         \"rental_voucher\": 2\r\n    #     },\r\n    #     {\r\n    #         \"quantity_bed\": 3,\r\n    #         \"price\": 80,\r\n    #         \"status\": \"Trống\",\r\n    #         \"type_room_id\": 1,\r\n    #         \"rental_voucher\": 2\r\n    #     },\r\n    #     {\r\n    #         \"quantity_bed\": 3,\r\n    #         \"price\": 80,\r\n    #         \"status\": \"Trống\",\r\n    #         \"type_room_id\": 2,\r\n    #         \"rental_voucher\": 2\r\n    #     },\r\n    #     {\r\n    #         \"quantity_bed\": 3,\r\n    #         \"price\": 70,\r\n    #         \"status\": \"Trống\",\r\n    #         \"type_room_id\": 4,\r\n    #         \"rental_voucher\": 2\r\n    #     },\r\n    #     {\r\n    #         \"quantity_bed\": 3,\r\n    #         \"price\": 90,\r\n    #         \"status\": \"Trống\",\r\n    #         \"type_room_id\": 3,\r\n    #         \"rental_voucher\": 2\r\n    #     }\r\n    # ]\r\n    # receipt_detail = [\r\n    #     {\r\n    #         \"receipt_id\": 1,\r\n    #         \"room_id\": 4,\r\n    #         \"rental_date\": datetime.now(),\r\n    #         \"price\": 70,\r\n    #         \"total\": 70\r\n    #     },\r\n    #     {\r\n    #         \"receipt_id\": 2,\r\n    #         \"room_id\": 5,\r\n    #         \"rental_date\": datetime.now(),\r\n    #         \"price\": 50,\r\n    #         \"total\": 50\r\n    #     },\r\n    #     {\r\n    #         \"receipt_id\": 3,\r\n    #         \"room_id\": 6,\r\n    #         \"rental_date\": datetime.now(),\r\n    #         \"price\": 70,\r\n    #         \"total\": 70\r\n    #     },\r\n    #     {\r\n    #         \"receipt_id\": 4,\r\n    #         \"room_id\": 7,\r\n    #         \"rental_date\": datetime.now(),\r\n    #         \"price\": 80,\r\n    #         \"total\": 80\r\n    #     },\r\n    #     {\r\n    #         \"receipt_id\": 5,\r\n    #         \"room_id\": 8,\r\n    #         \"rental_date\": datetime.now(),\r\n    #         \"price\": 80,\r\n    #         \"total\": 80\r\n    #     },\r\n    #     {\r\n    #         \"receipt_id\": 6,\r\n    #         \"room_id\": 9,\r\n    #         \"rental_date\": datetime.now(),\r\n    #         \"price\": 70,\r\n    #         \"total\": 70\r\n    #     },\r\n    #     {\r\n    #         \"receipt_id\": 7,\r\n    #         \"room_id\": 10,\r\n    #         \"rental_date\": datetime.now(),\r\n    #         \"price\": 90,\r\n    #         \"total\": 90\r\n    #     },\r\n    # ]\r\n    #\r\n    # for p in receipt_detail:\r\n    #     room = ReceiptDetail(\r\n    #                 receipt_id=p['receipt_id'],\r\n    #                 room_id=p['room_id'],\r\n    #                 rental_date=p['rental_date'],\r\n    #                 price=p['price'],\r\n    #                 total=p['total']\r\n    #                 )\r\n    #     db.session.add(room)\r\n    #     db.session.commit()
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/models.py b/src/models.py
+--- a/src/models.py	(revision a6888c6648aa3c404e443b0193320390cc22512c)
++++ b/src/models.py	(date 1641696245870)
+@@ -7,7 +7,6 @@
+ from flask_login import UserMixin
+ 
+ 
+-
+ class BaseModel(db.Model):
+     __abstract__ = True
+ 
+@@ -18,6 +17,7 @@
+     ADMIN = 1
+     USER = 2
+ 
++
+ class User(BaseModel, UserMixin):
+     username = Column(String(50), nullable=False, unique=True)
+     password = Column(String(50), nullable=False)
+@@ -27,6 +27,7 @@
+     user_role = Column(Enum(UserRole), default=UserRole.USER)
+     comments = relationship('Comment', backref='user', lazy=True)
+ 
++
+ class ChangePolicyNumber(BaseModel):
+     foreign_visitor_number = Column(Float, nullable=True)
+     domestic_visitor_number = Column(Float, nullable=True)
+@@ -36,17 +37,18 @@
+     number_price = Column(Float, nullable=True)
+     amount_extra = Column(Float, nullable=True)
+ 
++
+ class TypeVisit(BaseModel):
+-    type_visit_name = Column(String(50), nullable= False)
++    type_visit_name = Column(String(50), nullable=False)
+ 
+     rentalVoucherDetails = relationship('RentalVoucherDetail', backref='typeVisit', lazy=False)
+ 
++
+ class RentalVoucher(BaseModel):
+     start_date = Column(DateTime, default=datetime.now())
+ 
+     rooms = relationship('Room', backref='rentalVoucher', lazy=False)
+-    # def __str__(self):
+-    #     return self.id
++
+ 
+ class RentalVoucherDetail(BaseModel):
+     visit_name = Column(String(50), nullable=True)
+@@ -65,6 +67,7 @@
+     def __str__(self):
+         return self.type_room_name
+ 
++
+ class Room(BaseModel):
+     quantity_bed = Column(Integer, nullable=False)
+     price = Column(Float, nullable=False)
+@@ -72,11 +75,12 @@
+     type_room_id = Column(Integer, ForeignKey(TypeRoom.id), nullable=False)
+     rental_voucher = Column(Integer, ForeignKey(RentalVoucher.id), default=0)
+     image = Column(String(150), nullable=False)
+-    descriptions = Column(String(5000), nullable=False)   #description-datatype:varchar(200)->varchar(20000)
++    descriptions = Column(String(5000), nullable=False)  # description-datatype:varchar(200)->varchar(20000)
+     comments = relationship('Comment', backref='room', lazy=True)
+ 
+     receiptDetails = relationship('ReceiptDetail', backref='room', lazy=True)
+ 
++
+ class Receipt(BaseModel):
+     visitor_name = Column(String(50), nullable=False)
+     address = Column(String(100))
+@@ -84,9 +88,9 @@
+ 
+     receiptDetails = relationship('ReceiptDetail', backref='receipt', lazy=False)
+ 
+-
+-    user_id = Column(Integer, nullable = False)
++    user_id = Column(Integer, nullable=False)
+ 
++
+ class ReceiptDetail(db.Model):
+     id = Column(Integer, ForeignKey(Receipt.id), primary_key=True, nullable=False, autoincrement=True)
+     room_id = Column(Integer, ForeignKey(Room.id), primary_key=True, nullable=False)
+@@ -110,116 +114,3 @@
+ 
+ if __name__ == '__main__':
+     db.create_all()
+-    # rooms = [
+-    #     {
+-    #         "quantity_bed": 2,
+-    #         "price": 70,
+-    #         "status": "Trống",
+-    #         "type_room_id": 1,
+-    #         "rental_voucher": 2
+-    #     },
+-    #     {
+-    #         "quantity_bed": 2,
+-    #         "price": 50,
+-    #         "status": "Trống",
+-    #         "type_room_id": 2,
+-    #         "rental_voucher": 1
+-    #     },
+-    #     {
+-    #         "quantity_bed": 3,
+-    #         "price": 70,
+-    #         "status": "Trống",
+-    #         "type_room_id": 3,
+-    #         "rental_voucher": 2
+-    #     },
+-    #     {
+-    #         "quantity_bed": 3,
+-    #         "price": 80,
+-    #         "status": "Trống",
+-    #         "type_room_id": 1,
+-    #         "rental_voucher": 2
+-    #     },
+-    #     {
+-    #         "quantity_bed": 3,
+-    #         "price": 80,
+-    #         "status": "Trống",
+-    #         "type_room_id": 2,
+-    #         "rental_voucher": 2
+-    #     },
+-    #     {
+-    #         "quantity_bed": 3,
+-    #         "price": 70,
+-    #         "status": "Trống",
+-    #         "type_room_id": 4,
+-    #         "rental_voucher": 2
+-    #     },
+-    #     {
+-    #         "quantity_bed": 3,
+-    #         "price": 90,
+-    #         "status": "Trống",
+-    #         "type_room_id": 3,
+-    #         "rental_voucher": 2
+-    #     }
+-    # ]
+-    # receipt_detail = [
+-    #     {
+-    #         "receipt_id": 1,
+-    #         "room_id": 4,
+-    #         "rental_date": datetime.now(),
+-    #         "price": 70,
+-    #         "total": 70
+-    #     },
+-    #     {
+-    #         "receipt_id": 2,
+-    #         "room_id": 5,
+-    #         "rental_date": datetime.now(),
+-    #         "price": 50,
+-    #         "total": 50
+-    #     },
+-    #     {
+-    #         "receipt_id": 3,
+-    #         "room_id": 6,
+-    #         "rental_date": datetime.now(),
+-    #         "price": 70,
+-    #         "total": 70
+-    #     },
+-    #     {
+-    #         "receipt_id": 4,
+-    #         "room_id": 7,
+-    #         "rental_date": datetime.now(),
+-    #         "price": 80,
+-    #         "total": 80
+-    #     },
+-    #     {
+-    #         "receipt_id": 5,
+-    #         "room_id": 8,
+-    #         "rental_date": datetime.now(),
+-    #         "price": 80,
+-    #         "total": 80
+-    #     },
+-    #     {
+-    #         "receipt_id": 6,
+-    #         "room_id": 9,
+-    #         "rental_date": datetime.now(),
+-    #         "price": 70,
+-    #         "total": 70
+-    #     },
+-    #     {
+-    #         "receipt_id": 7,
+-    #         "room_id": 10,
+-    #         "rental_date": datetime.now(),
+-    #         "price": 90,
+-    #         "total": 90
+-    #     },
+-    # ]
+-    #
+-    # for p in receipt_detail:
+-    #     room = ReceiptDetail(
+-    #                 receipt_id=p['receipt_id'],
+-    #                 room_id=p['room_id'],
+-    #                 rental_date=p['rental_date'],
+-    #                 price=p['price'],
+-    #                 total=p['total']
+-    #                 )
+-    #     db.session.add(room)
+-    #     db.session.commit()
+\ No newline at end of file

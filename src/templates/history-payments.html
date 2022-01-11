@@ -5,20 +5,23 @@
 {% block content %}
     <div class="container border-history">
         <h1 class="title-history">LỊCH SỬ THANH TOÁN</h1>
-        {% if list_booking_room %}
         <div class="row history-payments" id="border-history">
-            <div class="col-lg-6">
+            <div class="col-lg-7">
                 <div class="row list-cart" id="list-room">
-                    <input type="text" class="search-cart" onkeyup="searchCart(this)"  placeholder="Tìm kiếm theo tên..."
-                           title="Tìm kiếm theo tên">
+                    <input type="text"
+                           class="search-cart"
+                           style="margin-left: auto; width: 93%"
+                           onkeypress="searchBookingRoom(event, this, {{current_user.user_role.value}})"
+                           placeholder="Nhập mã phòng..."
+                           title="Tìm kiếm mã phòng">
                     {% for i in list_booking_room %}
-                    <div class="row col-lg-12 lc  room-cart" style="padding-left: 0; margin-left:5px">
+                    <div class="row col-lg-12 lc  room-cart" id="{{i.id}}" style="padding-left: 0;margin-top:15px; margin-left:0px; display: none; height: 140px">
 
                         <div class="col-lg-3">
                             <img src="{{i.image}}">
                         </div>
 
-                        <div class="col-lg-6">
+                        <div class="col-lg-5">
                             <div class="name-room">
                                 <span id="name-cart">{{i.room_name}}</span>
                                 <span class="person-amount">{{i.person_amount}} người</span>
@@ -29,36 +32,53 @@
                             </div>
                         </div>
 
-                        <div class="col-lg-2 color-money">
-                            {{i.price}}$
+                        <div class="col-lg-4 color-money" style="font-size: 18px">
+                            {{'{:20,.0f}'.format(i.price)}} VNĐ<span style=" font-size: 15px">/đêm</span>
                         </div>
 
 
                     </div>
                     {% endfor %}
-                </div>
-                {% if current_user.is_authenticated and current_user.user_role.value == 3 %}
-                <input type="submit" value="Nhận phòng" class="btn btn-check-in" onclick="deleteBookingRoom()"
-                data-bs-toggle="modal" data-bs-target="#exampleModal">
+                    {% if current_user.is_authenticated and current_user.user_role.value == 3 %}
+                    <input type="submit" value="Nhận phòng"
+                       id="btn-check-in" style="margin-left: auto; width: 93%"
+                       class="btn btn-check-in"
+                       onclick="deleteBookingRoom()"
+                       data-bs-toggle="modal"
+                       data-bs-target="#exampleModal"
+                       disabled >
                 {% endif %}
+                </div>
+
             </div>
             <div class="col-lg-5">
                 <div class="border-if">
                     <h4 >Thông tin người thanh toán</h4>
-                    <div><span>Tên: </span>&emsp;&emsp;&emsp;&emsp;&ensp;&ensp;&ensp;{{info_payer.visit_name}}</div>
-                    <div><span>Số điện thoại: </span>&emsp;{{info_payer.phone_number}}</div>
-                    <div><span>Email: </span>&emsp;&emsp;&emsp;&emsp;&nbsp;&nbsp;{{info_payer.email}}</div>
-                    <div><span>Quốc tịch:</span>&nbsp;&nbsp;&nbsp;&emsp;&emsp;{{info_payer.nation}}</div>
+                    <div>
+                        <span>Tên&emsp;&emsp;&emsp;&emsp;&ensp;&ensp;&ensp;: </span>
+                        <span id="if-name">.............................................................</span>
+                    </div>
+                    <div>
+                        <span>Số điện thoại&emsp;: </span>
+                        <span id="if-numberphone">.............................................................</span>
+                    </div>
+                    <div>
+                        <span>Email&emsp;&emsp;&emsp;&emsp;&nbsp;&nbsp;: </span>
+                        <span id="if-email">.............................................................</span>
+                    </div>
+                    <div>
+                        <span>Quốc tịch&nbsp;&nbsp;&emsp;&emsp;: </span>
+                        <span id="if-nation">.............................................................</span>
+                    </div>
                 </div>
-                <div class="total-money-his">Tổng tiền: <span>{{total_money}}$</span></div>
+                <div class="total-money-his">Tổng tiền:
+                    <span id="total-money-history">... VNĐ</span>
+                    <span style="font-size:15px; margin-left:-5px">/đêm</span></div>
             </div>
         </div>
-        {% else %}
-        <div class="checked text-center">Cảm ơn bạn đã lựa chọn dịch vụ của Lotus Hotel!</div>
-        {% endif %}
-        <h3 id="tb-his" class="checked text-center" style="display:none">Thanh toán thành công!!!</h3>
-    </div>
 
+
+    </div>
     <!-- Modal -->
     <script>
          $(document).ready(function () {
@@ -86,6 +106,37 @@
                     </div>
                     <div style="display:flex; align-items:center; margin-left: 16px;">
                         <p style="margin: 8px auto;">Nhận phòng thành công!!!</p>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button"
+                        class="btn btn-secondary"
+                        data-bs-dismiss="modal"
+                >Đóng
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+    <div class="modal fade" id="exampleModalError" style="z-index: 90000000000" tabindex="9" aria-labelledby="exampleModalLabel"
+     aria-hidden="true" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel1">Trạng thái</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div style="display: flex; align-items:center">
+                    <div class="icon-payment-success" style="width: 50px; height: 50px">
+                        <img src="https://cdn0.iconfinder.com/data/icons/shift-free/32/Error-512.png"
+                             alt="icon-payment"
+                             style="width: 100%"/>
+                    </div>
+                    <div style="display:flex; align-items:center; margin-left: 16px;">
+                        <p style="margin: 8px auto;">Vui lòng kiểm tra lại !</p>
                     </div>
                 </div>
             </div>
