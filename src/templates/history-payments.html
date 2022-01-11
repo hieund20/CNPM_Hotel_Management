@@ -15,7 +15,8 @@
                            placeholder="Nhập mã phòng..."
                            title="Tìm kiếm mã phòng">
                     {% for i in list_booking_room %}
-                    <div class="row col-lg-12 lc  room-cart" id="{{i.id}}" style="padding-left: 0;margin-top:15px; margin-left:0px; display: none; height: 140px">
+                    <form class="room-cart" name="{{i.rental_voucher_detail_id}}"   style="padding-left: 0;margin-left:0px; display: none;">
+                        <div class="row col-lg-12 lc  "   style="padding-left: 0;margin-top:15px; margin-left:0px; height: 140px">
 
                         <div class="col-lg-3">
                             <img src="{{i.image}}">
@@ -38,6 +39,7 @@
 
 
                     </div>
+                    </form>
                     {% endfor %}
                     {% if current_user.is_authenticated and current_user.user_role.value == 3 %}
                     <input type="submit" value="Nhận phòng"
