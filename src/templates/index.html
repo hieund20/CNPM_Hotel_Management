@@ -172,13 +172,15 @@
                     </div>
                     <div class="card-body">
                         <h5 class="card-title">{{ room.type_room_name }}</h5>
+
                         <div style="overflow: hidden; text-overflow: ellipsis; margin-bottom: 16px; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical;">
                              <span class="card-text" >
                                 {{ room.descriptions }}
                             </span>
                         </div>
+
                         <div class="btn-box"
-                             style="display: block;">
+                             style="display: block; justify-content: space-between; ">
                             <div style="margin-top: 8px; margin-bottom: 8px;">
                                 <span class="card-text-price">{{ "{:,.0f}".format(room.price) }} VNĐ</span>
                                 <span>/đêm</span>
