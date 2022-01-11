@@ -14,8 +14,8 @@ from src.models import Room, TypeRoom, ReceiptDetail, User, Receipt, RentalVouch
 mydb = mysql.connector.connect(
     host="localhost",
     user="root",
-    passwd="Duchieu200301",
-    database="hotel_management_db"
+    passwd="12345678",
+    database="hotel"
 )
 
 
@@ -355,17 +355,13 @@ def get_rental_voucher_detail_id(id):
 
 def get_rental_voucher_detail(id):
     query = db.session.query(RentalVoucherDetail.visit_name, RentalVoucherDetail.phone_number,
-                             RentalVoucherDetail.email, RentalVoucherDetail.nation).filter(BookingRoom.id == id).filter(
-        RentalVoucherDetail.id == BookingRoom.rental_voucher_detail_id
-    )
+                             RentalVoucherDetail.email, RentalVoucherDetail.nation).filter(
+        RentalVoucherDetail.id == id)
     return query.first()
 
 
 def get_total_money_history(id):
-    rental_voucher_detail_id = get_rental_voucher_detail_id(id)
-    query = db.session.query(BookingRoom.price).filter(
-        BookingRoom.rental_voucher_detail_id == rental_voucher_detail_id.rental_voucher_detail_id)
-
+    query = db.session.query(BookingRoom.price).filter(BookingRoom.rental_voucher_detail_id == id)
     total_money = 0
     for i in query:
         total_money += i.price
@@ -374,7 +370,7 @@ def get_total_money_history(id):
 
 def delete_booking_room_by_id(id):
     mycursor = mydb.cursor()
-    sql = "DELETE FROM booking_room WHERE id = " + id
+    sql = "DELETE FROM booking_room WHERE rental_voucher_detail_id = " + id
     mycursor.execute(sql)
     mydb.commit()
 
