@@ -14,8 +14,8 @@ from src.models import Room, TypeRoom, ReceiptDetail, User, Receipt, RentalVouch
 mydb = mysql.connector.connect(
     host="localhost",
     user="root",
-    password="12345678",
-    database="hotel"
+    passwd="Duchieu200301",
+    database="hotel_management_db"
 )
 
 
@@ -352,6 +352,7 @@ def get_rental_voucher_detail_id(id):
     query = db.session.query(BookingRoom.rental_voucher_detail_id).filter(BookingRoom.id == id)
     return query.first()
 
+
 def get_rental_voucher_detail(id):
     query = db.session.query(RentalVoucherDetail.visit_name, RentalVoucherDetail.phone_number,
                              RentalVoucherDetail.email, RentalVoucherDetail.nation).filter(
@@ -360,12 +361,19 @@ def get_rental_voucher_detail(id):
 
 
 def get_total_money_history(id):
+<<<<<<< HEAD
     query = db.session.query(BookingRoom.price).filter(BookingRoom.rental_voucher_detail_id == id)
+=======
+    rental_voucher_detail_id = get_rental_voucher_detail_id(id)
+    query = db.session.query(BookingRoom.price).filter(
+        BookingRoom.rental_voucher_detail_id == rental_voucher_detail_id.rental_voucher_detail_id)
+>>>>>>> develop
 
     total_money = 0
     for i in query:
         total_money += i.price
     return total_money
+
 
 def delete_booking_room_by_id(id):
     mycursor = mydb.cursor()

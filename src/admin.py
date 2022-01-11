@@ -1,15 +1,12 @@
-import imghdr
-
-from flask import request
 from flask_admin import Admin, expose, BaseView
-from flask_admin.form import FileUploadField
-from wtforms import ValidationError
+
+from flask_admin import Admin, expose, BaseView
+from flask_admin import AdminIndexView
+from flask_admin.contrib.sqla import ModelView
+from flask_login import current_user
 
 from src import app, db, utils
-from flask_admin.contrib.sqla import ModelView
-from flask_admin import AdminIndexView
-from src.models import Room, TypeRoom, RentalVoucher, User, ChangePolicyNumber, UserRole
-from flask_login import logout_user, current_user
+from src.models import Room, TypeRoom, User, ChangePolicyNumber, UserRole
 
 
 class AuthenticatedModelView(ModelView):
