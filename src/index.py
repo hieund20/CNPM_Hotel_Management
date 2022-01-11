@@ -5,8 +5,8 @@ import smtplib
 from datetime import datetime
 
 import utils
-from flask import render_template, url_for, redirect, session, jsonify
-from flask_login import login_user, login_required
+from flask import render_template, url_for, redirect, session, jsonify, request
+from flask_login import login_user, login_required, logout_user
 
 from src import login
 from src.admin import *
