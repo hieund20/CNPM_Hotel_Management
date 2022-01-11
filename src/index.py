@@ -452,13 +452,13 @@ def history():
 
     total_money = utils.total_money_booking_room()
 
+    return render_template("history-payments.html", list_booking_room=list_booking_room, total_money=total_money)
 
-    return render_template("history-payments.html",  list_booking_room=list_booking_room,total_money=total_money)
 
 @app.route('/info-payer', methods=['post'])
 def info_payer():
     flag = True
-    total_money =0
+    total_money = 0
     data = json.loads(request.data)
     id = data.get('id')
     try:
@@ -467,8 +467,6 @@ def info_payer():
     except:
         flag = False
     return jsonify(flag, info.visit_name, info.phone_number, info.email, info.nation, total_money)
-
-
 
 
 @app.route('/check-in', methods=['post'])
@@ -505,7 +503,6 @@ def user_information_page():
 @app.route('/event')
 def event_page():
     return render_template('event.html')
-
 
 
 if __name__ == "__main__":
