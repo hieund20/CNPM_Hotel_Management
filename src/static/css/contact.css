@@ -28,8 +28,9 @@ section.contact-main {
 }
 table.msg {
     width:100%;
- }
-    table.msg tr:nth-child(2) input[type=text]{
+}
+
+table.msg tr:nth-child(2) input[type=text] {
     width: 165%;
     padding:10px;
     margin-top:8%;
@@ -39,36 +40,52 @@ table.msg {
     padding:4%;
     margin:2%;
 }
-input[type=text]{
-    width: 98%;
-    padding:10px;
-    text-align:justify;
-    border: 1px solid #ccad7a;
-    border-radius:10px;
+
+.col60 > .row{
+    margin-bottom: 16px;
 }
-textarea {
-    margin-top:8%;
-    width: 165%;
-    padding: 95px;
-    height: 50px;
-    border: 1px solid #ccad7a;
-    border-radius:10px;
+
+.col60 > .row input{
+    border: 1px solid #a7783e;
+    border-radius: 6px;
+    font-size: 15px;
+    height: 40px;
 }
-input[type=submit] {
-    background-color: #ccad7a;
+
+.col60 > .row input:focus{
+    border: 1px solid gray !important;
+    outline: none;
+}
+
+.col60 > .row textarea{
+    border: 1px solid #a7783e;
+    border-radius: 6px;
+    font-size: 15px;
+    height: 150px;
+    resize: none;
+}
+
+.col60 > .row textarea:focus{
+    border: 1px solid gray !important;
+    outline: none;
+}
+
+.col60 > .row > .submit-contact-mail-btn{
+    background-color: #b58943;
     color: white;
-    padding: 12px;
-    border: 1px solid #ccad7a;
-    background-color: #ccad7a;
-    border-radius:10px;
-    width:45%;
-    margin-top:8%;
+    height: 40px;
+    width: 40%;
 }
-td.hover a input[type=submit]:hover {
-   background-color: black;
+
+.col60 > .row > .submit-contact-mail-btn:hover{
+    background-color: #c19967;
+    border: 1px solid #c19967;
+    color: white;
+    height: 40px;
 }
+
 footer div.contain-map {
-text-align:center;
-padding:0%;
-margin: 0 auto;
+    text-align:center;
+    padding:0%;
+    margin: 0 auto;
 }
