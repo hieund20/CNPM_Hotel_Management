@@ -1,5 +1,4 @@
 import json
-import json
 import math
 import re
 import smtplib
@@ -7,7 +6,7 @@ from datetime import datetime
 
 import utils
 from flask import render_template, url_for, redirect, session, jsonify
-from flask_login import login_user, login_required, current_user
+from flask_login import login_user, login_required
 
 from src import login
 from src.admin import *
@@ -95,7 +94,6 @@ def user_register():
         #     if re.match("^[a-zA-Z0-9_.-]+$", username):
         #         username_validate = "Tên đăng nhập này không hợp lệ!"
 
-
         if len(username) < 7:
             username_validate = "Tên đăng nhập quá ngắn(Tối thiểu phải có 7 ký tự)!!!"
         if not any(char.islower() for char in username):
@@ -161,6 +159,7 @@ def user_register():
                            username_validate=username_validate, email_validate=email_validate,
                            password_validate=password_validate, confirm_validate=confirm_validate
                            )
+
 
 @app.route('/user-login', methods=['post', 'get'])
 def user_signin():
