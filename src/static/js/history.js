@@ -1,4 +1,4 @@
-let id;
+let name;
 let list_id = [];
 
 function searchBookingRoom(e, element,user_role){
@@ -8,19 +8,31 @@ function searchBookingRoom(e, element,user_role){
         element.value = "";
         l = document.getElementById("list-room");
         listRoom = l.getElementsByClassName("room-cart");
-        for (i= 0; i < listRoom.length; i++){
-            if(listRoom[i].id == text && list_id.indexOf(text) == -1){
-                showInfoPayer(listRoom[i].id);
+        flag = true;
+        if(listRoom.length == 0){
+            $('#exampleModalError').modal('show');
+        }
+        else{
+            for (i= 0; i <= listRoom.length; i++){
+            if(listRoom[i].name == text && list_id.indexOf(text) == -1){ // update 11/01/2020
+                showInfoPayer(listRoom[i].name);
                 listRoom[i].style.display = "";
                 id =text;
+                flag = false;
                 if (user_role == 3){
                     document.getElementById("btn-check-in").disabled = false;
                 }
-                return;
+            }
+            if(i == listRoom.length -1 && flag == true){
+                $('#exampleModalError').modal('show');
             }
         }
-        $('#exampleModalError').modal('show');
+        }
+
+
     }
+
+
 }
 
 
@@ -33,8 +45,11 @@ function hideRoom(user_role){
     if(user_role == 3){
         document.getElementById("btn-check-in").disabled = true;
     }
+    info_default();
 
+}
 
+function info_default(){
     document.getElementById("if-name").innerHTML = ".............................................................";
     document.getElementById("if-numberphone").innerHTML = ".............................................................";
     document.getElementById("if-email").innerHTML = ".............................................................";
@@ -108,9 +123,13 @@ function deleteBookingRoom(){
     }
     ).then(data => {
         if(data== true){
-            document.getElementById(id).style.display = "none";
+            room = document.getElementsByClassName("room-cart");
+            for(r= 0; r < room.length; r++){
+                room[r].style.display = "none";
+            }
             document.getElementById("btn-check-in").disabled = true;
             document.getElementsByClassName("search-cart").value = "";
+            info_default();
         }
         else{
             alert("Hệ thống đang bảo trì! Vui lòng thử lại sau!");
