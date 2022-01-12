@@ -10,6 +10,7 @@ from flask_login import login_user, login_required, logout_user
 
 from src import login
 from src.admin import *
+from src.utils import check_username
 
 
 @app.context_processor
@@ -61,10 +62,10 @@ def user_register():
     SpecialSym = ['$', '@', '#', '%']
 
     # Default variable
-    username = "default"  # username khác rỗng, co ky tu so, phải có ít nhất 7 ký tự #
+    username = "default"  # username khác rỗng(), co ky tu so, phải có ít nhất 7 ký tự #
     email = "default"  # email như payment_page() #
-    password = "default"  # password khác rỗng, có ký tự số, co ky tu dac biet, co chu hoa, phải có ít nhất 5 ký tự #
-    confirm = "default"  # confirm khác rỗng #
+    password = "default"  # password khác rỗng(), có số, co ky tu dac biet, co chu hoa, phải có ít nhất 5 ký tự #
+    confirm = "default"  # confirm khác rỗng() #
 
     # pass: Qualoa@123
 
@@ -83,23 +84,25 @@ def user_register():
         # validate username
         if username == "":
             username_validate = "Tên đăng nhập không được để trống"
-
         else:
-            if re.match("^[a-zA-Z0-9_.-]+$", username):
-                pass
-            else:
+            if re.match("^[a-zA-Z0-9_.-]+$", username) is None:
                 username_validate = "Tên đăng nhập này không hợp lệ!"
-
-        # else:
-        #     if re.match("^[a-zA-Z0-9_.-]+$", username):
-        #         username_validate = "Tên đăng nhập này không hợp lệ!"
 
         if len(username) < 7:
             username_validate = "Tên đăng nhập quá ngắn(Tối thiểu phải có 7 ký tự)!!!"
-        if not any(char.islower() for char in username):
-            username_validate = "Tên đăng nhập phải có ít nhất 1 ký tự in thường"
-        if not any(char.isupper() for char in username):
-            username_validate = "Tên đăng nhập phải có ít nhất 1 ký tự in hoa"
+        if not any(char.isdigit() for char in username):
+            username_validate = "Tên đăng nhập phải có ít nhất 1 ký tự số!"
+
+        check_uname = utils.check_username(username=username)
+        if check_uname:
+            username_validate = "Tên đăng nhập đã có người sử dụng"
+
+        # Validate username final
+        if username_validate != "Tên đăng nhập đã có người sử dụng":
+            if username_validate != "":
+                username_validate = "Tên đăng nhập phải có ít nhất 7 ký tự, có số!"
+            else:
+                pass
 
         # validate email
         if email == "":
@@ -122,9 +125,12 @@ def user_register():
         if not any(char.isdigit() for char in password):
             password_validate = "Mật khẩu phải có ít nhất 1 ký tự số!"
         if not any(char in SpecialSym for char in password):
-            password_validate = "Tên đăng nhập phải có ít nhất 1 ký tự đặc biệt trong 4 ký tự sau: '$', '@', '#', '%' "
+            password_validate = "Mật khẩu phải có ít nhất 1 ký tự đặc biệt trong 4 ký tự sau: '$', '@', '#', '%' "
         if not any(char.isupper() for char in password):
-            password_validate = "Tên đăng nhập phải có ít nhất 1 ký tự in hoa"
+            password_validate = "Mật khẩu phải có ít nhất 1 ký tự in hoa"
+
+        if password_validate != "":
+            password_validate = "Mật khẩu phải có ít nhất 5 ký tự, có số, có chữ hoa và ký tự đặc biệt:'$', '@', '#', '%'"
 
         # validate confirm
         if confirm == "":
@@ -144,21 +150,21 @@ def user_register():
                     err_msg = "Tạo tài khoản thành công"
                     render_template('register.html', err_msg=err_msg)
                 else:
-                    err_msg = "Tạo tài khoản thất bại"
+                    err_msg = "Tạo tài khoản thất bại."
 
                 redirect(url_for('user_register', err_msg=err_msg,
                                  username_validate=username_validate, email_validate=email_validate,
                                  password_validate=password_validate, confirm_validate=confirm_validate
                                  ))
             else:
-                err_msg = "Xác nhận mật khẩu không trùng khớp với Mật khẩu !!! "
+                confirm_validate = "Xác nhận mật khẩu không trùng khớp với Mật khẩu"
+                err_msg = "Tạo tài khoản thất bại. "
         except Exception as ex:
             err_msg = "Có lỗi xảy ra rồi !! " + str(ex)
 
     return render_template('register.html', err_msg=err_msg,
                            username_validate=username_validate, email_validate=email_validate,
-                           password_validate=password_validate, confirm_validate=confirm_validate
-                           )
+                           password_validate=password_validate, confirm_validate=confirm_validate)
 
 
 @app.route('/user-login', methods=['post', 'get'])
@@ -174,7 +180,7 @@ def user_signin():
             login_user(user=user)
             return redirect(url_for('home_page'))
         else:
-            err_msg = 'Username hay password không đúng, vui lòng kiểm tra lại'
+            err_msg = 'Tên đăng nhập hay mật khẩu không đúng, vui lòng kiểm tra lại'
 
     return render_template('login.html', err_msg=err_msg)
 
