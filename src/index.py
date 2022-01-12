@@ -88,13 +88,6 @@ def user_register():
             if re.match("^[a-zA-Z0-9_.-]+$", username) is None:
                 username_validate = "Tên đăng nhập này không hợp lệ!"
 
-<<<<<<< HEAD
-=======
-        # else:
-        #     if re.match("^[a-zA-Z0-9_.-]+$", username):
-        #         username_validate = "Tên đăng nhập này không hợp lệ!"
-
->>>>>>> develop
         if len(username) < 7:
             username_validate = "Tên đăng nhập quá ngắn(Tối thiểu phải có 7 ký tự)!!!"
         if not any(char.isdigit() for char in username):
@@ -111,14 +104,12 @@ def user_register():
             else:
                 pass
 
-
         # validate email
         if email == "":
             email_validate = "Hãy nhập email!"
         else:
             if re.match(r'\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b', email) is None and email != "default":
                 email_validate = "Email không hợp lệ!"
-
 
         # validate password
         if password == "":
@@ -140,7 +131,6 @@ def user_register():
 
         if password_validate != "":
             password_validate = "Mật khẩu phải có ít nhất 5 ký tự, có số, có chữ hoa và ký tự đặc biệt:'$', '@', '#', '%'"
-
 
         # validate confirm
         if confirm == "":
@@ -174,8 +164,7 @@ def user_register():
 
     return render_template('register.html', err_msg=err_msg,
                            username_validate=username_validate, email_validate=email_validate,
-                           password_validate=password_validate, confirm_validate=confirm_validate
-                           )
+                           password_validate=password_validate, confirm_validate=confirm_validate)
 
 
 @app.route('/user-login', methods=['post', 'get'])
