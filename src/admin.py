@@ -41,6 +41,8 @@ class RoomView(ModelView):
     }
     form_excluded_columns = ['receiptDetails', 'rentalVoucher']
 
+    def is_accessible(self):
+        return current_user.is_authenticated and current_user.user_role.value == 1
 
 class TypeRoomView(ModelView):
     column_display_pk = True
@@ -55,6 +57,8 @@ class TypeRoomView(ModelView):
         'type_room_name': 'Tên loại phòng'
     }
 
+    def is_accessible(self):
+        return current_user.is_authenticated and current_user.user_role.value == 1
 
 class UserView(ModelView):
     column_display_pk = True
@@ -74,6 +78,8 @@ class UserView(ModelView):
     }
     form_excluded_columns = ['comments']
 
+    def is_accessible(self):
+        return current_user.is_authenticated and current_user.user_role.value == 1
 
 class ChangePolicyNumberView(ModelView):
     column_display_pk = True
@@ -95,6 +101,8 @@ class ChangePolicyNumberView(ModelView):
         'amount_extra' : 'Số tiền thêm'
     }
 
+    def is_accessible(self):
+        return current_user.is_authenticated and current_user.user_role.value == 1
 
 class StatsView(BaseView):
     @expose('/')
@@ -105,6 +113,8 @@ class StatsView(BaseView):
                            type_rooms_list=type_rooms_list,
                            used_type_room_counter=used_type_room_counter)
 
+    def is_accessible(self):
+        return current_user.is_authenticated and current_user.user_role.value == 1
 
 admin = Admin(app=app, name='Lotus hotel', template_mode='bootstrap4', index_view=MyAdminIndexView())
 admin.add_view(UserView(User, db.session, name='Người dùng'))
