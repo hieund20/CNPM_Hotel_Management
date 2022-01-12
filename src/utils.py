@@ -41,13 +41,9 @@ def add_user(username, password, email):
     db.session.commit()
 
 
-
 def check_username(username):
     if username:
         return User.query.filter(User.username.__eq__(username.strip())).first()
-
-
-
 
 
 def check_login(username, password):
