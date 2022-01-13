@@ -46,6 +46,7 @@ class User(BaseModel, UserMixin):
     joined_date = Column(DateTime, default=datetime.now())
     user_role = Column(Enum(UserRole), default=UserRole.USER)
     comments = relationship('Comment', backref='user', lazy=True)
+    receiptDetails = relationship('ReceiptDetail', backref='user', lazy=True)
 
 
 class ChangePolicyNumber(BaseModel):
@@ -117,6 +118,8 @@ class ReceiptDetail(db.Model):
     pay_day = Column(String(50), default=datetime.now())
     person_amount = Column(Integer)
     receipt_id = Column(Integer, ForeignKey(Receipt.id), nullable=True)
+    user_id = Column(Integer, ForeignKey(User.id), nullable=False)  # update 13/01/2022
+
 
 
 class BookingRoom(db.Model):

@@ -13,9 +13,13 @@ from src.admin import *
 
 
 @app.context_processor
-def repos():
+def repos(): #update 13/01/2022
+    if current_user.is_authenticated:
+        return {
+            "cart": len(utils.total_room_by_userId(current_user.id))
+        }
     return {
-        "cart": len(utils.total_room_by_receiptId(0))
+        "cart": len(utils.total_room_by_userId(0))
     }
 
 
@@ -201,8 +205,8 @@ def cart():
     cart = []
     total_money = 0
     try:
-        cart = utils.get_list_receipt_detail()
-        total_money = utils.total_money(user_id=0)
+        cart = utils.get_list_receipt_detail(current_user.id) #update 13/01/2022
+        total_money = utils.total_money(current_user.id)      #update 13/01/2022
     except:
         err = "Trang web lỗi! Vui lòng thử lại sau"
     return render_template('cart.html', list_cart=cart, total_money=total_money, err=err)
@@ -218,9 +222,9 @@ def delete_cart():
     except:
         tb = False
 
-    total_money = utils.total_money(user_id=0)
+    total_money = utils.total_money(current_user.id) #update 13/01/2022
 
-    return jsonify(tb, len(utils.total_room_by_receiptId(0)), total_money)
+    return jsonify(tb,len(utils.total_room_by_userId(current_user.id)), total_money)
 
 
 @app.route("/rooms/<int:room_id>")
@@ -277,16 +281,17 @@ def add_to_cart():
                              quantity=float(quantity),
                              receive_day=receive_day,
                              pay_day=pay_day,
-                             person_amount=int(person_amount))
+                             person_amount=int(person_amount),
+                             user_id= current_user.id) #update 13/01/2022
     print('person_amount', person_amount)
 
-    return jsonify(utils.cart_stats(cart), cart, booking_infor, len(utils.total_room_by_receiptId(0)))
+    return jsonify(utils.cart_stats(cart), cart, booking_infor, len(utils.total_room_by_userId(current_user.id))) #update 13/01/2022
 
 
 @app.route('/payment', methods=['post', 'get'])
 def payment_page():
-    list_booking_room = utils.get_list_receipt_detail()
-    total_price = utils.total_money(user_id=0)
+    list_booking_room = utils.get_list_receipt_detail(current_user.id) #update 13/01/2022
+    total_price = utils.total_money(current_user.id) #update 13/01/2022
 
     # Default variable
     fullname = "default"
@@ -400,7 +405,7 @@ def payment_page():
 
 @app.route('/payment/success')
 def payment_success_page():
-    booking_room_backup = utils.get_list_receipt_detail()
+    booking_room_backup = utils.get_list_receipt_detail(current_user.id) #update 13/01/2022
 
     for row in booking_room_backup:
         booking_room_id = row[8]

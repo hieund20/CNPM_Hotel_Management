@@ -133,14 +133,15 @@ def count_comment(room_id):
     return Comment.query.filter(Comment.room_id.__eq__(room_id)).count()
 
 
-def add_receipt_detail(room_id, room_name, price, quantity, receive_day, pay_day, person_amount):
+def add_receipt_detail(room_id, room_name, price, quantity, receive_day, pay_day, person_amount, user_id):
     receipt_detail = ReceiptDetail(room_id=room_id,
                                    room_name=room_name,
                                    price=price,
                                    quantity=quantity,
                                    receive_day=receive_day,
                                    pay_day=pay_day,
-                                   person_amount=person_amount)
+                                   person_amount=person_amount,
+                                   user_id = user_id)
     db.session.add(receipt_detail)
     db.session.commit()
 
@@ -149,26 +150,26 @@ def get_user_by_name(name):
     return User.query.filter(User.username.__eq__(name)).first()
 
 
-def total_room_by_receiptId(receipt_id):
-    # receipt=ReceiptDetail.query.filter(ReceiptDetail.user_id.__eq__(user_id))
-    # receipt=ReceiptDetail.query.all()
-    # return  db.session.query(func.count(ReceiptDetail.id))
+def total_room_by_userId(user_id =0):
+    # total = db.session.query(func.count(ReceiptDetail.id)).filter(ReceiptDetail.user_id == user_id)
+    #
 
-    return ReceiptDetail.query.all()
+    return ReceiptDetail.query.filter(ReceiptDetail.user_id.__eq__(user_id)).all()
 
 
-def get_list_receipt_detail():
+def get_list_receipt_detail(user_id):
     # list=ReceiptDetail.query.filter(ReceiptDetail.receipt_id.__eq__(receipt_id))
     query = db.session.query(Room.image, ReceiptDetail.room_name, ReceiptDetail.id, ReceiptDetail.pay_day,
                              ReceiptDetail.price, ReceiptDetail.quantity, ReceiptDetail.receive_day,
-                             ReceiptDetail.person_amount, Room.id).filter(Room.id == ReceiptDetail.room_id)
+                             ReceiptDetail.person_amount, Room.id).filter(Room.id == ReceiptDetail.room_id).filter(
+                                ReceiptDetail.user_id == user_id)
     print('query default', query)
     return query.all()
 
 
 def total_money(user_id):
-    # rd = ReceiptDetail.query.filter(ReceiptDetail.user_id.__eq__(user_id))
-    rd = ReceiptDetail.query.all()
+    rd = ReceiptDetail.query.filter(ReceiptDetail.user_id.__eq__(user_id))
+
     total = 0
     for r in rd:
         total += r.price
