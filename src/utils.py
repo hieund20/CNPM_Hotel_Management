@@ -167,7 +167,6 @@ def get_list_receipt_detail():
     query = db.session.query(Room.image, ReceiptDetail.room_name, ReceiptDetail.id, ReceiptDetail.pay_day,
                              ReceiptDetail.price, ReceiptDetail.quantity, ReceiptDetail.receive_day,
                              ReceiptDetail.person_amount, Room.id).filter(Room.id == ReceiptDetail.room_id)
-    print('query default', query)
     return query.all()
 
 
