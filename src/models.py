@@ -15,7 +15,6 @@ from flask_login import UserMixin
 
 # Cập nhật database:
 # - pip install Flask-Migrate (cài 1 lần)
-
 # - Xóa các file trong migrations/versions
 # - flask db init
 # - flask db migrate -m "Initial migration."
